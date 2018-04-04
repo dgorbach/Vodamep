@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\proto\Common.g.cs" Link="Model\Common.g.cs" />
+    <Compile Include="..\..\proto\Hkpv\Hkpv.g.cs" Link="Hkpv\Model\Hkpv.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\proto\Common.proto" Link="Model\Common.proto" />
+    <None Include="..\..\proto\Hkpv\Hkpv.proto" Link="Hkpv\Model\Hkpv.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="7.5.2" />
+    <PackageReference Include="Google.Protobuf" Version="3.5.1" />
+  </ItemGroup>
+
+</Project>

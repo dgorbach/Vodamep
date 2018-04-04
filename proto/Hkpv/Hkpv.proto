@@ -1,0 +1,137 @@
+
+syntax = "proto3";
+package Vodamep.Hkpv.Model;
+
+import "Common.proto";
+
+message HkpvReport {   
+
+    Institution institution = 1;
+   
+    Vodamep.Model.LocalDate from = 2;
+
+    Vodamep.Model.LocalDate to = 3;
+    	
+    repeated Staff staffs = 4; 
+
+    repeated Person persons = 5; 
+    
+    repeated PersonalData personal_data = 6;
+
+    repeated Activity activities = 7; 
+
+    repeated Consultation consultations = 8;
+
+    repeated Activity other_activities = 9;
+}
+
+message Institution {
+    string id = 1;
+    string name = 2;    
+}
+
+message Activity {
+    Vodamep.Model.LocalDate date = 1;
+    string person_id = 2;
+    string staff_id = 3;    
+    ActivityType type = 4;
+	int32 amount = 5;
+}
+
+message Person {
+	string id = 1;
+    string religion = 2;
+    string insurance = 3;    
+}
+
+message PersonalData {
+	string id = 1;        
+    string family_name = 2;
+    string given_name = 3;
+    string street = 4;
+    string postcode = 5;
+    string city = 6;
+    string country = 7;
+    string ssn = 8;
+	Vodamep.Model.LocalDate birthday = 9;
+}
+
+message Staff {
+    string id = 1;    
+    string family_name = 3;
+    string given_name = 4;
+	StaffRole role = 5;
+}
+
+message Consultation {
+    Vodamep.Model.LocalDate date = 1;    
+    string staff_id = 3;    
+    ConsultationType type = 4;
+	int32 amount = 5;
+}
+
+enum ConsultationType {  
+    unknown_consultation = 0;
+    LV31 = 31;
+    LV32 = 32;
+    LV33 = 33;
+    LV34 = 34;
+  }
+
+/*
+Das sind die aktuell gemeldeten Leistungen (a.k.a Leistungsvereinbarungen)
+
+## LVLP
+
+| LV		| Description														|
+|:---------	|:-----------------------------------------------------------------	|
+| 01		| Beratungsstunde													|
+| 02		| Hausbesuch														|
+| 03		| Hausbesuch mit bes. Wegzeit										|
+| 04		| Ganzheitliche Körperpflege/rehabilative Pflege					|
+| 05		| Teilpflege/ Prophylaxe											|
+| 06		| Patientenbeobachtung/ Vitalzeichenkontrolle						|
+| 07		| Wundversorgung													|
+| 08		| Medikamentengabe/ Injektionen, Infusionen							|
+| 09		| Katheter setzen, Urinal anlegen, Einlauf, Spülungen				|
+| 10		| Stoma-, Suprabub.-, Kath.-, Sonden- und Kanülenpflege/ Absaugen	|
+| 11		| Physikalische Maßnahmen/ Lagerung/ Mobilisation					|
+| 12		| Betreuung Schwerkranker/ Sterbender bei Tag						|
+| 13		| Betreuung Schwerkranker bei Nacht/ Sonn-/ Feiertagen				|
+| 14		| Begleitende Lebenshilfe/ aktives Zuhören							|
+| 15		| Abklären, Information und Vermittlung, Dokumentation				|
+| 16		| Beraten, Anlernen und Begleiten									|
+| 17		| Pflegebehelfe, Transporte											|
+| 31		| Beratung persönlich												|
+| 32		| Beratung persönlich												|
+| 33		| Beratung telefonisch												|
+| 34		| Beratung telefonisch												|
+*/
+
+enum ActivityType {  
+  unknown_activity = 0;
+  LV01 = 1;
+  LV02 = 2;
+  LV03 = 3;
+  LV04 = 4;
+  LV05 = 5;
+  LV06 = 6;
+  LV07 = 7;
+  LV08 = 8;
+  LV09 = 9;
+  LV10 = 10;
+  LV11 = 11;
+  LV12 = 12;
+  LV13 = 13;
+  LV14 = 14;
+  LV15 = 15;
+  LV16 = 16;
+  LV17 = 17;  
+}
+
+
+enum StaffRole {
+	unknown_role = 0;
+	trainee = 1;
+}
+

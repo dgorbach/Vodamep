@@ -1,0 +1,16 @@
+
+syntax = "proto3";
+package Vodamep.Messaging.Model;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+// Die �bertragung soll unabh�ngig von der Art der Meldung sein (Container kennt keinen konkreten Typ, sondern verwendet Any)
+// lt. Leitfaden sollte eine Nachricht nicht gr��er als 1 megabyte werden, https://developers.google.com/protocol-buffers/docs/techniques#large-data
+// sp�ter: den Container um eine Signatur erweitern
+// Diese Nachrichten k�nnten dann auch gespeichert werden siehe Vorschlag (IReportingRepository<>)
+message Container {
+    string id = 1;	  //id �berlegen: k�nnte z.B. so aussehen: Hkpv_OrganizationId_2017_01
+	google.protobuf.Timestamp timestamp  = 2;  
+    google.protobuf.Any report = 3;  
+}

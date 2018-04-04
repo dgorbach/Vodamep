@@ -1,0 +1,6 @@
+syntax = "proto3";
+package Vodamep.Model;
+
+message LocalDate {
+    string value = 1;   // Das Datum wird im Format yyyy-mm-dd gepeichert. (nicht effizient, aber einfach)
+}
