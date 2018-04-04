@@ -70,13 +70,39 @@ message Consultation {
 	int32 amount = 5;
 }
 
+enum ActivityType {  
+  unknown_activity = 0;
+  LV01 = 1;
+  LV02 = 2;
+  LV03 = 3;
+  LV04 = 4;
+  LV05 = 5;
+  LV06 = 6;
+  LV07 = 7;
+  LV08 = 8;
+  LV09 = 9;
+  LV10 = 10;
+  LV11 = 11;
+  LV12 = 12;
+  LV13 = 13;
+  LV14 = 14;
+  LV15 = 15;
+  LV16 = 16;
+  LV17 = 17;  
+}
+
 enum ConsultationType {  
     unknown_consultation = 0;
     LV31 = 31;
     LV32 = 32;
     LV33 = 33;
     LV34 = 34;
-  }
+}
+
+enum StaffRole {
+	unknown_role = 0;
+	trainee = 1;
+}
 
 /*
 Das sind die aktuell gemeldeten Leistungen (a.k.a Leistungsvereinbarungen)
@@ -106,32 +132,108 @@ Das sind die aktuell gemeldeten Leistungen (a.k.a Leistungsvereinbarungen)
 | 32		| Beratung persönlich												|
 | 33		| Beratung telefonisch												|
 | 34		| Beratung telefonisch												|
+
+Religionen -Hl7 
+NOE	| Nonreligious				| nicht-religiös
+OTH	| Other						| Andere
+VAR	| Unknown					| Unbekannt
+ATH	| Atheist					| Atheist
+EVC	| Christian: Evangelical    | Church	Evangelisch
+PRO	| Christian: Protestant	    | Protestant
+CAT	| Christian: Roman Catholic | römisch-katholisch
+JEW	| Jewish					| Jüdisch
+MOS	| Muslim					| Muslim
+HIN	| Hindu						| Hindu
+BUD	| Buddhist					| Buddhist
+SIK	| Sikh						| Sikh
+
+Versicherungen
+01;Pensionsversicherungsanstalt der Angestellten
+02;Pensionsversicherungsanstalt der Arbeiter
+03;Sozialversicherungsanstalt der Bauern (UV)
+04;Versicherungsanstalt des österreichischen Bergbaues
+05;Versicherungsanstalt der österreichischen Eisenbahnen
+06;Versicherungsanstalt des österreichischen Notariates
+07;Versicherungsanstalt öffentlich Bediensteter (BVA)
+08;Allgemeine Unfallversicherungsanstalt (allgemein)
+11;Gebietskrankenkasse Wien
+12;Gebietskrankenkasse Niederösterreich
+13;Gebietskrankenkasse Burgenland
+14;Gebietskrankenkasse Oberösterreich
+15;Gebietskrankenkasse Steiermark
+16;Gebietskrankenkasse Kärnten
+17;Gebietskrankenkasse Salzburg
+18;Gebietskrankenkasse Tirol
+19;Gebietskrankenkasse Vorarlberg
+1A;Krankenfürsorgeanstalt der Bediensteten der Stadt Wien
+1P;Post- und Telegraphenverwaltung
+20;Betriebskrankenkasse der Österreichischen Staatsdruckerei
+21;Betriebskrankenkasse der Austria Tabakwerke AG
+22;Betriebskrankenkasse der Wiener Verkehrsbetriebe
+23;Betriebskrankenkasse der Semperit AG
+24;Betriesbkrankenkasse der Neusiedler AG für Papierfabrikation
+25;Betriebskrankenkasse der Hütte Donawitz der VOEST Alpine AG
+26;Betriebskrankenkasse des Werkes Zeltweg der VOEST Alpine AG
+27;Betriebskrankenkasse des Werkes Kindberg der VOEST Alpine AG
+28;Betriebskrankenkasse für die Betriebe Kapfenberg der Firma B
+29;Betriebskrankenkasse der Firma Johann Pengg
+31;ehemalige Landwirtschaftskrankenkasse Wien
+32;ehemalige Landwirtschaftskrankenkasse Niederösterreich
+33;ehemalige Landwirtschaftskrankenkasse Burgenland
+34;ehemalige Landwirtschaftskrankenkasse Oberösterreich
+35;ehemalige Landwirtschaftskrankenkasse Steiermark
+36;ehemalige Landwirtschaftskrankenkasse Kärnten
+37;ehemalige Landwirtschaftskrankenkasse Salzburg
+38;ehemalige Landwirtschaftskrankenkasse Tirol
+39;ehemalige Landwirtschaftskrankenkasse Vorarlberg
+40;Sozialversicherungsanstalt der gewerblichen Wirtschaft (Hauptstelle)
+41;Sozialversicherungsanstalt der gewerbl. Wirtschaft - Wien
+42;Sozialversicherungsanstalt der gewerbl. Wirtschaft - Niederösterreich
+43;Sozialversicherungsanstalt der gewerbl. Wirtschaft - Burgenland
+44;Sozialversicherungsanstalt der gewerbl. Wirtschaft - Oberösterreich
+45;Sozialversicherungsanstalt der gewerbl. Wirtschaft - Steiermark
+46;Sozialversicherungsanstalt der gewerbl. Wirtschaft - Kärnten
+47;Sozialversicherungsanstalt der gewerbl. Wirtschaft - Salzburg
+48;Sozialversicherungsanstalt der gewerbl. Wirtschaft - Tirol
+49;Sozialversicherungsanstalt der gewerbl. Wirtschaft - Vorarlberg
+4A;Krankenfürsorgeanstalt des Magistrates der Landeshauptstadt
+4B;Krankenfürsorge für oberösterreichische Gemeindebeamte
+4C;Krankenfürsorge für oberösterreichische Landesbeamte
+4E;Krankenfürsorgeanstalt der Beamten des Magistrates Steyr
+4F;Krankenfürsoge für die Beamten der Stadt Wels
+50;Sozialversicherungsanstalt der Bauern (PV)
+51;Sozialversicherungsanstalt der Bauern Landesstelle Wien
+52;Sozialversicherungsanstalt der Bauern Landesstelle Niederösterreich
+53;Sozialversicherungsanstalt der Bauern Landesstelle Burgenland
+54;Sozialversicherungsanstalt der Bauern Landesstelle Oberösterreich
+55;Sozialversicherungsanstalt der Bauern Landesstelle Steiermark
+56;Sozialversicherungsanstalt der Bauern Landesstelle Kärnten
+57;Sozialversicherungsanstalt der Bauern Landesstelle Salzburg
+58;Sozialversicherungsanstalt der Bauern Landesstelle Tirol
+59;Sozialversicherungsanstalt der Bauern Landesstelle Vorarlberg
+5A;Krankenfürsorgeanstalt für die Beamten der Landeshauptstadt
+5B;Krankenfürsorgeanstalt der Stadtgemeinde Mürzzuschlag
+6A;Krankenfürsorgeanstalt der Beamten der Stadt Villach
+80;Arbeitsmarktverwaltung - allgemein
+91;Bundesministerium für Unterricht und Kunst
+95;Bundesministerium für Landesverteidigung
+99;Hauptverband der österreichischen Sozialversicherungsträger
+B9;Bezirkshauptmannschaft im Bundesland Vorarlberg
+CH;in der Schweiz versichert
+DV;in Deutschland versichert
+FA;Krankenfürsorgeanstalt der Beamten d.Stadt Bregenz
+FL;in Liechtenstein versichert
+KS;Bezirkshauptmannschaften
+LH;Lebenshilfe-Patienten
+CA;Caritas-Patienten
+NV;nicht versichert
+PV;Privat versichert
+S9;Bundessozialamt Vorarlberg
+SO;Sonstige
+SZ;Selbstzahler
+UB;unbekannt
+
 */
 
-enum ActivityType {  
-  unknown_activity = 0;
-  LV01 = 1;
-  LV02 = 2;
-  LV03 = 3;
-  LV04 = 4;
-  LV05 = 5;
-  LV06 = 6;
-  LV07 = 7;
-  LV08 = 8;
-  LV09 = 9;
-  LV10 = 10;
-  LV11 = 11;
-  LV12 = 12;
-  LV13 = 13;
-  LV14 = 14;
-  LV15 = 15;
-  LV16 = 16;
-  LV17 = 17;  
-}
 
-
-enum StaffRole {
-	unknown_role = 0;
-	trainee = 1;
-}
 
