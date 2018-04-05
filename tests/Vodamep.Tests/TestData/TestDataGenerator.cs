@@ -34,7 +34,8 @@ namespace Vodamep.TestData
             {
                 Id = id,
                 Insurance = "19",
-                Religion = "r.k."
+                Religion = "VAR",
+                Nationality = "AT"
             };
 
             var data = new PersonalData
@@ -49,7 +50,7 @@ namespace Vodamep.TestData
                 var line = 3 + _rand.Next(_addresses.Length - 5);  // die ersten drei und die letzte Zeile sind ungültig
                 var address = _addresses[line].Split(';');
 
-                data.Country = "Österreich";
+                data.Country = "AT";
                 data.Postcode = address[6];
                 data.City = address[3];
                 data.Street = string.Format("{0} {1}", address[5], 1 + _rand.Next(30));

@@ -12,10 +12,8 @@ powershell
 
 ## Fragen
 
-- Country = "Österreich" oder Country = "AT"
-- Religion enum oder string
-- Versicherung enum oder string
-- Welche Daten der Einrichtung sollen gemeldet werden?
+
+- Daten.xlsx: Ist Staatsangehörigkeit oder Land (Country) gemeint?
 - Thema Wochenendbetreuung: Als eigene Liste? Sind alle Stammdaten zu melden?
 
 ## Todo

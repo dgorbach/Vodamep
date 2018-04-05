@@ -22,5 +22,6 @@ namespace Vodamep.Hkpv.Validation
         public static string OneMonth => "Die Meldung muss genau einen Monat beinhalten.";
         public static string LastDateInMonth => "'{PropertyName}' muss der letzte Tag des Monats sein.";
         public static string FirstDateInMOnth => "'{PropertyName}' muss der erste Tag des Monats sein.";
+        public static string InvalidCode => "Für '{PropertyName}' ist '{PropertyValue}' kein gültiger Code.";
     }
 }

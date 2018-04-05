@@ -327,6 +327,124 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.From = null;
 
             this.AssertError("'From' darf keinen Null-Wert aufweisen.");
-        }      
+        }
+
+        [Fact]
+        public void Religion_IsEmpty_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulatePerson(d => d.Religion, string.Empty);
+
+            this.AssertError("'Religion' darf nicht leer sein.");
+        }
+
+        [Fact]
+        public void Religion_CodeIsNotValid_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulatePerson(d => d.Religion, "r.k.");
+
+            this.AssertError("Für 'Religion' ist 'r.k.' kein gültiger Code.");
+        }
+
+        [Fact]
+        public void Insurance_CodeIsNotValid_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulatePerson(d => d.Insurance, "VGKK");
+
+            this.AssertError("Für 'Versicherung' ist 'VGKK' kein gültiger Code.");
+        }
+
+        [Fact]
+        public void Insurance_IsEmpty_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulatePerson(d => d.Insurance, string.Empty);
+
+            this.AssertError("'Versicherung' darf nicht leer sein.");
+        }
+
+        [Fact]
+        public void Nationality_CodeIsNotValid_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulatePerson(d => d.Nationality, "Österreich");
+
+            this.AssertError("Für 'Staatsangehörigkeit' ist 'Österreich' kein gültiger Code.");
+        }
+
+        [Fact]
+        public void Nationality_IsEmpty_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulatePerson(d => d.Nationality, string.Empty);
+
+            this.AssertError("'Staatsangehörigkeit' darf nicht leer sein.");
+        }
+
+
+        [Fact]
+        public void City_IsEmpty_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulateData(d => d.City, string.Empty);
+
+            this.AssertError("'Ort' darf nicht leer sein.");
+        }
+
+        [Fact]
+        public void Postcode_IsEmpty_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulateData(d => d.Postcode, string.Empty);
+
+            this.AssertError("'Plz' darf nicht leer sein.");
+        }
+
+        [Fact]
+        public void Street_IsEmpty_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulateData(d => d.Street, string.Empty);
+
+            this.AssertError("'Anschrift' darf nicht leer sein.");
+        }
+
+        [Fact]
+        public void Country_IsEmpty_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulateData(d => d.Country, string.Empty);
+
+            this.AssertError("'Land' darf nicht leer sein.");
+        }
+
+        [Fact]
+        public void Country_CodeIsNotValid_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulateData(d => d.Country, "Österreich");
+
+            this.AssertError("Für 'Land' ist 'Österreich' kein gültiger Code.");
+        }
+
+        [Fact]
+        public void FamilyName_IsEmpty_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulateData(d => d.FamilyName, string.Empty);
+
+            this.AssertError("'Familienname' darf nicht leer sein.");
+        }
+
+        [Fact]
+        public void GivenName_IsEmpty_ReturnsError()
+        {
+            this.AddPerson()
+                .ManipulateData(d => d.GivenName, string.Empty);
+
+            this.AssertError("'Vorname' darf nicht leer sein.");
+        }
     }
 }
