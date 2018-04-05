@@ -57,13 +57,19 @@ namespace Vodamep.Data.Dummy
             }
         }
 
-        public HkpvReport CreateHkpvReport(int persons = 100, int staffs = 5, bool addActivities = true)
+        public HkpvReport CreateHkpvReport(int? year = null, int? month = null, int persons = 100, int staffs = 5, bool addActivities = true)
         {
             var report = new HkpvReport()
             {
                 Institution = new Institution() { Id = "1", Name = "Testverein" }
             };
-            report.From = LocalDate.Today.AddMonths(-1).FirstDateInMonth();
+
+
+            var from = new LocalDate(year ?? LocalDate.Today.Year, month ?? LocalDate.Today.Month, 1);
+            if (from.LastDateInMonth() < LocalDate.Today)
+                from = from.AddMonths(-1);
+
+            report.From = from;
             report.To = report.From.LastDateInMonth();
 
             report.AddDummyPersons(persons);

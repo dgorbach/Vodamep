@@ -1,0 +1,65 @@
+﻿<Directives>
+  <Application>
+
+    <Assembly Name="Vodamep">
+      <Type Name="Vodamep.Data.CountryCodeProvider" Dynamic="Required All" />
+      <Type Name="Vodamep.Data.InsuranceCodeProvider" Dynamic="Required All" />
+      <Type Name="Vodamep.Data.ReligionCodeProvider" Dynamic="Required All" />
+
+      <Type Name="Vodamep.Hkpv.Model.HkpvReflection" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.HkpvReport" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.Institution" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.Activity" Dynamic="Required All" />      
+      <Type Name="Vodamep.Hkpv.Model.Person" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.PersonalData" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.Staff" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.Consultation" Dynamic="Required All" />
+    </Assembly>
+
+    <Assembly Name="Vodamep.Client">
+      <Type Name="Vodamep.Client.ListArgs" Dynamic="Required All" />
+      <Type Name="Vodamep.Client.PackRandomArgs" Dynamic="Required All" />
+      <Type Name="Vodamep.Client.VodamepProgram" Dynamic="Required All" />      
+      <Type Name="Vodamep.Client.ValidateArgs" Dynamic="Required All" />
+    </Assembly>
+
+    <Assembly Name="PowerArgs">
+      <Type Name="PowerArgs.ArgActionMethod" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgDefaultValueAttribute" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgDescription" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgExample" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgExistingFile" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgExistingDirectory" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgIgnoreAttribute" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgIgnoreCase" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgPosition" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgRange" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgRegex" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgRequired" Dynamic="Required All" />
+      <Type Name="PowerArgs.ArgShortcut" Dynamic="Required All" />
+      <Type Name="PowerArgs.HelpHook" Dynamic="Required All" />
+      <Type Name="PowerArgs.TabCompletion" Dynamic="Required All" />      
+      <Type Name="PowerArgs.StickyArg" Dynamic="Required All" />
+      
+      <Type Name="PowerArgs.CommandLineArgument" Dynamic="Required All" />
+      <Type Name="PowerArgs.CommandLineArgumentsDefinition" Dynamic="Required All" />
+      <Type Name="PowerArgs.CommandLineAction" Dynamic="Required All" />
+      <Type Name="PowerArgs.DefaultConsoleUsageTemplateProvider" Dynamic="Required All" />      
+      <Type Name="PowerArgs.DefaultBrowserUsageTemplateProvider" Dynamic="Required All" />
+      <Type Name="PowerArgs.DocumentTokenType[]" Dynamic="Required All" />
+      <Type Name="PowerArgs.DocumentToken" Dynamic="Required All" />
+      <Type Name="PowerArgs.ObjectPathToken" Dynamic="Required All" />
+    </Assembly>
+
+    <Assembly Name="System.Private.CoreLib">
+      <Type Name="System.Tuple`4[[System.Collections.Generic.IList`1[[Vodamep.Hkpv.Model.Staff, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Consultation, Vodamep]], System.Private.CoreLib]]" Dynamic="Required All" />
+      <Type Name="System.Boolean" />
+      <Type Name="System.Double" />
+    </Assembly>
+
+    <Assembly Name="System.Linq.Expressions">
+      <Type Name="System.Linq.Expressions.ExpressionCreator`1[[System.Func`2[[System.String,System.Private.CoreLib],[System.String,System.Private.CoreLib]],System.Private.CoreLib]]" Dynamic="Required All" />
+    </Assembly>
+
+  </Application>
+</Directives>

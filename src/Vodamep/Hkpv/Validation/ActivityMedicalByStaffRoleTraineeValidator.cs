@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vodamep.Hkpv.Model;
 
@@ -11,23 +13,28 @@ namespace Vodamep.Hkpv.Validation
         public ActivityMedicalByStaffRoleTraineeValidator()
             : base()
         {
-            this.RuleFor(x => new { x.Activities, x.Staffs })
+            //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später:  new  { x.Activities, x.Staffs }
+            this.RuleFor(x => new Tuple<IList<Activity>, IEnumerable<Staff>>(x.Activities, x.Staffs))
                 .Custom((a, ctx) =>
                {
-                   var trainees = a.Staffs.Where(x => x.Role == StaffRole.Trainee).Select(x => x.Id).ToArray();
+                   var activities = a.Item1;
+                   var staffs = a.Item2;
+                   
 
-                   var medical = a.Activities
+                   var trainees = staffs.Where(x => x.Role == StaffRole.Trainee).Select(x => x.Id).ToArray();
+
+                   var medical = activities
                        .Where(IsMedical)
                        .Where(x => trainees.Contains(x.StaffId))
                        .ToArray();
 
                    foreach ( var entry in medical)
                    {
-                       var staff = a.Staffs.Where(x => x.Id == entry.StaffId).First();
+                       var staff = staffs.Where(x => x.Id == entry.StaffId).First();
                        
                        var msg = Validationmessages.TraineeMustNotContain06To10(staff);
                        
-                       var index = a.Activities.IndexOf(entry);
+                       var index = activities.IndexOf(entry);
                        ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Activities)}[{index}]", msg));
                    }
                });

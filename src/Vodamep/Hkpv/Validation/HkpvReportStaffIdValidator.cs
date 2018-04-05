@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Vodamep.Hkpv.Model;
 
@@ -20,20 +22,26 @@ namespace Vodamep.Hkpv.Validation
                     }
                 });
 
-            this.RuleFor(x => new { x.Staffs, x.Activities, x.OtherActivities, x.Consultations })
+            //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später: new { x.Staffs, x.Activities, x.OtherActivities, x.Consultations }
+            this.RuleFor(x => new Tuple<IList<Staff>, IEnumerable<Activity>, IEnumerable<Activity>, IEnumerable<Consultation>>(x.Staffs, x.Activities, x.OtherActivities, x.Consultations))
                .Custom((a, ctx) =>
                {
-                   var idStaffs = a.Staffs.Select(x => x.Id).Distinct().ToArray();
+                   var staffs = a.Item1;
+                   var activities = a.Item2;
+                   var otherActivities = a.Item3;
+                   var consultations = a.Item4;
+
+                   var idStaffs = staffs.Select(x => x.Id).Distinct().ToArray();
                    var idActivities = (
-                                a.Activities.Select(x => x.StaffId)
-                                .Union(a.OtherActivities.Select(x => x.StaffId))
-                                .Union(a.Consultations.Select(x => x.StaffId))
+                                activities.Select(x => x.StaffId)
+                                .Union(otherActivities.Select(x => x.StaffId))
+                                .Union(consultations.Select(x => x.StaffId))
                                 ).Distinct().ToArray();
 
                    foreach (var id in idStaffs.Except(idActivities))
                    {
-                       var item = a.Staffs.Where(x => x.Id == id).First();
-                       var index = a.Staffs.IndexOf(item);
+                       var item = staffs.Where(x => x.Id == id).First();
+                       var index = staffs.IndexOf(item);
                        ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Staffs)}[{index}]", Validationmessages.WithoutActivity));
 
                    }

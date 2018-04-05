@@ -8,8 +8,8 @@ namespace Vodamep.Tests
 {
     public class TypeNameHelper
     {
-
-        //[Fact]
+        // ausklammern, und mit debug test starten
+        // [Fact]
         public void GetRD_xml()
         {
             var type = typeof(Tuple<IList<Person>, IEnumerable<string>>);
@@ -18,6 +18,7 @@ namespace Vodamep.Tests
             var xml = GetXmlToAddInRD_xml(type);
 
             System.Diagnostics.Debug.Print(xml);
+
 
             Assert.Equal(type, Type.GetType(names.type));
         }

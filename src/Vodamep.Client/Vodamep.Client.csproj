@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="test" />
+  </ItemGroup>
+
+  <ItemGroup>        
+    <PackageReference Include="PowerArgs" Version="3.0.0" />    
+  </ItemGroup>
+
+  <ItemGroup Condition="$(vodamepnative)==true">
+    <RdXmlFile Include="rd.xml" />
+    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />    
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Vodamep\Vodamep.csproj" />
+  </ItemGroup>
+</Project>
+  

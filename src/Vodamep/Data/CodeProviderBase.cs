@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Vodamep.Data
 {
@@ -30,12 +31,25 @@ namespace Vodamep.Data
             }
         }
 
+        public IEnumerable<string> GetCSV() => _dict.Select(x => $"{x.Key};{x.Value}");
+
         protected abstract string ResourceName { get; }
 
         public static CodeProviderBase GetInstance<T>()
             where T : CodeProviderBase
         {
-            return (CodeProviderBase)typeof(T).GetProperty("Instance", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public).GetValue(null);
+            CodeProviderBase result = null;
+            try
+            {
+                result = (CodeProviderBase)typeof(T).GetProperty("Instance", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public).GetValue(null);
+            }
+            catch
+            {
+                throw new System.Exception($"CodeProviderBase.GetInstance<{typeof(T).Name}> failed!");
+            }
+
+            return result;
+
         }
     }
 }

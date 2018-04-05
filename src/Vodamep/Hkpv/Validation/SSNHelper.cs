@@ -11,6 +11,9 @@ namespace Vodamep.Hkpv.Validation
         private static Regex Pattern = new Regex(@"^(?<nr>\d{3})(?<cd>\d)-?(?<tt>(0?[1-9]|[12][0-9]|3[01]))\.?(?<mm>(0?[1-9]|1[0123]))\.?(?<jj>\d{1,2})$");
         public static bool IsValid(string vnummer)
         {
+            if (string.IsNullOrEmpty(vnummer))
+                return true;
+
             bool result = false;
 
             vnummer = Format(vnummer);
@@ -76,7 +79,7 @@ namespace Vodamep.Hkpv.Validation
         public static DateTime? GetBirthDay(string vnummer)
         {
             DateTime? date = null;
-            if (IsValid(vnummer))
+            if (!string.IsNullOrEmpty(vnummer) && IsValid(vnummer))
             {
                 var m = Pattern.Match(vnummer);
 

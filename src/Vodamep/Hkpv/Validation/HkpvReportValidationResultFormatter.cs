@@ -30,11 +30,11 @@ namespace Vodamep.Hkpv.Validation
 
             foreach (var groupedInfos in entries.OrderBy(x => x.Info).GroupBy(x => x.Info))
             {
-                result.Append($"<tr><td>{groupedInfos.Key}</td><td>{groupedInfos.First().Message}</td><td>{groupedInfos.First().Value}</td></tr>");
+                result.AppendLine($"<tr><td>{groupedInfos.Key}</td><td>{groupedInfos.First().Message}</td><td>{groupedInfos.First().Value}</td></tr>");
 
                 foreach (var info in groupedInfos.Skip(1))
                 {
-                    result.Append($"<tr><td></td><td>{info.Message}</td><td>{info.Value}</td></tr>");
+                    result.AppendLine($"<tr><td></td><td>{info.Message}</td><td>{info.Value}</td></tr>");
                 }
 
             }

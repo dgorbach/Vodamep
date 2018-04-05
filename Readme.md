@@ -10,6 +10,14 @@ powershell
 .\build.ps1
 ```
 
+
+native single-file executable :)
+```
+$env:vodamepnative = $true
+dotnet publish -r win-x64 -c release
+
+```
+
 ## Fragen
 
 

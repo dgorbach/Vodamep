@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using System;
 using Vodamep.Hkpv.Model;
 using Vodamep.Model;
 
@@ -15,8 +16,9 @@ namespace Vodamep.Hkpv.Validation
             this.RuleFor(x => x.To).LessThanOrEqualTo(x => LocalDate.Today);
             this.RuleFor(x => x.To).GreaterThan(x => x.From).Unless(x => x.From == null || x.To == null);
 
-            this.RuleFor(x => new { x.From, x.To })
-                .Must(x => x.To == x.From.LastDateInMonth())
+            //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später: this.RuleFor(x => new { x.From, x.To })
+            this.RuleFor(x => new Tuple<LocalDate, LocalDate>(x.From, x.To))
+                .Must(x => x.Item2 == x.Item1.LastDateInMonth())
                 .Unless(x => x.From == null || x.To == null)
                 .WithMessage(Validationmessages.OneMonth);
 
@@ -36,7 +38,7 @@ namespace Vodamep.Hkpv.Validation
             this.RuleForEach(report => report.PersonalData).SetValidator(new PersonalDataValidator());
 
             this.RuleForEach(report => report.Persons).SetValidator(new PersonValidator());
-            
+
             this.RuleForEach(report => report.Activities).SetValidator(r => new ActivityValidator(r.From, r.To));
 
             this.RuleForEach(report => report.OtherActivities).SetValidator(r => new ActivityValidator(r.From, r.To));

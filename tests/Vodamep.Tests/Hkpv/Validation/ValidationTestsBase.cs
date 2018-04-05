@@ -19,7 +19,7 @@ namespace Vodamep.Hkpv.Validation.Tests
             var loc = new DisplayNameResolver();
             ValidatorOptions.DisplayNameResolver = (type, memberInfo, expression) => loc.GetDisplayName(memberInfo?.Name);
 
-            this.Report = DataGenerator.Instance.CreateHkpvReport(0, 0, false);
+            this.Report = DataGenerator.Instance.CreateHkpvReport(null, null, 0, 0, false);
         }
 
 
