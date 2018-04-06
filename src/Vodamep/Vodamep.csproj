@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\Dummy\Aktivitäten.txt" />
+    <None Remove="Data\Dummy\gemplzstr_8.csv" />
+    <None Remove="Data\Dummy\Nachnamen.txt" />
+    <None Remove="Data\Dummy\Vornamen.txt" />
     <None Remove="Data\german-iso-3166.csv" />
     <None Remove="Data\insurances.csv" />
     <None Remove="Data\religions.csv" />
@@ -16,6 +20,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Data\Dummy\gemplzstr_8.csv">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Dummy\Nachnamen.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Dummy\Aktivitäten.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Dummy\Vornamen.txt">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Data\religions.csv" />
     <EmbeddedResource Include="Data\insurances.csv" />
     <EmbeddedResource Include="Data\german-iso-3166.csv" />

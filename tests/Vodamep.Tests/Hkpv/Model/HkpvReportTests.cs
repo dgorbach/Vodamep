@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Vodamep.Data.Dummy;
 using Vodamep.Hkpv.Validation.Tests;
 using Vodamep.Model;
 using Xunit;
@@ -10,9 +11,9 @@ namespace Vodamep.Hkpv.Model.Tests
         [Fact]
         public void AsSorted_ActivitiesArSortedByType()
         {
-            this.AddActivity("15");
-            this.AddActivity("02");
-            this.AddActivity("05");
+            this.Report.AddDummyActivity("15");
+            this.Report.AddDummyActivity("02");
+            this.Report.AddDummyActivity("05");
 
             var sorted = this.Report.AsSorted();
 
@@ -27,9 +28,9 @@ namespace Vodamep.Hkpv.Model.Tests
             var date2 = LocalDate.Today.AddDays(-1);
             var date3 = LocalDate.Today;
 
-            this.AddActivity("01", date2);
-            this.AddActivity("02", date1);
-            this.AddActivity("03", date3);
+            this.Report.AddDummyActivity("01", date2);
+            this.Report.AddDummyActivity("02", date1);
+            this.Report.AddDummyActivity("03", date3);
 
 
             var sorted = this.Report.AsSorted();
@@ -42,8 +43,8 @@ namespace Vodamep.Hkpv.Model.Tests
         [Fact]
         public void AsSorted_ActivitiesArSortedByPersonId()
         {
-            this.AddPersons(3);
-            this.AddStaff();
+            this.Report.AddDummyPersons(3);
+            this.Report.AddDummyStaff();
 
             var p1 = this.Report.Persons[0].Id;
             var p2 = this.Report.Persons[1].Id;
@@ -63,8 +64,8 @@ namespace Vodamep.Hkpv.Model.Tests
         [Fact]
         public void AsSorted_ActivitiesArSortedByStaffId()
         {
-            this.AddPerson();
-            this.AddStaffs(3);
+            this.Report.AddDummyPerson();
+            this.Report.AddDummyStaffs(3);
 
             var s1 = this.Report.Staffs[0].Id;
             var s2 = this.Report.Staffs[1].Id;

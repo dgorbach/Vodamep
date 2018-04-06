@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System;
 using System.Reflection;
 
-namespace Vodamep.TestData
+namespace Vodamep
 {
     public static class TestDataManipulationExtensions
     {

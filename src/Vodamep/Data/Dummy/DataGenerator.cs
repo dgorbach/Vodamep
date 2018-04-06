@@ -7,23 +7,54 @@ using Vodamep.Hkpv.Model;
 using Vodamep.Hkpv.Validation;
 using Vodamep.Model;
 
-namespace Vodamep.TestData
+namespace Vodamep.Data.Dummy
 {
-    public class TestDataGenerator
+    public class DataGenerator
     {
-        private static long _id = 1;
+
+        private static DataGenerator _instance;
+
+        public static DataGenerator Instance
+        {
+            get
+            {
+
+                if (_instance == null)
+                    _instance = new DataGenerator();
+
+                return _instance;
+            }
+        }
+
+
+        private long _id = 1;
         private Random _rand = new Random();
         private string[] _addresses;
         private string[] _names;
         private string[] _familynames;
         private string[] _activities;
 
-        public TestDataGenerator()
+        private DataGenerator()
         {
-            _addresses = File.ReadAllLines("TestData/gemplzstr_8.csv", Encoding.UTF8);
-            _names = File.ReadAllLines("TestData/Vornamen.txt", Encoding.UTF8);
-            _familynames = File.ReadAllLines("TestData/Nachnamen.txt", Encoding.UTF8);
-            _activities = File.ReadAllLines("TestData/Aktivitäten.txt", Encoding.UTF8);
+            _addresses = ReadRessource("gemplzstr_8.csv").ToArray();
+            _names = ReadRessource("Vornamen.txt").ToArray();
+            _familynames = ReadRessource("Nachnamen.txt").ToArray();
+            _activities = ReadRessource("Aktivitäten.txt").ToArray();
+        }
+
+
+        private IEnumerable<string> ReadRessource(string name)
+        {
+            var assembly = this.GetType().Assembly;
+            var resourceStream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.Data.Dummy.{name}");
+
+            using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
+            {
+                while (!reader.EndOfStream)
+                {
+                    yield return reader.ReadLine();
+                }
+            }
         }
 
         public (Person Person, PersonalData data) CreatePerson()
@@ -47,8 +78,7 @@ namespace Vodamep.TestData
 
             // die Anschrift
             {
-                var line = 3 + _rand.Next(_addresses.Length - 5);  // die ersten drei und die letzte Zeile sind ungültig
-                var address = _addresses[line].Split(';');
+                var address = _addresses[_rand.Next(_addresses.Length)].Split(';');
 
                 data.Country = "AT";
                 data.Postcode = address[6];
