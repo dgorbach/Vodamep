@@ -1,6 +1,5 @@
 ﻿using System;
 using Vodamep.Data.Dummy;
-using Vodamep.Hkpv.Model;
 using Vodamep.Model;
 using Xunit;
 
@@ -65,7 +64,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyPerson()
                 .ManipulateData(d => d.Birthday, new LocalDate(date))
-                .ManipulateData(d => d.Ssn, DataGenerator.CreateRandomSSN(date));
+                .ManipulateData(d => d.Ssn, DataGenerator.Instance.CreateRandomSSN(date));
 
             this.AssertError("'Geburtsdatum' darf nicht in der Zukunft liegen.");
         }
@@ -77,7 +76,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyPerson()
                 .ManipulateData(d => d.Birthday, new LocalDate(date))
-                .ManipulateData(d => d.Ssn, DataGenerator.CreateRandomSSN(date));
+                .ManipulateData(d => d.Ssn, DataGenerator.Instance.CreateRandomSSN(date));
 
 
             this.AssertError(@"Der Wert von 'Geburtsdatum' muss grösser oder gleich '1900-01-01' sein.");
@@ -91,7 +90,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyPerson()
                 .ManipulateData(x => x.Birthday, new LocalDate(date1))
-                .ManipulateData(x => x.Ssn, DataGenerator.CreateRandomSSN(date2));
+                .ManipulateData(x => x.Ssn, DataGenerator.Instance.CreateRandomSSN(date2));
 
             this.AssertError("Das Geburtsdatum 03.01.1966 unterscheidet sich vom Wert in der Versicherungsnummer 01.03.66.");
         }
