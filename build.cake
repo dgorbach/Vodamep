@@ -19,18 +19,12 @@ Task("Proto")
         var executable = GetFiles("./tools/**/windows_x64/protoc.exe").First().FullPath;
         var protoTools = System.IO.Directory.GetParent(executable).Parent.FullName;
 
-        var importProtos = GetFiles("proto/**/Common.proto")
-            .Union(GetFiles("proto/**/ProtoActor.proto"))
-            .Select(x => System.IO.Path.GetDirectoryName(x.FullPath))
-            .ToArray();
-
         foreach(var file in GetFiles("proto/**/*.proto"))
         {            
             var protoPaths = new List<string>();
             protoPaths.Add(protoTools);
             protoPaths.Add(System.IO.Path.GetDirectoryName(file.FullPath));
-            protoPaths.AddRange(importProtos);            
-
+            
             var argsProtoPath = string.Join(" ", protoPaths.Distinct().Select(x => string.Format("--proto_path={0}", x)));
             var argsOut = string.Format("--csharp_out={0}", System.IO.Path.GetDirectoryName(file.FullPath));
             var argsOpt = " --csharp_opt=file_extension=.g.cs ";

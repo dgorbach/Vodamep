@@ -15,7 +15,7 @@ namespace Vodamep.Hkpv.Validation
         public static string WithoutEntry(string e) => $"Kein Eintrag '{e}' vorhanden.";
         public static string WithoutActivity => $"Keine Aktivitäten.";
         public static string BirthdayNotInFuture => "'Geburtsdatum' darf nicht in der Zukunft liegen.";
-        public static string BirthdayNotInSsn(PersonalData data) => $"Das Geburtsdatum {data.Birthday.ToString("dd.MM.yyyy")} unterscheidet sich vom Wert in der Versicherungsnummer {SSNHelper.Format(data.Ssn).Substring(5)}.";
+        public static string BirthdayNotInSsn(PersonalData data) => $"Das Geburtsdatum {data.BirthdayD.ToString("dd.MM.yyyy")} unterscheidet sich vom Wert in der Versicherungsnummer {SSNHelper.Format(data.Ssn).Substring(5)}.";
         public static string SsnNotValid => "Die Versicherungsnummer {PropertyValue} ist nicht korrekt.";
         public static string SsnNotUnique(IEnumerable<PersonalData> p) => $"Mehrere Personen haben die selbe Versicherungsnummer {p.First().Ssn}: {string.Join(", ", p.Select(x => $"{x.GivenName} {x.FamilyName}({x.Id})"))}";
         public static string LocalDate => "'{PropertyName}' ist kein gültiges Datum.";

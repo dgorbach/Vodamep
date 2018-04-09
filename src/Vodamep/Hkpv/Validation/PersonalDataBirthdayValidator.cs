@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using System;
 using Vodamep.Hkpv.Model;
-using Vodamep.Model;
+
 
 namespace Vodamep.Hkpv.Validation
 {
@@ -12,26 +13,28 @@ namespace Vodamep.Hkpv.Validation
             this.CascadeMode = CascadeMode.StopOnFirstFailure;
 
             RuleFor(x => x.Birthday)
-                .NotNull();
+                .NotEmpty();
 
             RuleFor(x => x.Birthday)
-                .SetValidator(new LocalDateValidator());
+                .SetValidator(new DateTimeValueValidator());
 
-            RuleFor(x => x.Birthday)
-                .LessThan(LocalDate.Today)
+            RuleFor(x => x.BirthdayD)
+                .LessThan(DateTime.Today)
+                .Unless(x => string.IsNullOrEmpty(x.Birthday))
                 .WithMessage(Validationmessages.BirthdayNotInFuture);
 
-            RuleFor(x => x.Birthday)
-               .GreaterThanOrEqualTo(new LocalDate(1900, 01, 01));
+            RuleFor(x => x.BirthdayD)
+               .GreaterThanOrEqualTo(new DateTime(1900, 01, 01))
+               .Unless(x => string.IsNullOrEmpty(x.Birthday));
 
-            RuleFor(x => x.Birthday)
+            RuleFor(x => x.BirthdayD)
                 .Must(CheckDates)
-                .Unless(x => x.Birthday == null || !SSNHelper.IsValid(x.Ssn))
+                .Unless(x => string.IsNullOrEmpty(x.Birthday) || !SSNHelper.IsValid(x.Ssn))
                 .WithMessage(x => Validationmessages.BirthdayNotInSsn(x));
         }
 
 
-        private bool CheckDates(PersonalData data, LocalDate date)
+        private bool CheckDates(PersonalData data, DateTime date)
         {
             if (date == null) return false;
 

@@ -15,7 +15,7 @@ namespace Vodamep.Hkpv.Validation
                 .Custom((list, ctx) =>
                 {
                     var notUniques = list
-                        .GroupBy(y => new { y.Date, y.Type, y.PersonId, y.StaffId })
+                        .GroupBy(y => new { y.DateD, y.Type, y.PersonId, y.StaffId })
                         .Where(y => y.Count() > 1);
                         
 

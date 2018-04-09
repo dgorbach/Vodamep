@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Vodamep.Hkpv.Model;
 using Vodamep.Hkpv.Validation;
-using Vodamep.Model;
 
 namespace Vodamep.Data.Dummy
 {
@@ -64,13 +63,11 @@ namespace Vodamep.Data.Dummy
                 Institution = new Institution() { Id = "1", Name = "Testverein" }
             };
 
+            var from = year.HasValue || month.HasValue ?  new DateTime(year ?? DateTime.Today.Year, month ?? DateTime.Today.Month, 1) : DateTime.Today.FirstDateInMonth().AddMonths(-1);
+            
 
-            var from = new LocalDate(year ?? LocalDate.Today.Year, month ?? LocalDate.Today.Month, 1);
-            if (from.LastDateInMonth() < LocalDate.Today)
-                from = from.AddMonths(-1);
-
-            report.From = from;
-            report.To = report.From.LastDateInMonth();
+            report.FromD = from;
+            report.ToD = report.FromD.LastDateInMonth();
 
             report.AddDummyPersons(persons);
             report.AddDummyStaffs(staffs);
@@ -110,9 +107,9 @@ namespace Vodamep.Data.Dummy
                 data.Street = string.Format("{0} {1}", address[5], 1 + _rand.Next(30));
             }
 
-            data.Birthday = new Model.LocalDate(new DateTime(1920, 01, 01).AddDays(_rand.Next(20000)));
+            data.BirthdayD = new DateTime(1920, 01, 01).AddDays(_rand.Next(20000));
 
-            data.Ssn = CreateRandomSSN(data.Birthday.ToDateTime());
+            data.Ssn = CreateRandomSSN(data.BirthdayD);
 
             return (person, data);
 
@@ -171,7 +168,7 @@ namespace Vodamep.Data.Dummy
             return a.Split(',').Select(x => (ActivityType)int.Parse(x)).ToArray();
         }
 
-        private IEnumerable<Activity> CreateRandomActivity(string personId, string staffId, LocalDate date)
+        private IEnumerable<Activity> CreateRandomActivity(string personId, string staffId, DateTime date)
         {
             var activities = CreateRandomActivities();
 
@@ -181,7 +178,7 @@ namespace Vodamep.Data.Dummy
                 {
                     StaffId = staffId,
                     PersonId = personId,
-                    Date = date,
+                    DateD = date,
                     Amount = entry.Count(),
                     Type = entry.Key
                 };
@@ -205,10 +202,10 @@ namespace Vodamep.Data.Dummy
                 {
                     var personId = persons[_rand.Next(persons.Length)].Id;
 
-                    var date = report.From.AddDays(_rand.Next(report.To.Day - report.From.Day + 1));
+                    var date = report.FromD.AddDays(_rand.Next(report.ToD.Day - report.FromD.Day + 1));
 
                     // Pro Tag, Person und Mitarbeiter nur ein Eintrag erlaubt:
-                    if (!result.Where(x => x.PersonId == personId && x.StaffId == staff.Id && x.Date.Equals(date)).Any())
+                    if (!result.Where(x => x.PersonId == personId && x.StaffId == staff.Id && x.DateD.Equals(date)).Any())
                     {
                         var a = CreateRandomActivity(personId, staff.Id, date).ToArray();
 
@@ -222,7 +219,7 @@ namespace Vodamep.Data.Dummy
             //sicherstellen, dass jede Person zumindest einen Eintrag hat
             foreach (var p in report.Persons.Where(x => !result.Where(a => a.PersonId == x.Id).Any()).ToArray())
             {
-                var date = report.From.AddDays(_rand.Next(report.To.Day - report.From.Day + 1));
+                var date = report.FromD.AddDays(_rand.Next(report.ToD.Day - report.FromD.Day + 1));
 
                 result.AddRange(CreateRandomActivity(p.Id, report.Staffs[_rand.Next(report.Staffs.Count)].Id, date));
             }

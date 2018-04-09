@@ -16,7 +16,7 @@ namespace Vodamep.Hkpv.Validation
 
             var result = new StringBuilder();
 
-            result.AppendLine($"<h3>Fehlerliste Datenmeldung {report.Institution?.Name}, {report.From?.ToString("dd.MM.yyyy")}-{report.To?.ToString("dd.MM.yyyy")}</h3>");
+            result.AppendLine($"<h3>Fehlerliste Datenmeldung {report.Institution?.Name}, {report.FromD.ToString("dd.MM.yyyy")}-{report.ToD.ToString("dd.MM.yyyy")}</h3>");
 
             result.AppendLine("<table>");
             result.AppendLine("<tbody>");
@@ -84,7 +84,7 @@ namespace Vodamep.Hkpv.Validation
             if (report.Activities.Count > index && index >= 0)
             {
                 var e = report.Activities[index];
-                return $"Aktivität {e.Date.ToString("dd.MM.yyyy")}{NewLine}{e.Type}{NewLine}{GetNameOfPersonById(report, e.PersonId)}{NewLine}{GetNameOfStaffById(report, e.StaffId)}";
+                return $"Aktivität {e.DateD.ToString("dd.MM.yyyy")}{NewLine}{e.Type}{NewLine}{GetNameOfPersonById(report, e.PersonId)}{NewLine}{GetNameOfStaffById(report, e.StaffId)}";
             }
 
             return string.Empty;
@@ -115,7 +115,7 @@ namespace Vodamep.Hkpv.Validation
             if (report.OtherActivities.Count > id && id >= 0)
             {
                 var e = report.OtherActivities[id];
-                return $"Aktivität anderer Verein {e.Date.ToString("dd.MM.yyyy")}: {GetNameOfPersonById(report, e.PersonId)} {GetNameOfStaffById(report, e.StaffId)}";
+                return $"Aktivität anderer Verein {e.DateD.ToString("dd.MM.yyyy")}: {GetNameOfPersonById(report, e.PersonId)} {GetNameOfStaffById(report, e.StaffId)}";
             }
 
             return string.Empty;
@@ -126,7 +126,7 @@ namespace Vodamep.Hkpv.Validation
             if (report.Consultations.Count > id && id >= 0)
             {
                 var e = report.Consultations[id];
-                return $"Beratung {e.Date.ToString("dd.MM.yyyy")}, {e.Type}: {GetNameOfStaffById(report, e.StaffId)}";
+                return $"Beratung {e.DateD.ToString("dd.MM.yyyy")}, {e.Type}: {GetNameOfStaffById(report, e.StaffId)}";
             }
 
             return string.Empty;

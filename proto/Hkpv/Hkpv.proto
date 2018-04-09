@@ -2,15 +2,13 @@
 syntax = "proto3";
 package Vodamep.Hkpv.Model;
 
-import "Common.proto";
-
 message HkpvReport {   
 
     Institution institution = 1;
    
-    Vodamep.Model.LocalDate from = 2;
+    string from = 2;
 
-    Vodamep.Model.LocalDate to = 3;
+    string to = 3;
     	
     repeated Staff staffs = 4; 
 
@@ -31,7 +29,7 @@ message Institution {
 }
 
 message Activity {
-    Vodamep.Model.LocalDate date = 1;
+    string date = 1;
     string person_id = 2;
     string staff_id = 3;    
     ActivityType type = 4;
@@ -54,7 +52,7 @@ message PersonalData {
     string city = 6;
     string country = 7;
     string ssn = 8;
-	Vodamep.Model.LocalDate birthday = 9;
+	string birthday = 9;
 }
 
 message Staff {
@@ -65,7 +63,7 @@ message Staff {
 }
 
 message Consultation {
-    Vodamep.Model.LocalDate date = 1;    
+    string date = 1;    
     string staff_id = 3;    
     ConsultationType type = 4;
 	int32 amount = 5;

@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using System;
 using Vodamep.Hkpv.Model;
-using Vodamep.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
@@ -11,39 +10,40 @@ namespace Vodamep.Hkpv.Validation
         {
             this.RuleFor(x => x.Institution).NotNull();
             this.RuleFor(x => x.Institution).SetValidator(new InstitutionValidator());
-            this.RuleFor(x => x.From).NotNull();
-            this.RuleFor(x => x.To).NotNull();
-            this.RuleFor(x => x.To).LessThanOrEqualTo(x => LocalDate.Today);
-            this.RuleFor(x => x.To).GreaterThan(x => x.From).Unless(x => x.From == null || x.To == null);
+            this.RuleFor(x => x.From).NotEmpty();
+            this.RuleFor(x => x.To).NotEmpty();
+            this.RuleFor(x => x.From).SetValidator(new DateTimeValueValidator());
+            this.RuleFor(x => x.To).SetValidator(new DateTimeValueValidator());
+            this.RuleFor(x => x.ToD).LessThanOrEqualTo(x => DateTime.Today);
+            this.RuleFor(x => x.ToD).GreaterThan(x => x.FromD).Unless(x => string.IsNullOrEmpty(x.From) || string.IsNullOrEmpty(x.To));
 
             //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später: this.RuleFor(x => new { x.From, x.To })
-            this.RuleFor(x => new Tuple<LocalDate, LocalDate>(x.From, x.To))
+            this.RuleFor(x => new Tuple<DateTime, DateTime>(x.FromD, x.ToD))
                 .Must(x => x.Item2 == x.Item1.LastDateInMonth())
-                .Unless(x => x.From == null || x.To == null)
+                .Unless(x => string.IsNullOrEmpty(x.From) || string.IsNullOrEmpty(x.To))
                 .WithMessage(Validationmessages.OneMonth);
 
-            this.RuleFor(x => x.To)
+            this.RuleFor(x => x.ToD)
                 .Must(x => x == x.LastDateInMonth())
-                .Unless(x => x.To == null)
+                .Unless(x => string.IsNullOrEmpty(x.To))
                 .WithMessage(Validationmessages.LastDateInMonth);
 
-            this.RuleFor(x => x.From)
+            this.RuleFor(x => x.FromD)
                 .Must(x => x.Day == 1)
-                .Unless(x => x.From == null)
+                .Unless(x => string.IsNullOrEmpty(x.From))
                 .WithMessage(Validationmessages.FirstDateInMOnth);
 
-            this.RuleFor(x => x.From).SetValidator(new LocalDateValidator());
-            this.RuleFor(x => x.To).SetValidator(new LocalDateValidator());
+            
 
             this.RuleForEach(report => report.PersonalData).SetValidator(new PersonalDataValidator());
 
             this.RuleForEach(report => report.Persons).SetValidator(new PersonValidator());
 
-            this.RuleForEach(report => report.Activities).SetValidator(r => new ActivityValidator(r.From, r.To));
+            this.RuleForEach(report => report.Activities).SetValidator(r => new ActivityValidator(r.FromD, r.ToD));
 
-            this.RuleForEach(report => report.OtherActivities).SetValidator(r => new ActivityValidator(r.From, r.To));
+            this.RuleForEach(report => report.OtherActivities).SetValidator(r => new ActivityValidator(r.FromD, r.ToD));
 
-            this.RuleForEach(report => report.Consultations).SetValidator(r => new ConsultationValidator(r.From, r.To));
+            this.RuleForEach(report => report.Consultations).SetValidator(r => new ConsultationValidator(r.FromD, r.ToD));
 
             this.RuleForEach(report => report.Staffs).SetValidator(new StaffValidator());
 

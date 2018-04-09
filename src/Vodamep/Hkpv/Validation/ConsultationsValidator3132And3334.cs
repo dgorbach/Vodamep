@@ -28,12 +28,12 @@ namespace Vodamep.Hkpv.Validation
                     return;
 
                 var entries31 = list.Where(x => x.Type == type1)
-                    .GroupBy(x => new DateStaffPerson { Date = x.Date, StaffId = x.StaffId })
+                    .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId })
                     .Select(x => x.Key)
                     .ToArray();
 
                 var entries32 = list.Where(x => x.Type == type2)
-                    .GroupBy(x => new DateStaffPerson { Date = x.Date, StaffId = x.StaffId })
+                    .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId })
                     .Select(x => x.Key)
                     .ToArray();
 
@@ -42,14 +42,14 @@ namespace Vodamep.Hkpv.Validation
 
                 foreach (var entry in error1)
                 {                    
-                    var item = list.Where(x => x.Date == entry.Date && x.StaffId == entry.StaffId ).First();
+                    var item = list.Where(x => x.DateD == entry.Date && x.StaffId == entry.StaffId ).First();
                     var index = list.IndexOf(item);
                     ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Consultations)}[{index}]", Validationmessages.WithoutEntry(type2.ToString())));
                 }
 
                 foreach (var entry in error2)
                 {
-                    var item = list.Where(x => x.Date == entry.Date && x.StaffId == entry.StaffId).First();
+                    var item = list.Where(x => x.DateD == entry.Date && x.StaffId == entry.StaffId).First();
                     var index = list.IndexOf(item);
                     ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Consultations)}[{index}]", Validationmessages.WithoutEntry(type1.ToString())));
                 }

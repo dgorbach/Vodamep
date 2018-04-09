@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Vodamep.Hkpv.Model;
-using Vodamep.Model;
+
 
 namespace Vodamep.Data.Dummy
 {
@@ -30,14 +30,14 @@ namespace Vodamep.Data.Dummy
             return s;
         }
 
-        public static Staff[] AddDummyStaffs(this HkpvReport report,int count)
+        public static Staff[] AddDummyStaffs(this HkpvReport report, int count)
         {
             var s = DataGenerator.Instance.CreateStaffs(count).ToArray();
             report.Staffs.AddRange(s);
             return s;
         }
 
-        public static Activity[] AddDummyActivity(this HkpvReport report,string code, LocalDate date = null)
+        public static Activity[] AddDummyActivity(this HkpvReport report, string code, DateTime? date = null)
         {
             if (!report.Persons.Any())
                 report.AddDummyPerson();
@@ -49,7 +49,7 @@ namespace Vodamep.Data.Dummy
             {
                 PersonId = report.Persons[0].Id,
                 StaffId = report.Staffs[0].Id,
-                Date = date ?? LocalDate.Today,
+                DateD = date ?? report.FromD,
                 Amount = x.Count(),
                 Type = (ActivityType)int.Parse(x.Key)
             }).ToArray();
@@ -59,7 +59,7 @@ namespace Vodamep.Data.Dummy
             return result;
         }
 
-        public static Consultation[] AddDummyConsultation(this HkpvReport report,string code, LocalDate date = null)
+        public static Consultation[] AddDummyConsultation(this HkpvReport report, string code, DateTime? date = null)
         {
             if (!report.Staffs.Any())
                 report.AddDummyStaff();
@@ -67,7 +67,7 @@ namespace Vodamep.Data.Dummy
             var result = code.Split(',').GroupBy(x => x).Select(x => new Consultation()
             {
                 StaffId = report.Staffs[0].Id,
-                Date = date ?? LocalDate.Today,
+                DateD = date ?? DateTime.Today,
                 Amount = x.Count(),
                 Type = (ConsultationType)int.Parse(x.Key)
             }).ToArray();
@@ -79,11 +79,11 @@ namespace Vodamep.Data.Dummy
 
         public static Activity[] AddDummyActivities(this HkpvReport report)
         {
-            if (report.From == null)
-                report.From = new Vodamep.Model.LocalDate(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(-1);
+            if (report.FromD == null)
+                report.FromD = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1).AddMonths(-1);
 
-            if (report.To == null)
-                report.To = report.From.LastDateInMonth();
+            if (report.ToD == null)
+                report.ToD = report.FromD.LastDateInMonth();
 
             if (report.Staffs.Count == 0)
                 report.AddDummyStaff();

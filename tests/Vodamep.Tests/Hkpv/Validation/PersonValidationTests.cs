@@ -1,6 +1,5 @@
 ﻿using System;
 using Vodamep.Data.Dummy;
-using Vodamep.Model;
 using Xunit;
 
 namespace Vodamep.Hkpv.Validation.Tests
@@ -10,31 +9,31 @@ namespace Vodamep.Hkpv.Validation.Tests
         [Fact]
         public void From_IsNotFirstDayInMonth_ReturnsError()
         {
-            this.Report.From = this.Report.From.AddDays(1);
+            this.Report.FromD = this.Report.FromD.AddDays(1);
 
-            this.AssertError("'From' muss der erste Tag des Monats sein.");
+            this.AssertError("'Von' muss der erste Tag des Monats sein.");
         }
 
         [Fact]
-        public void To_IsNull_ReturnsError()
+        public void To_IsEmpty_ReturnsError()
         {
-            this.Report.To = null;
+            this.Report.To = string.Empty;
 
-            this.AssertError("'To' darf keinen Null-Wert aufweisen.");
+            this.AssertError("'Bis' darf nicht leer sein.");
         }
 
         [Fact]
         public void To_IsNotLastDayInMonth_ReturnsError()
         {
-            this.Report.To = this.Report.To.AddDays(-1);
+            this.Report.ToD = this.Report.ToD.AddDays(-1);
 
-            this.AssertError("'To' muss der letzte Tag des Monats sein.");
+            this.AssertError("'Bis' muss der letzte Tag des Monats sein.");
         }
 
         [Fact]
         public void FromTo_MoreThanOneMonth_ReturnsError()
         {
-            this.Report.From = this.Report.From.AddMonths(-1);
+            this.Report.FromD = this.Report.FromD.AddMonths(-1);
 
             this.AssertError("Die Meldung muss genau einen Monat beinhalten.");
         }
@@ -42,19 +41,21 @@ namespace Vodamep.Hkpv.Validation.Tests
         [Fact]
         public void To_IsInFuture_ReturnsError()
         {
-            this.Report.From = LocalDate.Today.FirstDateInMonth();
-            this.Report.To = this.Report.From.LastDateInMonth();
+            this.Report.FromD = DateTime.Today.FirstDateInMonth();
+            this.Report.ToD = this.Report.FromD.LastDateInMonth();
 
-            this.AssertErrorRegExp("Der Wert von 'To' muss kleiner oder gleich");
+            this.AssertErrorRegExp("Der Wert von 'Bis' muss kleiner oder gleich");
         }
 
         [Fact]
-        public void BirthDay_IsNull_ReturnsError()
+        public void BirthDay_IsEmpty_ReturnsError()
         {
             this.Report.AddDummyPerson()
-                .ManipulateData(d => d.Birthday, null);
+                .ManipulateData(d => d.Birthday, string.Empty);
 
-            this.AssertError("'Geburtsdatum' darf keinen Null-Wert aufweisen.");
+            this.Report.AddDummyActivity("02,15");
+
+            this.AssertError("'Geburtsdatum' darf nicht leer sein.");
         }
 
         [Fact]
@@ -63,8 +64,10 @@ namespace Vodamep.Hkpv.Validation.Tests
             var date = DateTime.Today.AddDays(1);
 
             this.Report.AddDummyPerson()
-                .ManipulateData(d => d.Birthday, new LocalDate(date))
+                .ManipulateData(d => d.BirthdayD, date)
                 .ManipulateData(d => d.Ssn, DataGenerator.Instance.CreateRandomSSN(date));
+
+            this.Report.AddDummyActivity("02,15");
 
             this.AssertError("'Geburtsdatum' darf nicht in der Zukunft liegen.");
         }
@@ -75,11 +78,12 @@ namespace Vodamep.Hkpv.Validation.Tests
             var date = new DateTime(1900, 1, 1).AddDays(-1);
 
             this.Report.AddDummyPerson()
-                .ManipulateData(d => d.Birthday, new LocalDate(date))
+                .ManipulateData(d => d.BirthdayD, date)
                 .ManipulateData(d => d.Ssn, DataGenerator.Instance.CreateRandomSSN(date));
 
+            this.Report.AddDummyActivity("02,15");
 
-            this.AssertError(@"Der Wert von 'Geburtsdatum' muss grösser oder gleich '1900-01-01' sein.");
+            this.AssertErrorRegExp(@"Der Wert von 'Geburtsdatum' muss grösser oder gleich");
         }
 
         [Fact]
@@ -89,8 +93,10 @@ namespace Vodamep.Hkpv.Validation.Tests
             var date2 = new DateTime(1966, 03, 01);
 
             this.Report.AddDummyPerson()
-                .ManipulateData(x => x.Birthday, new LocalDate(date1))
+                .ManipulateData(x => x.BirthdayD, date1)
                 .ManipulateData(x => x.Ssn, DataGenerator.Instance.CreateRandomSSN(date2));
+
+            this.Report.AddDummyActivity("02,15");
 
             this.AssertError("Das Geburtsdatum 03.01.1966 unterscheidet sich vom Wert in der Versicherungsnummer 01.03.66.");
         }
@@ -101,6 +107,8 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyPerson()
                  .ManipulateData(x => x.Ssn, string.Empty);
 
+            this.Report.AddDummyActivity("02,15");
+
             this.AssertError("'Versicherungsnummer' darf nicht leer sein.");
         }
 
@@ -110,13 +118,15 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyPerson()
                  .ManipulateData(x => x.Ssn, "9999-23.10.54");
 
+            this.Report.AddDummyActivity("02,15");
+
             this.AssertError("Die Versicherungsnummer 9999-23.10.54 ist nicht korrekt.");
         }
 
         [Fact]
         public void Activity_Date_IsInFurture_ReturnsError()
         {
-            this.Report.AddDummyActivity("02,15", LocalDate.Today.AddDays(1));
+            this.Report.AddDummyActivity("02,15", DateTime.Today.AddDays(1));
 
             this.AssertErrorRegExp("Der Wert von 'Datum' muss kleiner oder gleich (.*) sein");
         }
@@ -151,8 +161,8 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyStaff();
 
-            this.Report.Activities.Add(new Model.Activity() { PersonId = "1", Amount = 1, StaffId = this.Report.Staffs[0].Id, Date = LocalDate.Today, Type = Model.ActivityType.Lv02 });
-            this.Report.Activities.Add(new Model.Activity() { PersonId = "1", Amount = 1, StaffId = this.Report.Staffs[0].Id, Date = LocalDate.Today, Type = Model.ActivityType.Lv15 });
+            this.Report.Activities.Add(new Model.Activity() { PersonId = "1", Amount = 1, StaffId = this.Report.Staffs[0].Id, DateD = DateTime.Today, Type = Model.ActivityType.Lv02 });
+            this.Report.Activities.Add(new Model.Activity() { PersonId = "1", Amount = 1, StaffId = this.Report.Staffs[0].Id, DateD = DateTime.Today, Type = Model.ActivityType.Lv15 });
 
             this.AssertErrorRegExp(@"Der Id '(.+)' fehlt");
         }
@@ -179,19 +189,20 @@ namespace Vodamep.Hkpv.Validation.Tests
 
 
         [Fact]
-        public void Activities_DateIsNull_ReturnsError()
+        public void Activities_DateIsEmpty_ReturnsError()
         {
             this.Report.AddDummyActivity("02,15");
 
-            this.Report.Activities[0].Date = null;
+            this.Report.Activities[0].Date = string.Empty;
+            this.Report.Activities[1].Date = string.Empty;
 
-            this.AssertError("'Datum' darf keinen Null-Wert aufweisen.");
+            this.AssertError("'Datum' darf nicht leer sein.");
         }
 
         [Fact]
         public void Activities_DateIsGreaterThanReportRange_ReturnsError()
         {
-            this.Report.AddDummyActivity("02,15", new LocalDate(this.Report.To.AddDays(1)));
+            this.Report.AddDummyActivity("02,15", this.Report.ToD.AddDays(1));
 
             this.AssertErrorRegExp("Der Wert von 'Datum' muss kleiner oder gleich");
         }
@@ -199,7 +210,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         [Fact]
         public void Activities_DateIsLessThanReportRange_ReturnsError()
         {
-            this.Report.AddDummyActivity("02,15", new LocalDate(this.Report.From.AddDays(-1)));
+            this.Report.AddDummyActivity("02,15", this.Report.FromD.AddDays(-1));
 
             this.AssertErrorRegExp("Der Wert von 'Datum' muss grösser oder gleich");
         }
@@ -235,8 +246,14 @@ namespace Vodamep.Hkpv.Validation.Tests
         [Fact]
         public void Persons_IdIsNotUnique_ReturnsError()
         {
-            this.Report.AddDummyActivity("02,15");
-            this.Report.Persons.Add(this.Report.Persons[0].Clone());
+            var p1 = this.Report.AddDummyPerson();
+            
+            var p2 = this.Report.AddDummyPerson();
+            p2.person.Id = p1.person.Id;
+            this.Report.PersonalData.Remove(p2.Data);
+
+            this.Report.AddDummyActivities();
+
 
             this.AssertError("Der Id ist nicht eindeutig.");
         }
@@ -244,9 +261,15 @@ namespace Vodamep.Hkpv.Validation.Tests
         [Fact]
         public void PersonalData_IdIsNotUnique_ReturnsError()
         {
-            this.Report.AddDummyActivity("02,15");
+            var p1 = this.Report.AddDummyPerson();
 
-            this.Report.PersonalData.Add(this.Report.PersonalData[0].Clone());
+            var p2 = this.Report.AddDummyPerson();
+            this.Report.Persons.Remove(p2.person);
+            p2.Data.Id = p1.person.Id;
+
+            this.Report.AddDummyActivities();
+
+            
 
             this.AssertError("Der Id ist nicht eindeutig.");
         }
@@ -258,7 +281,7 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyActivities();
 
             this.Report.PersonalData[1].Ssn = this.Report.PersonalData[0].Ssn;
-            this.Report.PersonalData[1].Birthday = this.Report.PersonalData[0].Birthday;
+            this.Report.PersonalData[1].BirthdayD = this.Report.PersonalData[0].BirthdayD;
 
             this.AssertErrorRegExp("Mehrere Personen haben die selbe Versicherungsnummer");
         }
@@ -296,19 +319,20 @@ namespace Vodamep.Hkpv.Validation.Tests
         }
 
         [Fact]
-        public void Consultations_DateIsNull_ReturnsError()
+        public void Consultations_DateIsEmpty_ReturnsError()
         {
             this.Report.AddDummyConsultation("31,32");
 
-            this.Report.Consultations[0].Date = null;
+            this.Report.Consultations[0].Date = string.Empty;
+            this.Report.Consultations[1].Date = string.Empty;
 
-            this.AssertError("'Datum' darf keinen Null-Wert aufweisen.");
+            this.AssertError("'Datum' darf nicht leer sein.");
         }
 
         [Fact]
         public void Consultations_DateIsGreaterThanReportRange_ReturnsError()
         {
-            this.Report.AddDummyConsultation("31,32", new LocalDate(this.Report.To.AddDays(1)));
+            this.Report.AddDummyConsultation("31,32", this.Report.ToD.AddDays(1));
 
             this.AssertErrorRegExp("Der Wert von 'Datum' muss kleiner oder gleich");
         }
@@ -316,17 +340,17 @@ namespace Vodamep.Hkpv.Validation.Tests
         [Fact]
         public void Consultations_DateIsLessThanReportRange_ReturnsError()
         {
-            this.Report.AddDummyConsultation("31,32", new LocalDate(this.Report.From.AddDays(-1)));
+            this.Report.AddDummyConsultation("31,32", this.Report.FromD.AddDays(-1));
 
             this.AssertErrorRegExp("Der Wert von 'Datum' muss grösser oder gleich");
         }
 
         [Fact]
-        public void From_IsNull_ReturnsError()
+        public void From_IsEmpty_ReturnsError()
         {
-            this.Report.From = null;
+            this.Report.From = string.Empty;
 
-            this.AssertError("'From' darf keinen Null-Wert aufweisen.");
+            this.AssertError("'Von' darf nicht leer sein.");
         }
 
         [Fact]
@@ -334,6 +358,8 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyPerson()
                 .ManipulatePerson(d => d.Religion, string.Empty);
+
+            this.Report.AddDummyActivity("02,15");
 
             this.AssertError("'Religion' darf nicht leer sein.");
         }
@@ -344,6 +370,8 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyPerson()
                 .ManipulatePerson(d => d.Religion, "r.k.");
 
+            this.Report.AddDummyActivity("02,15");
+
             this.AssertError("Für 'Religion' ist 'r.k.' kein gültiger Code.");
         }
 
@@ -352,6 +380,8 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyPerson()
                 .ManipulatePerson(d => d.Insurance, "VGKK");
+
+            this.Report.AddDummyActivity("02,15");
 
             this.AssertError("Für 'Versicherung' ist 'VGKK' kein gültiger Code.");
         }
@@ -362,6 +392,8 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyPerson()
                 .ManipulatePerson(d => d.Insurance, string.Empty);
 
+            this.Report.AddDummyActivity("02,15");
+
             this.AssertError("'Versicherung' darf nicht leer sein.");
         }
 
@@ -371,6 +403,8 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyPerson()
                 .ManipulatePerson(d => d.Nationality, "Österreich");
 
+            this.Report.AddDummyActivity("02,15");
+
             this.AssertError("Für 'Staatsangehörigkeit' ist 'Österreich' kein gültiger Code.");
         }
 
@@ -379,6 +413,8 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyPerson()
                 .ManipulatePerson(d => d.Nationality, string.Empty);
+
+            this.Report.AddDummyActivity("02,15");
 
             this.AssertError("'Staatsangehörigkeit' darf nicht leer sein.");
         }
@@ -390,6 +426,8 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyPerson()
                 .ManipulateData(d => d.City, string.Empty);
 
+            this.Report.AddDummyActivity("02,15");
+
             this.AssertError("'Ort' darf nicht leer sein.");
         }
 
@@ -398,6 +436,8 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyPerson()
                 .ManipulateData(d => d.Postcode, string.Empty);
+
+            this.Report.AddDummyActivity("02,15");
 
             this.AssertError("'Plz' darf nicht leer sein.");
         }
@@ -408,6 +448,8 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyPerson()
                 .ManipulateData(d => d.Street, string.Empty);
 
+            this.Report.AddDummyActivity("02,15");
+
             this.AssertError("'Anschrift' darf nicht leer sein.");
         }
 
@@ -416,6 +458,8 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyPerson()
                 .ManipulateData(d => d.Country, string.Empty);
+
+            this.Report.AddDummyActivity("02,15");
 
             this.AssertError("'Land' darf nicht leer sein.");
         }
@@ -426,6 +470,8 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyPerson()
                 .ManipulateData(d => d.Country, "Österreich");
 
+            this.Report.AddDummyActivity("02,15");
+
             this.AssertError("Für 'Land' ist 'Österreich' kein gültiger Code.");
         }
 
@@ -435,6 +481,8 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyPerson()
                 .ManipulateData(d => d.FamilyName, string.Empty);
 
+            this.Report.AddDummyActivity("02,15");
+
             this.AssertError("'Familienname' darf nicht leer sein.");
         }
 
@@ -443,6 +491,8 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyPerson()
                 .ManipulateData(d => d.GivenName, string.Empty);
+
+            this.Report.AddDummyActivity("02,15");
 
             this.AssertError("'Vorname' darf nicht leer sein.");
         }

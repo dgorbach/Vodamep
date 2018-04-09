@@ -17,12 +17,12 @@ namespace Vodamep.Hkpv.Validation
                         return;
 
                     var entries123 = list.Where(x => x.Type == ActivityType.Lv01 || x.Type == ActivityType.Lv02 || x.Type == ActivityType.Lv03)
-                        .GroupBy(x => new DateStaffPerson { Date = x.Date, StaffId = x.StaffId, PersonId = x.PersonId })
+                        .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId, PersonId = x.PersonId })
                         .Select(x => x.Key)
                         .ToArray();
 
                     var entries4 = list.Where(x => ((int)x.Type > 3))
-                        .GroupBy(x => new DateStaffPerson { Date = x.Date, StaffId = x.StaffId, PersonId = x.PersonId })
+                        .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId, PersonId = x.PersonId })
                         .Select(x => x.Key)
                         .ToArray();
 
@@ -31,14 +31,14 @@ namespace Vodamep.Hkpv.Validation
 
                     foreach (var entry in error1)
                     {
-                        var item = list.Where(x => x.Date == entry.Date && x.StaffId == entry.StaffId && x.PersonId == entry.PersonId).First();
+                        var item = list.Where(x => x.DateD == entry.Date && x.StaffId == entry.StaffId && x.PersonId == entry.PersonId).First();
                         var index = list.IndexOf(item);
                         ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Activities)}[{index}]", Validationmessages.WithoutEntry("15")));
                     }
 
                     foreach (var entry in error2)
                     {                        
-                        var item = list.Where(x => x.Date == entry.Date && x.StaffId == entry.StaffId && x.PersonId == entry.PersonId).First();
+                        var item = list.Where(x => x.DateD == entry.Date && x.StaffId == entry.StaffId && x.PersonId == entry.PersonId).First();
                         var index = list.IndexOf(item);
                         ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Activities)}[{index}]", Validationmessages.WithoutEntry("1,2,3")));
 

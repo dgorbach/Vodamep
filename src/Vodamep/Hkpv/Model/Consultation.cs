@@ -4,11 +4,13 @@ namespace Vodamep.Hkpv.Model
 {
     public partial class Consultation : IComparable<Consultation>
     {
+        public DateTime DateD { get => this.Date.AsDate(); set => this.Date = value.AsValue(); }
+
         public int CompareTo(Consultation other)
         {
             int result;
 
-            if ((result = this.Date.CompareTo(other.Date)) != 0)
+            if ((result = this.DateD.CompareTo(other.DateD)) != 0)
                 return result;
 
             if ((result = this.StaffId.CompareTo(other.StaffId)) != 0)
