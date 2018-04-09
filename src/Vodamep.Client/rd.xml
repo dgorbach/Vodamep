@@ -18,6 +18,7 @@
 
     <Assembly Name="Vodamep.Client">
       <Type Name="Vodamep.Client.ListArgs" Dynamic="Required All" />
+      <Type Name="Vodamep.Client.PackFileArgs" Dynamic="Required All" />
       <Type Name="Vodamep.Client.PackRandomArgs" Dynamic="Required All" />
       <Type Name="Vodamep.Client.VodamepProgram" Dynamic="Required All" />      
       <Type Name="Vodamep.Client.ValidateArgs" Dynamic="Required All" />
@@ -59,6 +60,10 @@
 
     <Assembly Name="System.Linq.Expressions">
       <Type Name="System.Linq.Expressions.ExpressionCreator`1[[System.Func`2[[System.String,System.Private.CoreLib],[System.String,System.Private.CoreLib]],System.Private.CoreLib]]" Dynamic="Required All" />
+    </Assembly>
+
+    <Assembly Name="Google.Protobuf">
+      <Type Name="Google.Protobuf.WellKnownTypes.Value" Dynamic="Required All" />
     </Assembly>
 
   </Application>
