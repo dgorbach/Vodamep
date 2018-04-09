@@ -35,11 +35,11 @@ namespace Vodamep.Client
             int? month = args.Month;
             if (month < 1 || month > 12) month = null;
 
-            var r = DataGenerator.Instance.CreateHkpvReport(year, month, args.Persons, args.Staffs, args.AddActivities);
-
+            var r = DataGenerator.Instance.CreateHkpvReport(year, month, args.Persons, args.Staffs, args.AddActivities).AsSorted();
+            
             if (args.Json)
             {
-                using (var s = File.OpenWrite("test.json"))
+                using (var s = File.OpenWrite($"{r.GetId()}.json"))
                 using (var ss = new StreamWriter(s))
                 {
                     Google.Protobuf.JsonFormatter.Default.WriteValue(ss, r);
@@ -48,7 +48,7 @@ namespace Vodamep.Client
             }
             else
             {
-                using (var s = File.OpenWrite("test.hkpv"))
+                using (var s = File.OpenWrite($"{r.GetId()}.hkpv"))
                 {
                     Google.Protobuf.MessageExtensions.WriteTo(r, s);
                 }

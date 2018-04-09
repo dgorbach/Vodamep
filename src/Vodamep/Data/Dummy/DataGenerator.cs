@@ -60,7 +60,7 @@ namespace Vodamep.Data.Dummy
         {
             var report = new HkpvReport()
             {
-                Institution = new Institution() { Id = "1", Name = "Testverein" }
+                Institution = new Institution() { Id = "kpv_test", Name = "Testverein" }
             };
 
             var from = year.HasValue || month.HasValue ?  new DateTime(year ?? DateTime.Today.Year, month ?? DateTime.Today.Month, 1) : DateTime.Today.FirstDateInMonth().AddMonths(-1);
