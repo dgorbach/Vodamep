@@ -32,6 +32,10 @@ namespace Vodamep.Data.Dummy
         private string[] _names;
         private string[] _familynames;
         private string[] _activities;
+        private CareAllowance[] _careAllowances = new[] { CareAllowance.L1, CareAllowance.L2, CareAllowance.L3,
+                CareAllowance.L4, CareAllowance.L5, CareAllowance.L5, CareAllowance.L7,
+                CareAllowance.Any, CareAllowance.Unknown, CareAllowance.InProcess };
+
 
         private DataGenerator()
         {
@@ -63,8 +67,8 @@ namespace Vodamep.Data.Dummy
                 Institution = new Institution() { Id = "kpv_test", Name = "Testverein" }
             };
 
-            var from = year.HasValue || month.HasValue ?  new DateTime(year ?? DateTime.Today.Year, month ?? DateTime.Today.Month, 1) : DateTime.Today.FirstDateInMonth().AddMonths(-1);
-            
+            var from = year.HasValue || month.HasValue ? new DateTime(year ?? DateTime.Today.Year, month ?? DateTime.Today.Month, 1) : DateTime.Today.FirstDateInMonth().AddMonths(-1);
+
 
             report.FromD = from;
             report.ToD = report.FromD.LastDateInMonth();
@@ -87,7 +91,8 @@ namespace Vodamep.Data.Dummy
                 Id = id,
                 Insurance = "19",
                 Religion = "VAR",
-                Nationality = "AT"
+                Nationality = "AT",
+                CareAllowance = _careAllowances[_rand.Next(_careAllowances.Length)]
             };
 
             var data = new PersonalData

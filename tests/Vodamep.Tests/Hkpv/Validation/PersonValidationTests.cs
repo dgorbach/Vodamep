@@ -419,6 +419,16 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.AssertError("'Staatsangehörigkeit' darf nicht leer sein.");
         }
 
+        [Fact]
+        public void CareAllowence_Undefined_ReturnsError()
+        {
+            this.Report.AddDummyPerson()
+                .ManipulatePerson(p => p.CareAllowance, Model.CareAllowance.Undefined);
+
+            this.Report.AddDummyActivity("02,15");
+
+            this.AssertError("'Pflegegeld' darf nicht 'Undefined' sein.");
+        }
 
         [Fact]
         public void City_IsEmpty_ReturnsError()

@@ -41,6 +41,8 @@ message Person {
     string religion = 2;
     string insurance = 3;  
 	string nationality = 4;
+	CareAllowance care_allowance = 5;
+	
 }
 
 message PersonalData {
@@ -101,4 +103,19 @@ enum ConsultationType {
 enum StaffRole {
 	unknown_role = 0;
 	trainee = 1;
+}
+
+enum CareAllowance {
+	undefined = 0;
+	L1 = 1;
+	L2 = 2;
+	L3 = 3;
+	L4 = 4;
+	L5 = 5;
+	L6 = 6;
+	L7 = 7;
+	none = 96;
+	any = 97;
+	in_process = 98;
+	unknown = 99;	
 }

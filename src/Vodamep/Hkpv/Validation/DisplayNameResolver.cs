@@ -29,7 +29,8 @@ namespace Vodamep.Hkpv.Validation
             _dict.Add(nameof(Person.Religion), "Religion");
             _dict.Add(nameof(Person.Insurance), "Versicherung");
             _dict.Add(nameof(Person.Nationality), "Staatsangehörigkeit");
-            
+            _dict.Add(nameof(Person.CareAllowance), "Pflegegeld");
+
 
             _dict.Add(nameof(Activity.Amount), "Anzahl");
             _dict.Add(nameof(Activity.Date), "Datum");
