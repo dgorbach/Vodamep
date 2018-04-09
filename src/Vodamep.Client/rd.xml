@@ -9,7 +9,7 @@
       <Type Name="Vodamep.Hkpv.Model.HkpvReflection" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.HkpvReport" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Institution" Dynamic="Required All" />
-      <Type Name="Vodamep.Hkpv.Model.Activity" Dynamic="Required All" />      
+      <Type Name="Vodamep.Hkpv.Model.Activity" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Person" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.PersonalData" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Staff" Dynamic="Required All" />
@@ -20,7 +20,7 @@
       <Type Name="Vodamep.Client.ListArgs" Dynamic="Required All" />
       <Type Name="Vodamep.Client.PackFileArgs" Dynamic="Required All" />
       <Type Name="Vodamep.Client.PackRandomArgs" Dynamic="Required All" />
-      <Type Name="Vodamep.Client.VodamepProgram" Dynamic="Required All" />      
+      <Type Name="Vodamep.Client.VodamepProgram" Dynamic="Required All" />
       <Type Name="Vodamep.Client.ValidateArgs" Dynamic="Required All" />
     </Assembly>
 
@@ -39,13 +39,13 @@
       <Type Name="PowerArgs.ArgRequired" Dynamic="Required All" />
       <Type Name="PowerArgs.ArgShortcut" Dynamic="Required All" />
       <Type Name="PowerArgs.HelpHook" Dynamic="Required All" />
-      <Type Name="PowerArgs.TabCompletion" Dynamic="Required All" />      
+      <Type Name="PowerArgs.TabCompletion" Dynamic="Required All" />
       <Type Name="PowerArgs.StickyArg" Dynamic="Required All" />
-      
+
       <Type Name="PowerArgs.CommandLineArgument" Dynamic="Required All" />
       <Type Name="PowerArgs.CommandLineArgumentsDefinition" Dynamic="Required All" />
       <Type Name="PowerArgs.CommandLineAction" Dynamic="Required All" />
-      <Type Name="PowerArgs.DefaultConsoleUsageTemplateProvider" Dynamic="Required All" />      
+      <Type Name="PowerArgs.DefaultConsoleUsageTemplateProvider" Dynamic="Required All" />
       <Type Name="PowerArgs.DefaultBrowserUsageTemplateProvider" Dynamic="Required All" />
       <Type Name="PowerArgs.DocumentTokenType[]" Dynamic="Required All" />
       <Type Name="PowerArgs.DocumentToken" Dynamic="Required All" />
@@ -54,6 +54,7 @@
 
     <Assembly Name="System.Private.CoreLib">
       <Type Name="System.Tuple`4[[System.Collections.Generic.IList`1[[Vodamep.Hkpv.Model.Staff, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Consultation, Vodamep]], System.Private.CoreLib]]" Dynamic="Required All" />
+      <Type Name="System.Tuple`2[[System.DateTime, System.Private.CoreLib],[System.DateTime, System.Private.CoreLib]]" Dynamic="Required All" />
       <Type Name="System.Boolean" />
       <Type Name="System.Double" />
     </Assembly>
