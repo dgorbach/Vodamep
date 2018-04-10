@@ -1,0 +1,10 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+build_script:
+- ps: >-
+    $env:vodamepnative = $true
+
+    .\build.ps1 -Target Appveyor
+artifacts:
+- path: build/vdmpc.zip
+  name: vdmpc.zip

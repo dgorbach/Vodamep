@@ -11,6 +11,11 @@ Task("Default")
     .IsDependentOn("Restore")    
 	.IsDependentOn("Build")
 	.IsDependentOn("Test");
+	
+
+Task("Appveyor")    
+	.IsDependentOn("Default")    
+	.IsDependentOn("Publish");
     
 
 Task("Proto")
@@ -81,6 +86,30 @@ Task("Test")
 		}  
         
     });
+
+Task("Publish")
+	.Does(() =>
+	{	
+		var ms = new DotNetCoreMSBuildSettings();			
+
+		var settings = new DotNetCorePublishSettings
+		{         
+			Configuration = "Release",
+			MSBuildSettings = ms,
+			OutputDirectory = buildDir + "/publish",
+			Runtime = "win-x64"
+		};
+
+		DotNetCorePublish("./src/Vodamep.Client/Vodamep.Client.csproj", settings); 
+		
+		if (bool.Parse(EnvironmentVariable("vodamepnative") ?? "false"))
+		{
+			CopyFile(buildDir + "/publish/Vodamep.Client.exe", buildDir + "/vdmpc.exe");
+
+			Zip("./", buildDir + "/vdmpc.zip", buildDir + "/vdmpc.exe");
+		}
+	});
+
 
 
 RunTarget(target);
