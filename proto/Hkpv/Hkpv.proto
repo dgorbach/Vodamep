@@ -113,9 +113,8 @@ enum CareAllowance {
 	L4 = 4;
 	L5 = 5;
 	L6 = 6;
-	L7 = 7;
-	none = 96;
-	any = 97;
-	in_process = 98;
-	unknown = 99;	
+	L7 = 7;	
+	any = 9;	
+    unknown = 88;	
+    none = 99;
 }

@@ -34,7 +34,7 @@ namespace Vodamep.Data.Dummy
         private string[] _activities;
         private CareAllowance[] _careAllowances = new[] { CareAllowance.L1, CareAllowance.L2, CareAllowance.L3,
                 CareAllowance.L4, CareAllowance.L5, CareAllowance.L5, CareAllowance.L7,
-                CareAllowance.Any, CareAllowance.Unknown, CareAllowance.InProcess };
+                CareAllowance.Any, CareAllowance.Unknown };
 
 
         private DataGenerator()
