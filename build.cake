@@ -3,7 +3,7 @@
 
 var target = Argument("target", "Default");
 var configuration = "Release";
-var buildDir = "./build";
+var publishDir = MakeAbsolute(Directory("./publish")).FullPath;
 
 
 Task("Default")    
@@ -49,7 +49,7 @@ Task("Clean")
   .Does(()=>{   
     var directoriesToClean = GetDirectories("./**/bin/Debug")
       .Union(GetDirectories("./**/bin/Release"))     
-      .Union(GetDirectories(buildDir));
+      .Union(GetDirectories(publishDir));
       
     CleanDirectories(directoriesToClean);
   });
@@ -78,10 +78,13 @@ Task("Build")
 			});
 		}
 
-		MSBuild("./src/Vodamep.Legacy/Vodamep.Legacy.csproj", configurator =>
-				configurator.SetConfiguration(configuration)
-				.SetVerbosity(Verbosity.Minimal)
-        );
+		var msBuildSettings = new MSBuildSettings {
+    		Verbosity = Verbosity.Minimal,
+    		ToolVersion = MSBuildToolVersion.VS2017,
+    		Configuration = configuration
+    	};
+
+		MSBuild("./src/Vodamep.Legacy/Vodamep.Legacy.csproj",msBuildSettings);
 		
     });
 
@@ -107,8 +110,17 @@ Task("Publish")
 	.Does(() =>
 	{	
 
-		CopyFile("./src/Vodamep.Legacy/bin/Release/dml.exe", buildDir + "/dml.exe");
-		Zip(buildDir, buildDir + "/dml.zip", buildDir + "/dml.exe");
+		EnsureDirectoryExists(publishDir);
+		
+		var msBuildSettings = new MSBuildSettings {
+    		Verbosity = Verbosity.Minimal,
+    		ToolVersion = MSBuildToolVersion.VS2017,
+    		Configuration = configuration
+    	};
+
+		MSBuild("./src/Vodamep.Legacy/Vodamep.Legacy.csproj",msBuildSettings.WithProperty("OutDir", publishDir + "/dml"));
+	
+		Zip(publishDir, publishDir + "/dml.zip", publishDir + "/dml/dml.exe");
 
 		var ms = new DotNetCoreMSBuildSettings();			
 
@@ -116,7 +128,7 @@ Task("Publish")
 		{         
 			Configuration = "Release",
 			MSBuildSettings = ms,
-			OutputDirectory = buildDir + "/publish",
+			OutputDirectory = publishDir + "/dmc",
 			Runtime = "win-x64"
 		};
 
@@ -124,9 +136,9 @@ Task("Publish")
 		
 		if (bool.Parse(EnvironmentVariable("vodamepnative") ?? "false"))
 		{
-			CopyFile(buildDir + "/publish/Vodamep.Client.exe", buildDir + "/dmc.exe");
+			MoveFile(publishDir + "/dmc/Vodamep.Client.exe", publishDir + "/dmc/dmc.exe");
 
-			Zip(buildDir, buildDir + "/dmc.zip", buildDir + "/dmc.exe");
+			Zip(publishDir, publishDir + "/dmc.zip", publishDir + "/dmc/dmc.exe");
 		}
 
 		

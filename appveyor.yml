@@ -6,7 +6,7 @@ build_script:
 
     .\build.ps1 -Target Appveyor
 artifacts:
-- path: build/dmp.zip
-  name: dmp.zip
-- path: build/dml.zip
+- path: publish/dmc.zip
+  name: dmc.zip
+- path: publish/dml.zip
   name: dml.zip
