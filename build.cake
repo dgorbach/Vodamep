@@ -62,11 +62,27 @@ Task("Restore")
 
 Task("Build")
     .Does(() => 
-    {
-        DotNetCoreBuild("Vodamep.sln", new DotNetCoreBuildSettings 
-        {
-            Configuration = configuration			
-        });
+    {	
+		Func<IFileSystemInfo, bool> exclude_legacy =
+			fileSystemInfo => !fileSystemInfo.Path.FullPath.EndsWith(
+				".Legacy", StringComparison.OrdinalIgnoreCase);
+
+
+		var files = GetFiles("./**/*.csproj", exclude_legacy);
+		foreach (var file in files)
+		{
+			Information(file);
+			DotNetCoreBuild(file.FullPath, new DotNetCoreBuildSettings 
+			{
+				Configuration = configuration			
+			});
+		}
+
+		MSBuild("./src/Vodamep.Legacy/Vodamep.Legacy.csproj", configurator =>
+				configurator.SetConfiguration(configuration)
+				.SetVerbosity(Verbosity.Minimal)
+        );
+		
     });
 
 
@@ -87,9 +103,13 @@ Task("Test")
         
     });
 
-Task("Publish")
+Task("Publish")	
 	.Does(() =>
 	{	
+
+		CopyFile("./src/Vodamep.Legacy/bin/Release/dml.exe", buildDir + "/dml.exe");
+		Zip(buildDir, buildDir + "/dml.zip", buildDir + "/dml.exe");
+
 		var ms = new DotNetCoreMSBuildSettings();			
 
 		var settings = new DotNetCorePublishSettings
@@ -104,10 +124,12 @@ Task("Publish")
 		
 		if (bool.Parse(EnvironmentVariable("vodamepnative") ?? "false"))
 		{
-			CopyFile(buildDir + "/publish/Vodamep.Client.exe", buildDir + "/vdmpc.exe");
+			CopyFile(buildDir + "/publish/Vodamep.Client.exe", buildDir + "/dmc.exe");
 
-			Zip("./", buildDir + "/vdmpc.zip", buildDir + "/vdmpc.exe");
+			Zip(buildDir, buildDir + "/dmc.zip", buildDir + "/dmc.exe");
 		}
+
+		
 	});
 
 

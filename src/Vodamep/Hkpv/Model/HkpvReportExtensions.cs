@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Vodamep.Hkpv.Model
 {
@@ -30,7 +31,7 @@ namespace Vodamep.Hkpv.Model
                 if (p.Data != null)
                     report.PersonalData.Add(p.Data);
             }
-            
+
             return report;
         }
 
@@ -40,6 +41,31 @@ namespace Vodamep.Hkpv.Model
             return m;
         }
 
+        public static string WriteToFile(this HkpvReport report, bool asJson, string path = "")
+        {
+            report = report.AsSorted();
 
+            string filename;
+            if (asJson)
+            {
+                filename = Path.Combine(path, $"{report.GetId()}.json");
+                using (var s = File.OpenWrite(filename))
+                using (var ss = new StreamWriter(s))
+                {
+                    Google.Protobuf.JsonFormatter.Default.WriteValue(ss, report);
+                }
+
+            }
+            else
+            {
+                filename = Path.Combine(path, $"{report.GetId()}.hkpv");
+                using (var s = File.OpenWrite(filename))
+                {
+                    Google.Protobuf.MessageExtensions.WriteTo(report, s);
+                }
+            }
+
+            return filename;
+        }
     }
 }

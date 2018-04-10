@@ -50,7 +50,7 @@ namespace Vodamep.Client
         {
             var report = Read(args.File);
 
-            var file = Write(report, args.Json);
+            var file = report.WriteToFile(args.Json);
 
             Console.WriteLine($"{file} created");
         }
@@ -66,7 +66,7 @@ namespace Vodamep.Client
 
             var r = DataGenerator.Instance.CreateHkpvReport(year, month, args.Persons, args.Staffs, args.AddActivities);
 
-            var file = Write(r, args.Json);
+            var file = r.WriteToFile(args.Json);
 
             Console.WriteLine($"{file} created");
         }
@@ -94,33 +94,6 @@ namespace Vodamep.Client
 
         }
 
-        private string Write(HkpvReport report, bool asJson)
-        {
-            report = report.AsSorted();
-
-            string filename;
-
-            if (asJson)
-            {
-                filename = $"{report.GetId()}.json";
-                using (var s = File.OpenWrite(filename))
-                using (var ss = new StreamWriter(s))
-                {
-                    Google.Protobuf.JsonFormatter.Default.WriteValue(ss, report);
-                }
-
-            }
-            else
-            {
-                filename = $"{report.GetId()}.hkpv";
-                using (var s = File.OpenWrite(filename))
-                {
-                    Google.Protobuf.MessageExtensions.WriteTo(report, s);
-                }
-            }
-
-            return filename;
-        }
 
         private HkpvReport Read(string file)
         {
