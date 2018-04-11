@@ -30,7 +30,8 @@ namespace Vodamep.Hkpv.Validation
             RuleFor(x => x.BirthdayD)
                 .Must(CheckDates)
                 .Unless(x => string.IsNullOrEmpty(x.Birthday) || !SSNHelper.IsValid(x.Ssn))
-                .WithMessage(x => Validationmessages.BirthdayNotInSsn(x));
+                .WithSeverity(Severity.Warning)                
+                .WithMessage(x => Validationmessages.BirthdayNotInSsn(x));  
         }
 
 

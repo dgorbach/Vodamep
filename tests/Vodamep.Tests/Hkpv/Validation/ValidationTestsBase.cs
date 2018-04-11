@@ -26,12 +26,16 @@ namespace Vodamep.Hkpv.Validation.Tests
         protected HkpvReport Report { get; }
 
 
-        protected void AssertError(string error)
+        protected void AssertValidation(string msg, Severity severity = Severity.Error)
         {
             var v = new HkpvReportValidator();
             var result = v.Validate(this.Report);
 
-            Assert.Contains(error, result.Errors.Select(x => x.ErrorMessage));
+            Assert.Contains(msg, result.Errors.Where(x => x.Severity == severity).Select(x => x.ErrorMessage));
+
+            var expectedIsValid = severity != Severity.Error;
+
+            Assert.Equal(expectedIsValid, result.IsValid);
         }
 
         protected void AssertErrorRegExp(string pattern)

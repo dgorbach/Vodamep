@@ -1,9 +1,11 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
 using System;
 using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
+
     public class HkpvReportValidator : AbstractValidator<HkpvReport>
     {
         public HkpvReportValidator()
@@ -33,7 +35,7 @@ namespace Vodamep.Hkpv.Validation
                 .Unless(x => string.IsNullOrEmpty(x.From))
                 .WithMessage(Validationmessages.FirstDateInMOnth);
 
-            
+
 
             this.RuleForEach(report => report.PersonalData).SetValidator(new PersonalDataValidator());
 
@@ -60,6 +62,11 @@ namespace Vodamep.Hkpv.Validation
             this.Include(new PersonalDataSsnIsUniqueValidator());
 
             this.Include(new ConsultationsValidator3132And3334());
+        }
+
+        public override ValidationResult Validate(ValidationContext<HkpvReport> context)
+        {
+            return new HkpvReportValidationResult(base.Validate(context));
         }
     }
 }

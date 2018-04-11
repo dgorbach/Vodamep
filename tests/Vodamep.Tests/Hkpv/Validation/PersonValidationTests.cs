@@ -12,7 +12,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.FromD = this.Report.FromD.AddDays(1);
 
-            this.AssertError("'Von' muss der erste Tag des Monats sein.");
+            this.AssertValidation("'Von' muss der erste Tag des Monats sein.");
         }
 
         [Fact]
@@ -20,7 +20,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.To = string.Empty;
 
-            this.AssertError("'Bis' darf nicht leer sein.");
+            this.AssertValidation("'Bis' darf nicht leer sein.");
         }
 
         [Fact]
@@ -28,7 +28,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.ToD = this.Report.ToD.AddDays(-1);
 
-            this.AssertError("'Bis' muss der letzte Tag des Monats sein.");
+            this.AssertValidation("'Bis' muss der letzte Tag des Monats sein.");
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.FromD = this.Report.FromD.AddMonths(-1);
 
-            this.AssertError("Die Meldung muss genau einen Monat beinhalten.");
+            this.AssertValidation("Die Meldung muss genau einen Monat beinhalten.");
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Geburtsdatum' darf nicht leer sein.");
+            this.AssertValidation("'Geburtsdatum' darf nicht leer sein.");
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Geburtsdatum' darf nicht in der Zukunft liegen.");
+            this.AssertValidation("'Geburtsdatum' darf nicht in der Zukunft liegen.");
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         }
 
         [Fact]
-        public void BirthDay_BirtdayNotEqualsSSN_ReturnsError()
+        public void BirthDay_BirtdayNotEqualsSSN_ReturnsWarning()
         {
             var date1 = new DateTime(1966, 01, 03);
             var date2 = new DateTime(1966, 03, 01);
@@ -99,7 +99,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("Das Geburtsdatum 03.01.1966 unterscheidet sich vom Wert in der Versicherungsnummer 01.03.66.");
+            this.AssertValidation("Das Geburtsdatum 03.01.1966 unterscheidet sich vom Wert in der Versicherungsnummer 01.03.66.", FluentValidation.Severity.Warning);
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Versicherungsnummer' darf nicht leer sein.");
+            this.AssertValidation("'Versicherungsnummer' darf nicht leer sein.");
         }
 
         [Fact]
@@ -121,7 +121,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("Die Versicherungsnummer 9999-23.10.54 ist nicht korrekt.");
+            this.AssertValidation("Die Versicherungsnummer 9999-23.10.54 ist nicht korrekt.");
         }
 
         [Fact]
@@ -197,7 +197,7 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.Activities[0].Date = string.Empty;
             this.Report.Activities[1].Date = string.Empty;
 
-            this.AssertError("'Datum' darf nicht leer sein.");
+            this.AssertValidation("'Datum' darf nicht leer sein.");
         }
 
         [Fact]
@@ -224,7 +224,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.Staffs[0].Id = this.Report.Staffs[1].Id;
 
-            this.AssertError("Der Id ist nicht eindeutig.");
+            this.AssertValidation("Der Id ist nicht eindeutig.");
         }
 
 
@@ -241,7 +241,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyPerson();
 
-            this.AssertError("Keine Aktivitäten.");
+            this.AssertValidation("Keine Aktivitäten.");
         }
 
         [Fact]
@@ -256,7 +256,7 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyActivities();
 
 
-            this.AssertError("Der Id ist nicht eindeutig.");
+            this.AssertValidation("Der Id ist nicht eindeutig.");
         }
 
         [Fact]
@@ -272,7 +272,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             
 
-            this.AssertError("Der Id ist nicht eindeutig.");
+            this.AssertValidation("Der Id ist nicht eindeutig.");
         }
 
         [Fact]
@@ -327,7 +327,7 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.Consultations[0].Date = string.Empty;
             this.Report.Consultations[1].Date = string.Empty;
 
-            this.AssertError("'Datum' darf nicht leer sein.");
+            this.AssertValidation("'Datum' darf nicht leer sein.");
         }
 
         [Fact]
@@ -351,7 +351,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.From = string.Empty;
 
-            this.AssertError("'Von' darf nicht leer sein.");
+            this.AssertValidation("'Von' darf nicht leer sein.");
         }
 
         [Fact]
@@ -362,7 +362,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Religion' darf nicht leer sein.");
+            this.AssertValidation("'Religion' darf nicht leer sein.");
         }
 
         [Fact]
@@ -373,7 +373,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("Für 'Religion' ist 'r.k.' kein gültiger Code.");
+            this.AssertValidation("Für 'Religion' ist 'r.k.' kein gültiger Code.");
         }
 
         [Fact]
@@ -384,7 +384,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("Für 'Versicherung' ist 'VGKK' kein gültiger Code.");
+            this.AssertValidation("Für 'Versicherung' ist 'VGKK' kein gültiger Code.");
         }
 
         [Fact]
@@ -395,7 +395,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Versicherung' darf nicht leer sein.");
+            this.AssertValidation("'Versicherung' darf nicht leer sein.");
         }
 
         [Fact]
@@ -406,7 +406,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("Für 'Staatsangehörigkeit' ist 'Österreich' kein gültiger Code.");
+            this.AssertValidation("Für 'Staatsangehörigkeit' ist 'Österreich' kein gültiger Code.");
         }
 
         [Fact]
@@ -417,7 +417,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Staatsangehörigkeit' darf nicht leer sein.");
+            this.AssertValidation("'Staatsangehörigkeit' darf nicht leer sein.");
         }
 
         [Fact]
@@ -428,7 +428,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Pflegegeld' darf nicht 'UndefinedAllowance' sein.");
+            this.AssertValidation("'Pflegegeld' darf nicht 'UndefinedAllowance' sein.");
         }
 
         [Fact]
@@ -439,7 +439,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Ort' darf nicht leer sein.");
+            this.AssertValidation("'Ort' darf nicht leer sein.");
         }
 
         [Fact]
@@ -450,7 +450,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Plz' darf nicht leer sein.");
+            this.AssertValidation("'Plz' darf nicht leer sein.");
         }
 
         [Fact]
@@ -461,7 +461,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Anschrift' darf nicht leer sein.");
+            this.AssertValidation("'Anschrift' darf nicht leer sein.");
         }
 
         [Fact]
@@ -472,7 +472,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Familienname' darf nicht leer sein.");
+            this.AssertValidation("'Familienname' darf nicht leer sein.");
         }
 
         [Fact]
@@ -483,7 +483,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Vorname' darf nicht leer sein.");
+            this.AssertValidation("'Vorname' darf nicht leer sein.");
         }
     }
 }

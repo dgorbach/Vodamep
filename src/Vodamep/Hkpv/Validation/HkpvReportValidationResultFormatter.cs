@@ -40,31 +40,52 @@ namespace Vodamep.Hkpv.Validation
 
             var result = new StringBuilder();
 
-            result.AppendLine(_template.Header(report, validationResult));
+            result.Append(_template.Header(report, validationResult));
 
-            var entries = validationResult.Errors.Select(x => new
+            var severities = validationResult.Errors.OrderBy(x => x.Severity).GroupBy(x => x.Severity);
+            foreach (var severity in severities)
             {
-                Info = this.GetInfo(report, x.PropertyName),
-                Message = x.ErrorMessage,
-                Value = x.AttemptedValue?.ToString()
-            }).ToArray();
+                result.Append(_template.HeaderSeverity(GetSeverityName(severity.Key)));
 
-            foreach (var groupedInfos in entries.OrderBy(x => x.Info).GroupBy(x => x.Info))
-            {
-                result.AppendLine(_template.FirstLine((groupedInfos.Key, groupedInfos.First().Message, groupedInfos.First().Value)));
-
-                foreach (var info in groupedInfos.Skip(1))
+                var entries = severity.Select(x => new
                 {
-                    result.AppendLine(_template.Line((info.Message, info.Value)));
-                }
-            }
+                    Info = this.GetInfo(report, x.PropertyName),
+                    Message = x.ErrorMessage,
+                    Value = x.AttemptedValue?.ToString()
+                }).ToArray();
 
+                foreach (var groupedInfos in entries.OrderBy(x => x.Info).GroupBy(x => x.Info))
+                {
+                    result.Append(_template.FirstLine((groupedInfos.Key, groupedInfos.First().Message, groupedInfos.First().Value)));
+
+                    foreach (var info in groupedInfos.Skip(1))
+                    {
+                        result.Append(_template.Line((info.Message, info.Value)));
+                    }
+                }
+
+                result.Append(_template.FooterSeverity(severity.ToString()));
+            }
             return result.ToString();
         }
 
         private static string GetIdPattern(string propertyName) => $@"{propertyName}\[(?<id>\d+)\]";
 
 
+        private string GetSeverityName(FluentValidation.Severity severity)
+        {
+            switch (severity)
+            {
+                case FluentValidation.Severity.Error:
+                    return "Fehler";
+                case FluentValidation.Severity.Warning:
+                    return "Warnung";
+                case FluentValidation.Severity.Info:
+                    return "Information";
+                default:
+                    return severity.ToString();
+            }            
+        }
 
         private readonly GetNameByPatternStrategy[] _strategies;
 
