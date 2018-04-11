@@ -33,7 +33,7 @@ WHERE(l.Datum Between @from And @to);";
 
                 var adressnummern = leistungen.Where(x => x.Leistung < 20).Select(x => x.Adressnummer).Distinct().ToArray();
 
-                var sqlAdressen = @"SELECT a.Adressnummer, a.Name_1, a.Name_2, a.Adresse, a.Land, a.Postleitzahl, a.Geburtsdatum, a.Staatsbuergerschaft, a.Versicherung, a.Versicherungsnummer, o.Ort
+                var sqlAdressen = @"SELECT a.Adressnummer, a.Name_1, a.Name_2, a.Adresse, a.Land, a.Postleitzahl, a.Geburtsdatum, a.Staatsbuergerschaft, a.Versicherung, a.Versicherungsnummer, o.Ort, a.Geschlecht
 FROM  Adressen AS a LEFT JOIN tb_orte AS o  ON o.Postleitzahl = a.Postleitzahl 
 where a.Adressnummer in @ids;";
 

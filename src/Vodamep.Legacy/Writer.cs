@@ -22,22 +22,23 @@ namespace Vodamep.Legacy
                 var name = GetName(a.Name_1);
                 report.AddPerson((new Person()
                 {
-                    Id = a.Adressnummer.ToString(),
+                    Id = GetId(a.Adressnummer),
                     Insurance = a.Versicherung ?? string.Empty,
                     Nationality = a.Staatsbuergerschaft ?? string.Empty,
                     CareAllowance = (CareAllowance)a.Pflegestufe,
                     Religion = ReligionCodeProvider.Instance.Unknown,
                     Postcode = a.Postleitzahl ?? string.Empty,
                     City = a.Ort ?? string.Empty,
+                    Gender = GetGender(a.Geschlecht)
                 }, new PersonalData()
                 {
-                    Id = a.Adressnummer.ToString(),
+                    Id = GetId(a.Adressnummer),
                     BirthdayD = a.Geburtsdatum,
                     FamilyName = name.Familyname,
                     GivenName = name.Givenname,
                     Ssn = a.Versicherungsnummer ?? string.Empty,
                     Street = a.Adresse ?? string.Empty,
-                    
+
                 }));
             }
 
@@ -46,7 +47,7 @@ namespace Vodamep.Legacy
             {
                 var name = GetName(p.Pflegername);
 
-                report.Staffs.Add(new Staff() { Id = p.Pflegernummer.ToString(), FamilyName = name.Familyname, GivenName = name.Givenname });
+                report.Staffs.Add(new Staff() { Id = GetId(p.Pflegernummer), FamilyName = name.Familyname, GivenName = name.Givenname });
             }
 
             foreach (var l in data.L)
@@ -57,8 +58,8 @@ namespace Vodamep.Legacy
                     {
                         Amount = l.Anzahl,
                         DateD = l.Datum,
-                        PersonId = l.Adressnummer.ToString(),
-                        StaffId = l.Pfleger.ToString(),
+                        PersonId = GetId(l.Adressnummer),
+                        StaffId = GetId(l.Pfleger),
                         Type = (ActivityType)l.Leistung
                     });
                 }
@@ -68,17 +69,36 @@ namespace Vodamep.Legacy
                     {
                         Amount = l.Anzahl,
                         DateD = l.Datum,
-                        StaffId = l.Pfleger.ToString(),
+                        StaffId = GetId(l.Pfleger),
                         Type = (ConsultationType)l.Leistung
                     });
                 }
             }
 
-            
+
 
             var filename = report.WriteToFile(asJson);
 
             return filename;
+        }
+
+
+        private Gender GetGender(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return Gender.UndefinedGender;
+
+            switch (value.ToLower().Substring(0, 1))
+            {
+                case "m":
+                    return Gender.Male;
+                case "w":
+                case "f":
+                    return Gender.Female;
+
+                default:
+                    return Gender.UndefinedGender;
+            }
         }
 
         private (string Familyname, string Givenname) GetName(string name)
@@ -90,7 +110,8 @@ namespace Vodamep.Legacy
 
             return (names[0], string.Join(" ", names.Skip(1)));
 
-
         }
+
+        private string GetId(int id) => $"{id}";
     }
 }
