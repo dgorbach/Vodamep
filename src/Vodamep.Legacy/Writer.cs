@@ -26,14 +26,13 @@ namespace Vodamep.Legacy
                     Insurance = a.Versicherung ?? string.Empty,
                     Nationality = a.Staatsbuergerschaft ?? string.Empty,
                     CareAllowance = (CareAllowance)a.Pflegestufe,
-                    Religion = ReligionCodeProvider.Instance.Unknown
+                    Religion = ReligionCodeProvider.Instance.Unknown,
+                    Postcode = a.Postleitzahl ?? string.Empty,
+                    City = a.Ort ?? string.Empty,
                 }, new PersonalData()
                 {
                     Id = a.Adressnummer.ToString(),
                     BirthdayD = a.Geburtsdatum,
-                    Postcode = a.Postleitzahl ?? string.Empty,
-                    City = a.Ort ?? string.Empty,
-                    Country = "AT",
                     FamilyName = name.Familyname,
                     GivenName = name.Givenname,
                     Ssn = a.Versicherungsnummer ?? string.Empty,

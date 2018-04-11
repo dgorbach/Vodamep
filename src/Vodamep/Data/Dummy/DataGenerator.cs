@@ -92,7 +92,8 @@ namespace Vodamep.Data.Dummy
                 Insurance = "19",
                 Religion = "VAR",
                 Nationality = "AT",
-                CareAllowance = _careAllowances[_rand.Next(_careAllowances.Length)]
+                CareAllowance = _careAllowances[_rand.Next(_careAllowances.Length)],
+                Gender = _rand.Next(2) == 1 ? Gender.Female : Gender.Male
             };
 
             var data = new PersonalData
@@ -106,9 +107,8 @@ namespace Vodamep.Data.Dummy
             {
                 var address = _addresses[_rand.Next(_addresses.Length)].Split(';');
 
-                data.Country = "AT";
-                data.Postcode = address[6];
-                data.City = address[3];
+                person.Postcode = address[6];
+                person.City = address[3];
                 data.Street = string.Format("{0} {1}", address[5], 1 + _rand.Next(30));
             }
 

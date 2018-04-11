@@ -23,7 +23,7 @@ namespace Vodamep.Hkpv.Validation
 
             this.RuleFor(x => x.StaffId).NotNull();            
             this.RuleFor(x => x.Amount).GreaterThan(0);
-            this.RuleFor(x => x.Type).NotEqual(ConsultationType.UnknownConsultation);
+            this.RuleFor(x => x.Type).NotEqual(ConsultationType.UndefinedConsultation);
         }
     }
 

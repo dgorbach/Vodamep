@@ -60,7 +60,6 @@ GROUP BY d.Adressnummer;
                         a.Pflegestufe = (int)Hkpv.Model.CareAllowance.Unknown;
                     else
                         a.Pflegestufe = int.Parse(ps);
-
                 }
 
                 var pflegernummern = leistungen.Select(x => x.Pfleger).Distinct().ToArray();

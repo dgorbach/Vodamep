@@ -1,5 +1,6 @@
 ﻿using System;
 using Vodamep.Data.Dummy;
+using Vodamep.Hkpv.Model;
 using Xunit;
 
 namespace Vodamep.Hkpv.Validation.Tests
@@ -161,8 +162,8 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyStaff();
 
-            this.Report.Activities.Add(new Model.Activity() { PersonId = "1", Amount = 1, StaffId = this.Report.Staffs[0].Id, DateD = DateTime.Today, Type = Model.ActivityType.Lv02 });
-            this.Report.Activities.Add(new Model.Activity() { PersonId = "1", Amount = 1, StaffId = this.Report.Staffs[0].Id, DateD = DateTime.Today, Type = Model.ActivityType.Lv15 });
+            this.Report.Activities.Add(new Activity() { PersonId = "1", Amount = 1, StaffId = this.Report.Staffs[0].Id, DateD = DateTime.Today, Type = ActivityType.Lv02 });
+            this.Report.Activities.Add(new Activity() { PersonId = "1", Amount = 1, StaffId = this.Report.Staffs[0].Id, DateD = DateTime.Today, Type = ActivityType.Lv15 });
 
             this.AssertErrorRegExp(@"Der Id '(.+)' fehlt");
         }
@@ -182,7 +183,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         {
             this.Report.AddDummyActivity("02,06,15");
 
-            this.Report.Staffs[0].Role = Model.StaffRole.Trainee;
+            this.Report.Staffs[0].Role = StaffRole.Trainee;
 
             this.AssertErrorRegExp("darf als Auszubildende/r keine medizinischen Leistungen");
         }
@@ -423,18 +424,18 @@ namespace Vodamep.Hkpv.Validation.Tests
         public void CareAllowence_Undefined_ReturnsError()
         {
             this.Report.AddDummyPerson()
-                .ManipulatePerson(p => p.CareAllowance, Model.CareAllowance.Undefined);
+                .ManipulatePerson(p => p.CareAllowance, CareAllowance.UndefinedAllowance);
 
             this.Report.AddDummyActivity("02,15");
 
-            this.AssertError("'Pflegegeld' darf nicht 'Undefined' sein.");
+            this.AssertError("'Pflegegeld' darf nicht 'UndefinedAllowance' sein.");
         }
 
         [Fact]
         public void City_IsEmpty_ReturnsError()
         {
             this.Report.AddDummyPerson()
-                .ManipulateData(d => d.City, string.Empty);
+                .ManipulatePerson(d => d.City, string.Empty);
 
             this.Report.AddDummyActivity("02,15");
 
@@ -445,7 +446,7 @@ namespace Vodamep.Hkpv.Validation.Tests
         public void Postcode_IsEmpty_ReturnsError()
         {
             this.Report.AddDummyPerson()
-                .ManipulateData(d => d.Postcode, string.Empty);
+                .ManipulatePerson(d => d.Postcode, string.Empty);
 
             this.Report.AddDummyActivity("02,15");
 
@@ -461,28 +462,6 @@ namespace Vodamep.Hkpv.Validation.Tests
             this.Report.AddDummyActivity("02,15");
 
             this.AssertError("'Anschrift' darf nicht leer sein.");
-        }
-
-        [Fact]
-        public void Country_IsEmpty_ReturnsError()
-        {
-            this.Report.AddDummyPerson()
-                .ManipulateData(d => d.Country, string.Empty);
-
-            this.Report.AddDummyActivity("02,15");
-
-            this.AssertError("'Land' darf nicht leer sein.");
-        }
-
-        [Fact]
-        public void Country_CodeIsNotValid_ReturnsError()
-        {
-            this.Report.AddDummyPerson()
-                .ManipulateData(d => d.Country, "Österreich");
-
-            this.Report.AddDummyActivity("02,15");
-
-            this.AssertError("Für 'Land' ist 'Österreich' kein gültiger Code.");
         }
 
         [Fact]

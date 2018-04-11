@@ -42,19 +42,18 @@ message Person {
     string insurance = 3;  
 	string nationality = 4;
 	CareAllowance care_allowance = 5;
-	
+	string postcode = 6;
+    string city = 7;
+	Gender gender = 8;
 }
 
 message PersonalData {
 	string id = 1;        
     string family_name = 2;
     string given_name = 3;
-    string street = 4;
-    string postcode = 5;
-    string city = 6;
-    string country = 7;
-    string ssn = 8;
-	string birthday = 9;
+    string street = 4;        
+    string ssn = 5;
+	string birthday = 6;
 }
 
 message Staff {
@@ -72,7 +71,7 @@ message Consultation {
 }
 
 enum ActivityType {  
-  unknown_activity = 0;
+  undefined_activity = 0;
   LV01 = 1;
   LV02 = 2;
   LV03 = 3;
@@ -93,7 +92,7 @@ enum ActivityType {
 }
 
 enum ConsultationType {  
-    unknown_consultation = 0;
+    undefined_consultation = 0;
     LV31 = 31;
     LV32 = 32;
     LV33 = 33;
@@ -101,12 +100,12 @@ enum ConsultationType {
 }
 
 enum StaffRole {
-	unknown_role = 0;
+	undefined_role = 0;
 	trainee = 1;
 }
 
 enum CareAllowance {
-	undefined = 0;
+	undefined_allowance = 0;
 	L1 = 1;
 	L2 = 2;
 	L3 = 3;
@@ -118,3 +117,20 @@ enum CareAllowance {
     unknown = 88;	
     none = 99;
 }
+
+enum Gender {
+	undefined_gender = 0;
+	male = 1;
+	female = 2;
+}
+
+
+/*
+Religion:
+
+ http://hl7.org/fhir/terminologies-systems.html
+
+ https://hl7.org/fhir/v2/0006/2.4/index.html
+ german translation: http://wiki.hl7.de/index.php?title=Segment_PID#Tabelle_0006:_Religion 
+ 
+*/ 

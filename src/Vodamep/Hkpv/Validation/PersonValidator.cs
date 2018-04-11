@@ -17,7 +17,13 @@ namespace Vodamep.Hkpv.Validation
             this.RuleFor(x => x.Nationality).NotEmpty();
             this.RuleFor(x => x.Nationality).SetValidator(new CodeValidator<CountryCodeProvider>());
 
-            this.RuleFor(x => x.CareAllowance).NotEqual(CareAllowance.Undefined);
+            this.RuleFor(x => x.CareAllowance).NotEqual(CareAllowance.UndefinedAllowance);
+
+            this.RuleFor(x => x.Postcode).NotEmpty();
+            this.RuleFor(x => x.City).NotEmpty();
+
+            this.RuleFor(x => x.Gender).NotEqual(Gender.UndefinedGender);
+
 
         }
     }

@@ -17,20 +17,17 @@ namespace Vodamep.Hkpv.Validation
 
             _dict.Add(nameof(PersonalData.GivenName), "Vorname");
             _dict.Add(nameof(PersonalData.FamilyName), "Familienname");
-            _dict.Add(nameof(PersonalData.Street), "Anschrift");
-            _dict.Add(nameof(PersonalData.Postcode), "Plz");
+            _dict.Add(nameof(PersonalData.Street), "Anschrift");            
             _dict.Add(nameof(PersonalData.Ssn), "Versicherungsnummer");
-            _dict.Add(nameof(PersonalData.City), "Ort");
-            _dict.Add(nameof(PersonalData.Country), "Land");
             _dict.Add(nameof(PersonalData.Birthday), "Geburtsdatum");
             _dict.Add(nameof(PersonalData.BirthdayD), "Geburtsdatum");
-
-
+            
             _dict.Add(nameof(Person.Religion), "Religion");
             _dict.Add(nameof(Person.Insurance), "Versicherung");
             _dict.Add(nameof(Person.Nationality), "Staatsangehörigkeit");
             _dict.Add(nameof(Person.CareAllowance), "Pflegegeld");
-
+            _dict.Add(nameof(Person.Postcode), "Plz");
+            _dict.Add(nameof(Person.City), "Ort");
 
             _dict.Add(nameof(Activity.Amount), "Anzahl");
             _dict.Add(nameof(Activity.Date), "Datum");
