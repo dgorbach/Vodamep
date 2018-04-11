@@ -12,12 +12,10 @@ using Vodamep.Hkpv.Validation;
 namespace Vodamep.Client
 {
     [ArgExceptionBehavior(ArgExceptionPolicy.StandardExceptionHandling)]
+    [ArgDescription("(dmc) Daten-Meldungs-Client:")]
     public class VodamepProgram
     {
-        [HelpHook, ArgShortcut("-?"), ArgDescription("Shows this help")]
-        public bool Help { get; set; }
-
-        [ArgActionMethod]
+        [ArgActionMethod, ArgDescription("Validate a file.")]
         public void Validate(ValidateArgs args)
         {
             var isGerman = Thread.CurrentThread.CurrentCulture.Name.StartsWith("de", StringComparison.CurrentCultureIgnoreCase);
@@ -71,7 +69,7 @@ namespace Vodamep.Client
             Console.WriteLine($"{file} created");
         }
 
-        [ArgActionMethod]
+        [ArgActionMethod, ArgDescription("Get a list af valid values."]
         public void List(ListArgs args)
         {
             CodeProviderBase provider = null;

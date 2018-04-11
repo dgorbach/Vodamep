@@ -4,7 +4,7 @@ namespace Vodamep.Legacy
 {
     public class ReadMdbArgs
     {
-        [ArgExistingFile, DefaultValue(@"c:\verein\vgkvdat.mdb")]
+        [ArgExistingFile, DefaultValue(@"c:\verein\vgkvdat.mdb"), ArgPosition(1)]
         public string File { get; set; }
 
         [ArgRange(1, 12)]        

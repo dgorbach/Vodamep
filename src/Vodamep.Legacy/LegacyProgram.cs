@@ -5,12 +5,11 @@ using Vodamep.Legacy.Reader;
 namespace Vodamep.Legacy
 {
     [ArgExceptionBehavior(ArgExceptionPolicy.StandardExceptionHandling)]
+    [ArgDescription("(dml) Daten-Meldung-Legacy:")]
     public class LegacyProgram
     {
-        [HelpHook, ArgShortcut("-?"), ArgDescription("Shows this help")]
-        public bool Help { get; set; }
-
         [ArgActionMethod]
+        [ArgDescription("Liest Daten aus einer vgkvdat.mdb")]
         public void ReadMdb(ReadMdbArgs args)
         {
             
