@@ -39,6 +39,30 @@ where a.Adressnummer in @ids;";
 
                 var adressen = connection.Query<AdresseDTO>(sqlAdressen, new { ids = adressnummern }).ToArray();
 
+                var pflegestufenSql = @"SELECT d.Adressnummer as Item1, First(d.Detail)  AS Item2
+FROM (
+
+SELECT d0.Adressnummer, d0.Detail FROM Doku as d0
+WHERE d0.Gruppe='21' AND d0.Datum<=@to AND d0.Adressnummer in @ids 
+ORDER BY d0.Datum DESC
+) as d
+GROUP BY d.Adressnummer;
+                ";
+                
+
+                var pflegestufen = connection.Query<(int Adressnummer, string Wert)>(pflegestufenSql, new { to = to, ids = adressnummern }).ToArray();
+
+                foreach ( var a in adressen)
+                {
+                    var ps = pflegestufen.Where(x => x.Adressnummer == a.Adressnummer).Select(x => x.Wert).FirstOrDefault();
+
+                    if (string.IsNullOrEmpty(ps))
+                        a.Pflegestufe = (int)Hkpv.Model.CareAllowance.Unknown;
+                    else
+                        a.Pflegestufe = int.Parse(ps);
+
+                }
+
                 var pflegernummern = leistungen.Select(x => x.Pfleger).Distinct().ToArray();
 
                 var sqlPfleger = @"SELECT p.Pflegernummer, p.Pflegername FROM Pfleger AS p where p.Pflegernummer in @ids;";

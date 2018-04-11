@@ -13,6 +13,8 @@ namespace Vodamep.Data
             this.Init();
         }
 
+        public abstract string Unknown { get; }
+
         public bool IsValid(string code) => _dict.ContainsKey(code ?? string.Empty);
 
         private void Init()

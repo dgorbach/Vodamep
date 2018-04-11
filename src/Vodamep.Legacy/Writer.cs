@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Vodamep.Data;
 using Vodamep.Hkpv.Model;
 using Vodamep.Legacy.Reader;
 
@@ -23,7 +24,9 @@ namespace Vodamep.Legacy
                 {
                     Id = a.Adressnummer.ToString(),
                     Insurance = a.Versicherung ?? string.Empty,
-                    Nationality = a.Staatsbuergerschaft ?? string.Empty
+                    Nationality = a.Staatsbuergerschaft ?? string.Empty,
+                    CareAllowance = (CareAllowance)a.Pflegestufe,
+                    Religion = ReligionCodeProvider.Instance.Unknown
                 }, new PersonalData()
                 {
                     Id = a.Adressnummer.ToString(),
@@ -35,6 +38,7 @@ namespace Vodamep.Legacy
                     GivenName = name.Givenname,
                     Ssn = a.Versicherungsnummer ?? string.Empty,
                     Street = a.Adresse ?? string.Empty,
+                    
                 }));
             }
 

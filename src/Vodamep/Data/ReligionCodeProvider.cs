@@ -7,6 +7,8 @@ namespace Vodamep.Data
         private static volatile ReligionCodeProvider instance;
         private static object syncRoot = new Object();
 
+        
+
         public static ReligionCodeProvider Instance
         {
             get
@@ -25,5 +27,7 @@ namespace Vodamep.Data
         }
 
         protected override string ResourceName => "Data.religions.csv";
+
+        public override string Unknown => "VAR";
     }
 }

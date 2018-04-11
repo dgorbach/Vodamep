@@ -26,6 +26,6 @@ namespace Vodamep.Data
         
         protected override string ResourceName => "Data.insurances.csv";
 
-        
+        public override string Unknown => "UB";
     }
 }

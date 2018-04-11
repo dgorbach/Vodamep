@@ -16,11 +16,14 @@ namespace Vodamep.Legacy.Model
 
         public DateTime Geburtsdatum { get; set; }
 
-        public string Staatsbuergerschaft { get; set; }
+        public string Staatsbuergerschaft { get; set; } = Data.CountryCodeProvider.Instance.Unknown;
 
-        public string Versicherung { get; set; }
+        public string Versicherung { get; set; } = Data.InsuranceCodeProvider.Instance.Unknown;
 
         public string Versicherungsnummer { get; set; }
 
+        public string Religion { get; set; } = Data.ReligionCodeProvider.Instance.Unknown;
+
+        public int Pflegestufe { get; set; }
     }
 }
