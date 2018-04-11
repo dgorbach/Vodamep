@@ -8,6 +8,7 @@ var publishDir = MakeAbsolute(Directory("./publish")).FullPath;
 
 Task("Default")    
 	.IsDependentOn("Proto")
+	.IsDependentOn("Clean")
     .IsDependentOn("Restore")    
 	.IsDependentOn("Build")
 	.IsDependentOn("Test");
