@@ -1,136 +1,144 @@
-
 syntax = "proto3";
-package Vodamep.Hkpv.Model;
+package Vodamep.Hkpv;
+
+option csharp_namespace = "Vodamep.Hkpv.Model";
+
 
 message HkpvReport {   
-
-    Institution institution = 1;
-   
+    Institution institution = 1;   
     string from = 2;
-
-    string to = 3;
-    	
+    string to = 3;    	
     repeated Staff staffs = 4; 
-
-    repeated Person persons = 5; 
-    
+    repeated Person persons = 5;     
     repeated PersonalData personal_data = 6;
-
     repeated Activity activities = 7; 
-
     repeated Consultation consultations = 8;
-
     repeated Activity other_activities = 9;
 }
 
+// Einrichtung
 message Institution {
     string id = 1;
     string name = 2;    
 }
 
+// Leistungen
 message Activity {
     string date = 1;
     string person_id = 2;
     string staff_id = 3;    
     ActivityType type = 4;
-	int32 amount = 5;
+    int32 amount = 5;
 }
 
+// Stammdaten zu einer Person
 message Person {
-	string id = 1;
+    string id = 1;
     string religion = 2;
     string insurance = 3;  
-	string nationality = 4;
-	CareAllowance care_allowance = 5;
-	string postcode = 6;
+    string nationality = 4;
+    CareAllowance care_allowance = 5;
+    string postcode = 6;
     string city = 7;
-	Gender gender = 8;
+    Gender gender = 8;
 }
 
+// Personenbezug
 message PersonalData {
-	string id = 1;        
+    string id = 1;        
     string family_name = 2;
     string given_name = 3;
     string street = 4;        
     string ssn = 5;
-	string birthday = 6;
+    string birthday = 6;
 }
 
+// Mitarbeiter
 message Staff {
     string id = 1;    
     string family_name = 3;
     string given_name = 4;
-	StaffRole role = 5;
+    StaffRole role = 5;
 }
 
+// Beratungen
 message Consultation {
     string date = 1;    
     string staff_id = 3;    
     ConsultationType type = 4;
-	int32 amount = 5;
+    int32 amount = 5;
 }
 
+// Leistungen mit Klientenbezug
+// LV=Leistungsvereinbarung, LP=Leistungspunkt
+// 1 LP = ca. 5 min
 enum ActivityType {  
   undefined_activity = 0;
-  LV01 = 1;
-  LV02 = 2;
-  LV03 = 3;
-  LV04 = 4;
-  LV05 = 5;
-  LV06 = 6;
-  LV07 = 7;
-  LV08 = 8;
-  LV09 = 9;
-  LV10 = 10;
-  LV11 = 11;
-  LV12 = 12;
-  LV13 = 13;
-  LV14 = 14;
-  LV15 = 15;
-  LV16 = 16;
-  LV17 = 17;  
+  LV01 = 1;             // Beratungsstunde                                              (1 LP)
+  LV02 = 2;             // Hausbesuch                                                   (2 LP)
+  LV03 = 3;             // Hausbesuch mit besonderer Wegzeit                            (4 LP)
+  LV04 = 4;             // Ganzheitliche Körperpflege / rehabilitative Pflege           (4 LP)
+  LV05 = 5;             // Teilpflege/Prophylaxen                                       (2 LP)
+  LV06 = 6;             // Patientenbeobachtung/Vitalzeichenkontrolle                   (1 LP)
+  LV07 = 7;             // Wundversorgung                                               (2 LP) - medizinische Leistung
+  LV08 = 8;             // Medikamentengabe/Injektionen,Infusionen                      (1 LP) - medizinische Leistung
+  LV09 = 9;             // Katheter setzen,Urinal anlegen,Einlauf,Spülungen             (2 LP) - medizinische Leistung
+  LV10 = 10;            // Stoma-,Suprapub.-,Kath.-,Sonden- und Kanülenpflege/Absaugen  (2 LP) - medizinische Leistung
+  LV11 = 11;            // Physikalische Maßnahmen/Lagerung/Mobilisation                (2 LP)
+  LV12 = 12;            // Betreuung Schwerkranker/Sterbender bei Tag                   (2 LP)
+  LV13 = 13;            // Betreuung Schwerkranker bei Nacht/Sonn-/Feiertagen           (2 LP)
+  LV14 = 14;            // Begleitende Lebenshilfe/aktives Zuhören                      (3 LP)
+  LV15 = 15;            // Abklären,Information und Vermittlung,Dokumentation           (1 LP)
+  LV16 = 16;            // Beraten,Anlernen und Begleiten                               (2 LP)
+  LV17 = 17;            // Pflegebehelfe,Transporte                                     (3 LP)
 }
 
+// Beratungen ohne Klientenbezug
 enum ConsultationType {  
-    undefined_consultation = 0;
-    LV31 = 31;
-    LV32 = 32;
-    LV33 = 33;
-    LV34 = 34;
+  undefined_consultation = 0;
+  LV31 = 31;            // Persönliche Beratung                                         (1 LP)
+  LV32 = 32;            // Anzahl der Personen zu 31
+  LV33 = 33;            // Telefonische Beratung                                        (1 LP)
+  LV34 = 34;            // Anzahl der Personen
 }
 
 enum StaffRole {
-	undefined_role = 0;
-	trainee = 1;
+  undefined_role = 0;
+  trainee = 1;          // Auszubildende
 }
 
+// Pflegegeld
 enum CareAllowance {
-	undefined_allowance = 0;
-	L1 = 1;
-	L2 = 2;
-	L3 = 3;
-	L4 = 4;
-	L5 = 5;
-	L6 = 6;
-	L7 = 7;	
-	any = 9;	
-    unknown = 88;	
-    none = 99;
+  undefined_allowance = 0;
+  L1 = 1;
+  L2 = 2;
+  L3 = 3;
+  L4 = 4;
+  L5 = 5;
+  L6 = 6;
+  L7 = 7;	
+  any = 9;              // Pflegegeld ja, Stufe unbekannt
+  unknown = 88;         // unbekannt ob ja oder nein
+  none = 99;            // Keine Pflegegeld
 }
 
 enum Gender {
-	undefined_gender = 0;
-	male = 1;
-	female = 2;
+  undefined_gender = 0;
+  male = 1;
+  female = 2;
 }
 
 
 /*
-Religion:
+Standards:
+http://hl7.org/fhir/terminologies-systems.html
 
- http://hl7.org/fhir/terminologies-systems.html
+
+Religion aus Hl7 v2:
 
  https://hl7.org/fhir/v2/0006/2.4/index.html
  german translation: http://wiki.hl7.de/index.php?title=Segment_PID#Tabelle_0006:_Religion 
  
+
+Ländercodes: iso 3166-2
 */ 

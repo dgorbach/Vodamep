@@ -69,7 +69,7 @@ namespace Vodamep.Client
             Console.WriteLine($"{file} created");
         }
 
-        [ArgActionMethod, ArgDescription("Get a list af valid values."]
+        [ArgActionMethod, ArgDescription("Get a list af valid values.")]
         public void List(ListArgs args)
         {
             CodeProviderBase provider = null;
