@@ -16,7 +16,8 @@ Task("Default")
 
 Task("Appveyor")    
 	.IsDependentOn("Default")    
-	.IsDependentOn("Publish");
+	.IsDependentOn("PublishLegacy")
+	.IsDependentOn("PublishCoreRT");
     
 
 Task("Proto")
@@ -107,12 +108,16 @@ Task("Test")
         
     });
 
-Task("Publish")	
+Task("PublishLegacy")	
 	.Does(() =>
-	{	
-
+	{
 		EnsureDirectoryExists(publishDir);
-		
+		CleanDirectory(publishDir + "/dml");
+		if (FileExists(publishDir + "dml.zip"))
+		{
+			DeleteFile(publishDir + "dml.zip");
+		}
+
 		var msBuildSettings = new MSBuildSettings {
     		Verbosity = Verbosity.Minimal,
     		ToolVersion = MSBuildToolVersion.VS2017,
@@ -121,30 +126,59 @@ Task("Publish")
 
 		MSBuild("./src/Vodamep.Legacy/Vodamep.Legacy.csproj",msBuildSettings.WithProperty("OutDir", publishDir + "/dml"));
 	
-		Zip(publishDir, publishDir + "/dml.zip", publishDir + "/dml/dml.exe");
+		Zip(publishDir + "/dml", publishDir + "/dml.zip", publishDir + "/dml/dml.exe");
+	});
 
-		var ms = new DotNetCoreMSBuildSettings();			
+Task("PublishCoreRT")	
+	.Does(() =>
+	{	
 
-		var settings = new DotNetCorePublishSettings
-		{         
-			Configuration = "Release",
-			MSBuildSettings = ms,
-			OutputDirectory = publishDir + "/dmc",
-			Runtime = "win-x64"
-		};
-
-		DotNetCorePublish("./src/Vodamep.Client/Vodamep.Client.csproj", settings); 
-		
-		if (bool.Parse(EnvironmentVariable("vodamepnative") ?? "false"))
+		EnsureDirectoryExists(publishDir);
+		CleanDirectory(publishDir + "/dmc");
+		if (FileExists(publishDir + "dmc.zip"))
 		{
-			MoveFile(publishDir + "/dmc/Vodamep.Client.exe", publishDir + "/dmc/dmc.exe");
-
-			Zip(publishDir, publishDir + "/dmc.zip", publishDir + "/dmc/dmc.exe");
+			DeleteFile(publishDir + "dmc.zip");
 		}
 
 		
+		var settings = GetDotNetCorePublishSettings();
+		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("CoreRT", "True");
+
+		// compression wird derzeit noch nicht unterstützt: workaround
+		// https://github.com/dotnet/corert/issues/5496
+		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("NativeCompilationDuringPublish", "False");		
+
+		DotNetCorePublish("./src/Vodamep.Client/Vodamep.Client.csproj", settings); 
+
+		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("NativeCompilationDuringPublish", "True");		
+
+		DotNetCorePublish("./src/Vodamep.Client/Vodamep.Client.csproj", settings); 
+				
+		MoveFile(publishDir + "/dmc/Vodamep.Client.exe", publishDir + "/dmc/dmc.exe");
+		var files = new [] {
+			publishDir + "/dmc/dmc.exe",
+			publishDir + "/dmc/clrcompression.dll"
+		};
+
+		Zip(publishDir + "/dmc", publishDir + "/dmc.zip", files);
 	});
 
 
 
 RunTarget(target);
+
+
+private DotNetCorePublishSettings GetDotNetCorePublishSettings()
+{
+	var ms = new DotNetCoreMSBuildSettings();			
+
+	var settings = new DotNetCorePublishSettings
+	{         
+		Configuration = "Release",			
+		OutputDirectory = publishDir + "/dmc",
+		MSBuildSettings = ms,
+		Runtime = "win-x64"
+	};	
+
+	return settings;
+}
