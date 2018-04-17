@@ -35,9 +35,9 @@ message Activity {
 message Person {
     string id = 1;
     string religion = 2;
-    string insurance = 3;  
-    string nationality = 4;
-    CareAllowance care_allowance = 5;
+    string insurance = 3;               // Sozialversicherung
+    string nationality = 4;             // Staatsbürgerschaft
+    CareAllowance care_allowance = 5;   // Pflegegeld
     string postcode = 6;
     string city = 7;
     Gender gender = 8;
@@ -108,6 +108,7 @@ enum StaffRole {
 }
 
 // Pflegegeld
+// Werte aus Bestand (xp_IGK_2002_GNV.mdb, Tabelle TB_Doku, TB_Doku_Gruppe)
 enum CareAllowance {
   undefined_allowance = 0;
   L1 = 1;
@@ -130,8 +131,14 @@ enum Gender {
 
 
 /*
-Standards:
-http://hl7.org/fhir/terminologies-systems.html
+Ländercodes: iso 3166-2
+Übernommen aus Bestand (xp_IGK_2002_GNV.mdb, Tabelle Staaten_ISO)
+
+
+Sozialversicherung:
+Übernommen aus Bestand (xp_IGK_2002_GNV.mdb, Tabelle TB_Versicherung)
+"Codeverzeichnis der Versicherungsträger"
+(z.b. https://www.evga.at/fileadmin/user_upload/E_HV_Kassen.pdf, https://www.sozialversicherung.at/cdscontent/load?contentid=10008.640505&version=1493195855)
 
 
 Religion aus Hl7 v2:
@@ -139,6 +146,8 @@ Religion aus Hl7 v2:
  https://hl7.org/fhir/v2/0006/2.4/index.html
  german translation: http://wiki.hl7.de/index.php?title=Segment_PID#Tabelle_0006:_Religion 
  
+In Elga wird Hl7 v3 verwendet:
+https://termpub.gesundheit.gv.at/TermBrowser/gui/main/main.zul?loadType=ValueSet&loadName=ELGA_ReligiousAffiliation
 
-Ländercodes: iso 3166-2
+http://hl7.org/fhir/terminologies-systems.html
 */ 
