@@ -82,6 +82,7 @@
 6888 Schröcken;
 6890 Lustenau;
 6900 Bregenz;
+6900 Fluh;
 6900 Möggers;
 6911 Eichenberg;
 6911 Lochau;
