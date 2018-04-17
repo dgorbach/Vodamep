@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
 using PowerArgs;
 using System;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using Vodamep.Data;
 using Vodamep.Data.Dummy;
@@ -25,8 +23,7 @@ namespace Vodamep.Client
                 ValidatorOptions.DisplayNameResolver = (type, memberInfo, expression) => loc.GetDisplayName(memberInfo?.Name);
             }
 
-
-            var report = Read(args.File);
+            var report = HkpvReportExtensions.Read(args.File);
 
             var validator = new HkpvReportValidator();
 
@@ -46,9 +43,9 @@ namespace Vodamep.Client
         [ArgActionMethod, ArgDescription("Pack a file.")]
         public void PackFile(PackFileArgs args)
         {
-            var report = Read(args.File);
+            var report = HkpvReportExtensions.Read(args.File);
 
-            var file = report.WriteToFile(args.Json);
+            var file = report.WriteToFile(args.Json, compressed: !args.NoCompression);
 
             Console.WriteLine($"{file} created");
         }
@@ -64,7 +61,7 @@ namespace Vodamep.Client
 
             var r = DataGenerator.Instance.CreateHkpvReport(year, month, args.Persons, args.Staffs, args.AddActivities);
 
-            var file = r.WriteToFile(args.Json);
+            var file = r.WriteToFile(args.Json, compressed: !args.NoCompression);
 
             Console.WriteLine($"{file} created");
         }
@@ -93,28 +90,6 @@ namespace Vodamep.Client
             foreach (var line in provider?.GetCSV())
                 Console.WriteLine(line);
 
-        }
-
-
-        private HkpvReport Read(string file)
-        {
-            var content = File.ReadAllBytes(file);
-
-            var isJson = System.Text.Encoding.UTF8.GetString(content.Take(5).ToArray()).Contains("{");
-
-            HkpvReport r;
-
-            if (isJson)
-            {
-                r = HkpvReport.Parser.ParseJson(System.Text.Encoding.UTF8.GetString(content));
-
-            }
-            else
-            {
-                r = HkpvReport.Parser.ParseFrom(content);
-            }
-
-            return r;
         }
     }
 

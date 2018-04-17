@@ -9,5 +9,8 @@ namespace Vodamep.Client
 
         [ArgDescription("Save as JSON.")]
         public bool Json { get; set; }
+
+        [DefaultValue(false)]
+        public bool NoCompression { get; set; }
     }
 }

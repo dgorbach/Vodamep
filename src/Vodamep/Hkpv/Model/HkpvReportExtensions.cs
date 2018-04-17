@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
+using System.Linq;
 
 namespace Vodamep.Hkpv.Model
 {
@@ -41,29 +43,105 @@ namespace Vodamep.Hkpv.Model
             return m;
         }
 
-        public static string WriteToFile(this HkpvReport report, bool asJson, string path = "")
+        public static HkpvReport Read(string file)
         {
-            report = report.AsSorted();
-
-            string filename;
-            if (asJson)
+            byte[] content;
+            if (file.EndsWith(".zip", StringComparison.CurrentCultureIgnoreCase))
             {
-                filename = Path.Combine(path, $"{report.GetId()}.json");
-                using (var s = File.OpenWrite(filename))
-                using (var ss = new StreamWriter(s))
+                using (var archive = ZipFile.OpenRead(file))
                 {
-                    Google.Protobuf.JsonFormatter.Default.WriteValue(ss, report);
+                    using (var ms = new MemoryStream())
+                    {
+                        archive.Entries.First().Open().CopyTo(ms);
+                        content = ms.ToArray();
+                    };
                 }
+            }
+            else
+            {
+                content = File.ReadAllBytes(file);
+            }
+
+            var isJson = System.Text.Encoding.UTF8.GetString(content.Take(5).ToArray()).TrimStart().StartsWith("{");
+
+            HkpvReport r;
+
+            if (isJson)
+            {
+                var json = System.Text.Encoding.UTF8.GetString(content);
+
+                r = HkpvReport.Parser.ParseJson(json);
 
             }
             else
             {
-                filename = Path.Combine(path, $"{report.GetId()}.hkpv");
+                r = HkpvReport.Parser.ParseFrom(content);
+            }
+
+            return r;
+        }
+
+        public static string WriteToFile(this HkpvReport report, bool asJson, string path = "", bool compressed = true)
+        {
+            string filename;
+
+            report = report.AsSorted();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Stream saveStream = ms;
+
+                if (asJson)
+                {
+                    filename = Path.Combine(path, $"{report.GetId()}.json");
+                    using (var ss = new StreamWriter(ms))
+                    {
+                        Google.Protobuf.JsonFormatter.Default.WriteValue(ss, report);
+                        ss.Flush();
+                        ms.Position = 0;
+                        filename = Save(ms, filename, compressed);
+                    }
+                }
+                else
+                {
+                    filename = Path.Combine(path, $"{report.GetId()}.hkpv");
+                    Google.Protobuf.MessageExtensions.WriteTo(report, ms);
+                    ms.Position = 0;
+                    filename = Save(ms, filename, compressed);
+                }                
+            }
+
+            return filename;
+        }
+
+        private static string Save(Stream ms, string filename, bool compressed)
+        {
+            
+            if (compressed)
+            {
+                var zipFileName = $"{filename.Substring(0, filename.LastIndexOf('.'))}.zip";
+                using (FileStream zipToOpen = new FileStream(zipFileName, FileMode.Create))
+                using (ZipArchive arch = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                {
+
+                    var zipEntry = arch.CreateEntry(filename);
+                    using (var zipStream = zipEntry.Open())
+                    {
+                        ms.CopyTo(zipStream);
+                    }
+                }
+
+
+                filename = zipFileName;
+
+            }
+            else
+            {
                 using (var s = File.OpenWrite(filename))
                 {
-                    Google.Protobuf.MessageExtensions.WriteTo(report, s);
+                    ms.CopyTo(s);
                 }
             }
+
 
             return filename;
         }
