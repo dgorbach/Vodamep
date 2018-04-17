@@ -23,5 +23,7 @@ namespace Vodamep.Hkpv.Validation
         public static string LastDateInMonth => "'{PropertyName}' muss der letzte Tag des Monats sein.";
         public static string FirstDateInMOnth => "'{PropertyName}' muss der erste Tag des Monats sein.";
         public static string InvalidCode => "Für '{PropertyName}' ist '{PropertyValue}' kein gültiger Code.";
+
+        public static string InvalidPostCode_City => "'{PropertyValue}' ist kein gültiger Ort.";
     }
 }

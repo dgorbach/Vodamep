@@ -12,6 +12,7 @@
     <None Remove="Data\Dummy\Vornamen.txt" />
     <None Remove="Data\german-iso-3166.csv" />
     <None Remove="Data\insurances.csv" />
+    <None Remove="Data\Postcode_Cities.txt" />
     <None Remove="Data\religions.csv" />
   </ItemGroup>
 
@@ -35,6 +36,7 @@
     <EmbeddedResource Include="Data\Dummy\Vornamen.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\Postcode_Cities.txt" />
     <EmbeddedResource Include="Data\religions.csv" />
     <EmbeddedResource Include="Data\insurances.csv" />
     <EmbeddedResource Include="Data\german-iso-3166.csv" />

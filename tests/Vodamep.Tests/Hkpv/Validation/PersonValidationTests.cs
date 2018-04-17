@@ -454,6 +454,18 @@ namespace Vodamep.Hkpv.Validation.Tests
         }
 
         [Fact]
+        public void Postcode_City_NotInListOfValidCities_ReturnsError()
+        {
+            this.Report.AddDummyPerson()
+                .ManipulatePerson(d => d.Postcode, "6900")
+                .ManipulatePerson(d => d.City, "Lochau");
+
+            this.Report.AddDummyActivity("02,15");
+
+            this.AssertValidation("'6900 Lochau' ist kein gültiger Ort.");
+        }
+
+        [Fact]
         public void Street_IsEmpty_ReturnsError()
         {
             this.Report.AddDummyPerson()
@@ -485,5 +497,7 @@ namespace Vodamep.Hkpv.Validation.Tests
 
             this.AssertValidation("'Vorname' darf nicht leer sein.");
         }
+
+        
     }
 }

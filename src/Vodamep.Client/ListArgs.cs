@@ -7,7 +7,8 @@ namespace Vodamep.Client
     {
         Insurances,
         Religions,
-        CountryCodes
+        CountryCodes,
+        Postcode_City
     }
     public class ListArgs
     {  

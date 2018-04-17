@@ -85,6 +85,9 @@ namespace Vodamep.Client
                 case ListSources.CountryCodes:
                     provider = CountryCodeProvider.Instance;
                     break;
+                case ListSources.Postcode_City:
+                    provider = Postcode_CityProvider.Instance;
+                    break;
             }
 
             foreach (var line in provider?.GetCSV())
