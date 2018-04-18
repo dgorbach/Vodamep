@@ -9,7 +9,7 @@ namespace Vodamep.Legacy
     public class LegacyProgram
     {
         [ArgActionMethod]
-        [ArgDescription("Liest Daten aus einer vgkvdat.mdb")]
+        [ArgDescription("Liest Daten aus einer vgkvdat.mdb.")]
         public void ReadMdb(ReadMdbArgs args)
         {
             
@@ -22,7 +22,7 @@ namespace Vodamep.Legacy
 
             var filename = new Writer().Write(data, args.Json);
 
-            Console.WriteLine($"{filename} created");
+            Console.WriteLine($"{filename} wurde erzeugt.");
         }
     }
 }

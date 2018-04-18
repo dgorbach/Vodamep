@@ -18,7 +18,7 @@ namespace Vodamep.Client
             throw new Exception(message);            
         }
 
-        [ArgActionMethod, ArgDescription("Send a file to an endpoint.")]
+        [ArgActionMethod, ArgDescription("Absenden der Meldung.")]
         public void Send(SendArgs args)
         {
             var report = ReadReport(args.File);
@@ -37,15 +37,15 @@ namespace Vodamep.Client
 
             if (!(sendResult?.IsValid ?? false))
             {
-                HandleFailure("send failed.");
+                HandleFailure("Fehlgeschlagen");
             }
             else
             {
-                Console.WriteLine("send succeeded.");
+                Console.WriteLine("Erfolgreich");
             }
         }
 
-        [ArgActionMethod, ArgDescription("Validate a file.")]
+        [ArgActionMethod, ArgDescription("Prüfung der Meldung.")]
         public void Validate(ValidateArgs args)
         {
             var report = ReadReport(args.File);
@@ -63,17 +63,17 @@ namespace Vodamep.Client
         }
 
 
-        [ArgActionMethod, ArgDescription("Pack a file.")]
+        [ArgActionMethod, ArgDescription("Meldung neu verpacken.")]
         public void PackFile(PackFileArgs args)
         {
             var report = ReadReport(args.File);
 
             var file = report.WriteToPath("", asJson: args.Json, compressed: !args.NoCompression);
 
-            Console.WriteLine($"{file} created");
+            Console.WriteLine($"{file} wurde erzeugt.");
         }
 
-        [ArgActionMethod, ArgDescription("Pack some random data.")]
+        [ArgActionMethod, ArgDescription("Meldung mit Testdaten erzeugen.")]
         public void PackRandom(PackRandomArgs args)
         {
             int? year = args.Year;
@@ -86,10 +86,10 @@ namespace Vodamep.Client
 
             var file = r.WriteToPath("", asJson: args.Json, compressed: !args.NoCompression);
 
-            Console.WriteLine($"{file} created");
+            Console.WriteLine($"{file} wurde erzeugt.");
         }
 
-        [ArgActionMethod, ArgDescription("Get a list af valid values.")]
+        [ArgActionMethod, ArgDescription("Listet erlaubte Werte.")]
         public void List(ListArgs args)
         {
             CodeProviderBase provider = null;
@@ -109,7 +109,7 @@ namespace Vodamep.Client
                     provider = Postcode_CityProvider.Instance;
                     break;
                 default:
-                    HandleFailure($"Provider '{args.Source}' not implemented.");
+                    HandleFailure($"Source '{args.Source}' not implemented.");
                     return;
             }
 
@@ -131,7 +131,7 @@ namespace Vodamep.Client
 
             }
 
-            HandleFailure("Unable to read report.");
+            HandleFailure("Daten konnten nicht gelesen werden.");
             return null;
         }
     }

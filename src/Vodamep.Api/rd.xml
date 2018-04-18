@@ -1,6 +1,6 @@
 <Directives>
   <Application>
-    <Assembly Name="Vodamep.Api" Dynamic="Required All"/>
+    <Assembly Name="dms" Dynamic="Required All"/>
 
 
     <Assembly Name="Vodamep">
@@ -164,5 +164,9 @@
     <Assembly Name="Microsoft.Extensions.Configuration.Json">
       <Type Name="Microsoft.Extensions.Configuration.Json.JsonConfigurationSource" Dynamic="Required All" />
     </Assembly>
+
+    <Assembly Name="Microsoft.AspNetCore.HttpOverrides" Dynamic="Required All"/>
+    <Assembly Name="Microsoft.AspNetCore.Server.IISIntegration" Dynamic="Required All"/>
+    <Assembly Name="Microsoft.AspNetCore.Http.Abstractions" Dynamic="Required All"/>
   </Application>
 </Directives>

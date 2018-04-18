@@ -162,8 +162,7 @@ Task("PublishClient")
 		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("NativeCompilationDuringPublish", "True");		
 
 		DotNetCorePublish("./src/Vodamep.Client/Vodamep.Client.csproj", settings); 
-				
-		MoveFile(publishDir + "/dmc/Vodamep.Client.exe", publishDir + "/dmc/dmc.exe");
+		
 		var files = new [] {
 			publishDir + "/dmc/dmc.exe",
 			publishDir + "/dmc/clrcompression.dll"
@@ -204,12 +203,12 @@ Task("PublishApi")
 		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("NativeCompilationDuringPublish", "True");		
 
 		DotNetCorePublish("./src/Vodamep.Api/Vodamep.Api.csproj", settings); 
-				
-		MoveFile(publishDir + "/dms/Vodamep.Api.exe", publishDir + "/dms/dms.exe");
+		
 		var files = new [] {
 			publishDir + "/dms/dms.exe",
 			publishDir + "/dms/libuv.dll",			
-			publishDir + "/dms/clrcompression.dll"
+			publishDir + "/dms/clrcompression.dll",
+			publishDir + "/dms/web.config"			
 		};
 
 		Zip(publishDir + "/dms", publishDir + "/dms.zip", files);

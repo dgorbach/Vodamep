@@ -19,7 +19,7 @@
       <Type Name="Vodamep.Hkpv.Model.Consultation" Dynamic="Required All" />
     </Assembly>
 
-    <Assembly Name="Vodamep.Client">
+    <Assembly Name="dmc">
       <Type Name="Vodamep.Client.ListArgs" Dynamic="Required All" />
       <Type Name="Vodamep.Client.PackFileArgs" Dynamic="Required All" />
       <Type Name="Vodamep.Client.PackRandomArgs" Dynamic="Required All" />

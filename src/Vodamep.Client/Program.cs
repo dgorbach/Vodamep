@@ -20,7 +20,6 @@ namespace Vodamep.Client
                 return -1;
             }
 
-            Console.ReadKey();
             return 0;
         }
     }

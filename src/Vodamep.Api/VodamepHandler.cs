@@ -43,14 +43,30 @@ namespace Vodamep.Api
             await context.Response.WriteJson(result);
         }
 
-        public async Task Handle(HttpContext context)
+        public async Task HandleDefault(HttpContext context)
         {
-            var authResult = await context.AuthenticateAsync(BasicAuthenticationDefaults.AuthenticationScheme);
+            await EnsureIsAuthenticated(context);
 
-            if (authResult.None)
-                await context.ChallengeAsync(BasicAuthenticationDefaults.AuthenticationScheme);
+            if (!IsAuthenticated(context))
+            {
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return;
+            }
 
-            if (context.User == null || string.IsNullOrEmpty(context.User.Identity?.Name))
+            await context.Response.WriteAsync($"Verb =  {context.Request.Method.ToUpperInvariant()} - Path = {context.Request.Path} - Route values - {string.Join(", ", context.GetRouteData().Values)}");
+        }
+
+        public async Task HandlePut(HttpContext context)
+        {
+            if (context.Request.Method != HttpMethods.Put && context.Request.Method != HttpMethods.Post)
+            {
+                await HandleDefault(context);
+                return;
+            }
+
+            await EnsureIsAuthenticated(context);
+
+            if (!IsAuthenticated(context))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
@@ -111,6 +127,15 @@ namespace Vodamep.Api
             _engineFactory().Execute(saveCmd);
 
             await RespondSuccess(context, msg);
+        }
+
+        private bool IsAuthenticated(HttpContext context) => context.User != null && !string.IsNullOrEmpty(context.User.Identity?.Name);
+        private async Task EnsureIsAuthenticated(HttpContext context)
+        {
+            var authResult = await context.AuthenticateAsync(BasicAuthenticationDefaults.AuthenticationScheme);
+
+            if (authResult.None)
+                await context.ChallengeAsync(BasicAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }
