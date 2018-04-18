@@ -5,6 +5,7 @@
       <Type Name="Vodamep.Data.CountryCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.InsuranceCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.ReligionCodeProvider" Dynamic="Required All" />
+      <Type Name="Vodamep.Data.Postcode_CityProvider" Dynamic="Required All" />
 
       <Type Name="Vodamep.Hkpv.Model.HkpvReflection" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.HkpvReport" Dynamic="Required All" />

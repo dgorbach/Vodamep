@@ -61,13 +61,9 @@ namespace Vodamep.Hkpv
             return Deserialize(File.ReadAllBytes(file));
         }
 
-        
-
-        public string WriteToFile(HkpvReport report, bool asJson, string path = "", bool compressed = true)
+        public void WriteToFile(HkpvReport report, string filename, bool asJson, bool compressed = true)
         {
-            var filename = GetFileName(report, asJson, path, compressed);
-
-            using (var ms = WriteToStream(report, asJson, path, compressed))
+            using (var ms = WriteToStream(report, asJson, compressed))
             {
                 ms.Position = 0;
                 using (var s = File.OpenWrite(filename))
@@ -75,10 +71,17 @@ namespace Vodamep.Hkpv
                     ms.CopyTo(s);
                 }
             }
+        }
+
+        public string WriteToPath(HkpvReport report, string path, bool asJson, bool compressed = true)
+        {
+            var filename = Path.Combine(path, GetFileName(report, asJson, compressed));
+
+            WriteToFile(report, filename, asJson, compressed);
             return filename;
         }
 
-        public MemoryStream WriteToStream(HkpvReport report, bool asJson, string path = "", bool compressed = true)
+        public MemoryStream WriteToStream(HkpvReport report, bool asJson, bool compressed = true)
         {
             report = report.AsSorted();
             var ms = new MemoryStream();
@@ -99,7 +102,7 @@ namespace Vodamep.Hkpv
 
             if (compressed)
             {
-                var filename = GetFileName(report, asJson, path, false);
+                var filename = GetFileName(report, asJson, false);
                 result = ZipStream(ms, filename);
                 ms.Dispose();
             }
@@ -107,14 +110,14 @@ namespace Vodamep.Hkpv
             return result;
         }
 
-        private string GetFileName(HkpvReport report, bool asJson, string path = "", bool compressed = true)
+        public static string GetFileName(HkpvReport report, bool asJson, bool compressed = true)
         {
             if (compressed)
-                return Path.Combine(path, $"{report.GetId()}.zip");
+                return $"{report.GetId()}.zip";
             else if (asJson)
-                return Path.Combine(path, $"{report.GetId()}.json");
+                return $"{report.GetId()}.json";
             else
-                return Path.Combine(path, $"{report.GetId()}.hkpv");
+                return $"{report.GetId()}.hkpv";
         }
 
         private MemoryStream ZipStream(Stream data, string filename)

@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="nuget.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Engines\SqlServer\Scripts\0001_CreateTable.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Engines\SqlServer\Scripts\0001_CreateTable.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="nuget.config" />
+  </ItemGroup>
+
+  <ItemGroup>    
+    <PackageReference Include="Bazinga.AspNetCore.Authentication.Basic" Version="2.0.1" />    
+    <PackageReference Include="dbup-sqlserver" Version="4.0.0" />    
+    
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.2" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.0.2" />
+    
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.2" />
+    
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />    
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(CoreRT)' == 'True'">
+    <RdXmlFile Include="rd.xml" />    
+    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Vodamep\Vodamep.csproj" />
+  </ItemGroup>
+
+</Project>

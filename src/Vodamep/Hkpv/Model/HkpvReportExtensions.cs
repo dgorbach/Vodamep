@@ -42,7 +42,9 @@ namespace Vodamep.Hkpv.Model
             return m;
         }
         
-        public static string WriteToFile(this HkpvReport report, bool asJson, string path = "", bool compressed = true) => new HkpvReportSerializer().WriteToFile(report, asJson, path, compressed);
+        public static string WriteToPath(this HkpvReport report, string path, bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToPath(report, path, asJson,  compressed);
+
+        public static void WriteToFile(this HkpvReport report, string filename, bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToFile(report, filename, asJson, compressed);
 
     }
 }

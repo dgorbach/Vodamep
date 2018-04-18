@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vodamep.Client", "src\Vodam
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vodamep.Legacy", "src\Vodamep.Legacy\Vodamep.Legacy.csproj", "{BDA9536A-13E7-4532-9B36-F9BEF8890197}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vodamep.Api", "src\Vodamep.Api\Vodamep.Api.csproj", "{932E0F04-C55C-48C3-9509-FA1B80322D3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,18 @@ Global
 		{BDA9536A-13E7-4532-9B36-F9BEF8890197}.Release|x64.Build.0 = Release|Any CPU
 		{BDA9536A-13E7-4532-9B36-F9BEF8890197}.Release|x86.ActiveCfg = Release|Any CPU
 		{BDA9536A-13E7-4532-9B36-F9BEF8890197}.Release|x86.Build.0 = Release|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Debug|x64.Build.0 = Debug|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Debug|x86.Build.0 = Debug|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Release|x64.ActiveCfg = Release|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Release|x64.Build.0 = Release|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Release|x86.ActiveCfg = Release|Any CPU
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +102,7 @@ Global
 		{87042AD1-75BB-4CC5-8CC6-346234482313} = {59A6C111-CE2D-4F76-911B-E7033F4B9EF4}
 		{26FF62E2-D514-40DC-A943-DA8078E1BB49} = {208A3A72-FA75-4C25-A6BB-B455B07D814F}
 		{BDA9536A-13E7-4532-9B36-F9BEF8890197} = {208A3A72-FA75-4C25-A6BB-B455B07D814F}
+		{932E0F04-C55C-48C3-9509-FA1B80322D3C} = {208A3A72-FA75-4C25-A6BB-B455B07D814F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D823BE72-7933-4FAA-90C3-F57FADDE48C8}

@@ -46,7 +46,7 @@ namespace Vodamep.Client
         {
             var report = new HkpvReportSerializer().DeserializeFile(args.File);
 
-            var file = report.WriteToFile(args.Json, compressed: !args.NoCompression);
+            var file = report.WriteToPath("", asJson: args.Json, compressed: !args.NoCompression);
 
             Console.WriteLine($"{file} created");
         }
@@ -62,7 +62,7 @@ namespace Vodamep.Client
 
             var r = DataGenerator.Instance.CreateHkpvReport(year, month, args.Persons, args.Staffs, args.AddActivities);
 
-            var file = r.WriteToFile(args.Json, compressed: !args.NoCompression);
+            var file = r.WriteToPath("", asJson: args.Json, compressed: !args.NoCompression);
 
             Console.WriteLine($"{file} created");
         }

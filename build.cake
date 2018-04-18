@@ -17,7 +17,8 @@ Task("Default")
 Task("Appveyor")    
 	.IsDependentOn("Default")    
 	.IsDependentOn("PublishLegacy")
-	.IsDependentOn("PublishCoreRT");
+	.IsDependentOn("PublishClient")
+	.IsDependentOn("PublishApi");
     
 
 Task("Proto")
@@ -129,19 +130,27 @@ Task("PublishLegacy")
 		Zip(publishDir + "/dml", publishDir + "/dml.zip", publishDir + "/dml/dml.exe");
 	});
 
-Task("PublishCoreRT")	
+Task("PublishClient")	
 	.Does(() =>
 	{	
 
 		EnsureDirectoryExists(publishDir);
 		CleanDirectory(publishDir + "/dmc");
-		if (FileExists(publishDir + "dmc.zip"))
+		if (FileExists(publishDir + "/dmc.zip"))
 		{
-			DeleteFile(publishDir + "dmc.zip");
+			DeleteFile(publishDir + "/dmc.zip");
 		}
 
+		var ms = new DotNetCoreMSBuildSettings();			
+
+		var settings = new DotNetCorePublishSettings
+		{         
+			Configuration = "Release",			
+			OutputDirectory = publishDir + "/dmc",
+			MSBuildSettings = ms,
+			Runtime = "win-x64"
+		};	
 		
-		var settings = GetDotNetCorePublishSettings();
 		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("CoreRT", "True");
 
 		// compression wird derzeit noch nicht unterstützt: workaround
@@ -163,22 +172,49 @@ Task("PublishCoreRT")
 		Zip(publishDir + "/dmc", publishDir + "/dmc.zip", files);
 	});
 
+Task("PublishApi")	
+	.Does(() =>
+	{	
 
+		EnsureDirectoryExists(publishDir);
+		CleanDirectory(publishDir + "/dms");
+		if (FileExists(publishDir + "/dms.zip"))
+		{
+			DeleteFile(publishDir + "/dms.zip");
+		}
+
+		var ms = new DotNetCoreMSBuildSettings();			
+
+		var settings = new DotNetCorePublishSettings
+		{         
+			Configuration = "Release",			
+			OutputDirectory = publishDir + "/dms",
+			MSBuildSettings = ms,
+			Runtime = "win-x64"
+		};	
+		
+		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("CoreRT", "True");
+
+		// compression wird derzeit noch nicht unterstützt: workaround
+		// https://github.com/dotnet/corert/issues/5496
+		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("NativeCompilationDuringPublish", "False");		
+
+		DotNetCorePublish("./src/Vodamep.Api/Vodamep.Api.csproj", settings); 
+
+		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("NativeCompilationDuringPublish", "True");		
+
+		DotNetCorePublish("./src/Vodamep.Api/Vodamep.Api.csproj", settings); 
+				
+		MoveFile(publishDir + "/dms/Vodamep.Api.exe", publishDir + "/dms/dms.exe");
+		var files = new [] {
+			publishDir + "/dms/dms.exe",
+			publishDir + "/dms/libuv.dll",			
+			publishDir + "/dms/clrcompression.dll"
+		};
+
+		Zip(publishDir + "/dms", publishDir + "/dms.zip", files);
+	});
 
 RunTarget(target);
 
 
-private DotNetCorePublishSettings GetDotNetCorePublishSettings()
-{
-	var ms = new DotNetCoreMSBuildSettings();			
-
-	var settings = new DotNetCorePublishSettings
-	{         
-		Configuration = "Release",			
-		OutputDirectory = publishDir + "/dmc",
-		MSBuildSettings = ms,
-		Runtime = "win-x64"
-	};	
-
-	return settings;
-}
