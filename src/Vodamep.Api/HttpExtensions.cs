@@ -10,7 +10,7 @@ namespace Vodamep.Api
         {
             response.ContentType = "application/json";
             var settings = new JsonSerializerSettings() { Formatting = Formatting.Indented, DefaultValueHandling = DefaultValueHandling.Ignore };
-            return response.WriteAsync(JsonConvert.SerializeObject(obj, settings ));
+            return response.WriteAsync(JsonConvert.SerializeObject(obj, settings));
         }
     }
 }

@@ -1,13 +1,27 @@
 ﻿using PowerArgs;
+using System;
 
 namespace Vodamep.Client
 {
 
     class Program
     {
-        static void Main(string[] args)
-        {
-            Args.InvokeAction<VodamepProgram>(args);
+        static int Main(string[] args)
+        {            
+            try
+            {
+                Args.InvokeAction<VodamepProgram>(args);
+            }
+            catch (Exception e)
+            {
+                if (!string.IsNullOrEmpty(e.Message))
+                    Console.WriteLine(e.Message);
+
+                return -1;
+            }
+
+            Console.ReadKey();
+            return 0;
         }
     }
 

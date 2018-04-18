@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Vodamep.Api.CmdQry;
-using Vodamep.Api.Model;
 using Vodamep.Hkpv;
 using Vodamep.Hkpv.Model;
 using Vodamep.Hkpv.Validation;
@@ -15,7 +14,7 @@ namespace Vodamep.Api
 {
     public class VodamepHandler
     {
-        
+
         private readonly Func<IEngine> _engineFactory;
         private readonly ILogger<VodamepHandler> _logger;
 
@@ -32,12 +31,12 @@ namespace Vodamep.Api
 
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
 
-            await context.Response.WriteJson(result);            
+            await context.Response.WriteJson(result);
         }
 
-        private async Task RespondSuccess(HttpContext context)
+        private async Task RespondSuccess(HttpContext context, string message)
         {
-            var result = new SendResult() { IsValid = true };
+            var result = new SendResult() { IsValid = true, Message = message };
 
             context.Response.StatusCode = StatusCodes.Status200OK;
 
@@ -51,7 +50,7 @@ namespace Vodamep.Api
             if (authResult.None)
                 await context.ChallengeAsync(BasicAuthenticationDefaults.AuthenticationScheme);
 
-            if (context.User == null)
+            if (context.User == null || string.IsNullOrEmpty(context.User.Identity?.Name))
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;
@@ -99,9 +98,10 @@ namespace Vodamep.Api
 
             var validationResult = await new HkpvReportValidator().ValidateAsync(report);
 
+            var msg = new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text).Format(report, validationResult);
+
             if (!validationResult.IsValid)
             {
-                var msg = new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text).Format(report, validationResult);
                 await RespondError(context, msg);
                 return;
             }
@@ -110,7 +110,7 @@ namespace Vodamep.Api
 
             _engineFactory().Execute(saveCmd);
 
-            await RespondSuccess(context);
+            await RespondSuccess(context, msg);
         }
     }
 }

@@ -2,6 +2,8 @@
   <Application>
 
     <Assembly Name="Vodamep">
+      <Type Name="Vodamep.SendResult" Dynamic="Required All" />
+      
       <Type Name="Vodamep.Data.CountryCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.InsuranceCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.ReligionCodeProvider" Dynamic="Required All" />
@@ -23,6 +25,7 @@
       <Type Name="Vodamep.Client.PackRandomArgs" Dynamic="Required All" />
       <Type Name="Vodamep.Client.VodamepProgram" Dynamic="Required All" />
       <Type Name="Vodamep.Client.ValidateArgs" Dynamic="Required All" />
+      <Type Name="Vodamep.Client.SendArgs" Dynamic="Required All" />      
     </Assembly>
 
     <Assembly Name="PowerArgs">

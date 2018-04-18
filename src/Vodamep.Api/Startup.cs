@@ -8,7 +8,6 @@ using System;
 using System.IO;
 using Vodamep.Api.CmdQry;
 using Vodamep.Api.Engines.FileSystem;
-using Vodamep.Api.Engines.SqlServer;
 
 namespace Vodamep.Api
 {

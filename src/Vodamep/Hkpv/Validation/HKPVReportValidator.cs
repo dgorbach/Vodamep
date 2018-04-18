@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
@@ -8,6 +10,15 @@ namespace Vodamep.Hkpv.Validation
 
     public class HkpvReportValidator : AbstractValidator<HkpvReport>
     {
+        static HkpvReportValidator()
+        {
+            var isGerman = Thread.CurrentThread.CurrentCulture.Name.StartsWith("de", StringComparison.CurrentCultureIgnoreCase);
+            if (isGerman)
+            {
+                var loc = new DisplayNameResolver();
+                ValidatorOptions.DisplayNameResolver = (type, memberInfo, expression) => loc.GetDisplayName(memberInfo?.Name);
+            }
+        }
         public HkpvReportValidator()
         {
             this.RuleFor(x => x.Institution).NotNull();
@@ -62,6 +73,11 @@ namespace Vodamep.Hkpv.Validation
             this.Include(new PersonalDataSsnIsUniqueValidator());
 
             this.Include(new ConsultationsValidator3132And3334());
+        }
+
+        public override async Task<ValidationResult> ValidateAsync(ValidationContext<HkpvReport> context, CancellationToken cancellation = default(CancellationToken))
+        {
+            return new HkpvReportValidationResult(await base.ValidateAsync(context, cancellation));
         }
 
         public override ValidationResult Validate(ValidationContext<HkpvReport> context)

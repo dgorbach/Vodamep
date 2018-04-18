@@ -1,6 +1,9 @@
-﻿using System;
+﻿using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using Vodamep.Hkpv.Validation;
 
 namespace Vodamep.Hkpv.Model
 {
@@ -46,5 +49,15 @@ namespace Vodamep.Hkpv.Model
 
         public static void WriteToFile(this HkpvReport report, string filename, bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToFile(report, filename, asJson, compressed);
 
+        public static MemoryStream WriteToStream(this HkpvReport report, bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToStream(report, asJson, compressed);
+
+        public static Task<SendResult> Send(this HkpvReport report, Uri address, string username, string password) => new HkpvReportSendClient(address).Send(report, username, password);
+
+        public static ValidationResult Validate(this HkpvReport report) => new HkpvReportValidator().Validate(report);
+
+
     }
+
+
+   
 }
