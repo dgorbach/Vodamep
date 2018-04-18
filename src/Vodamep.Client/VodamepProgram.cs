@@ -4,6 +4,7 @@ using System;
 using System.Threading;
 using Vodamep.Data;
 using Vodamep.Data.Dummy;
+using Vodamep.Hkpv;
 using Vodamep.Hkpv.Model;
 using Vodamep.Hkpv.Validation;
 
@@ -23,7 +24,7 @@ namespace Vodamep.Client
                 ValidatorOptions.DisplayNameResolver = (type, memberInfo, expression) => loc.GetDisplayName(memberInfo?.Name);
             }
 
-            var report = HkpvReportExtensions.Read(args.File);
+            var report = new HkpvReportSerializer().DeserializeFile(args.File);
 
             var validator = new HkpvReportValidator();
 
@@ -43,7 +44,7 @@ namespace Vodamep.Client
         [ArgActionMethod, ArgDescription("Pack a file.")]
         public void PackFile(PackFileArgs args)
         {
-            var report = HkpvReportExtensions.Read(args.File);
+            var report = new HkpvReportSerializer().DeserializeFile(args.File);
 
             var file = report.WriteToFile(args.Json, compressed: !args.NoCompression);
 
