@@ -8,5 +8,7 @@ build_script:
 artifacts:
 - path: publish/dmc.zip
   name: dmc.zip
+- path: publish/dms.zip
+  name: dms.zip
 - path: publish/dml.zip
   name: dml.zip
