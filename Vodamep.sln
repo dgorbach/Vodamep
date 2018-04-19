@@ -14,6 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6F9EE767
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		build.cake = build.cake
+		code-of-conduct.md = code-of-conduct.md
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
