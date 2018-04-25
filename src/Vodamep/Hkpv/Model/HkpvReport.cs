@@ -31,18 +31,16 @@ namespace Vodamep.Hkpv.Model
             return result;
         }
 
-        public string GetId()
+        public string GetSHA256Hash()
         {
             using (var s = SHA256.Create())
             {
                 var h = s.ComputeHash(this.ToByteArray());
-                                
-                var hash = System.Net.WebUtility.UrlEncode(Convert.ToBase64String(h));
 
-                var date = this.FromD;
+                var sha256 = System.Net.WebUtility.UrlEncode(Convert.ToBase64String(h));
 
-                return $"{this.Institution.Id}_{date.Year}_{date.Month}_{hash}";
+                return sha256;
             }
-        }
+        }        
     }
 }

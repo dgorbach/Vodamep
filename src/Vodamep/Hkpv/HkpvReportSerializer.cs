@@ -112,12 +112,15 @@ namespace Vodamep.Hkpv
 
         public static string GetFileName(HkpvReport report, bool asJson, bool compressed = true)
         {
+
+            var filename = $"{report.Institution.Id}_{report.FromD.Year}_{report.FromD.Month}_{report.GetSHA256Hash()}";
+
             if (compressed)
-                return $"{report.GetId()}.zip";
+                return $"{filename}.zip";
             else if (asJson)
-                return $"{report.GetId()}.json";
+                return $"{filename}.json";
             else
-                return $"{report.GetId()}.hkpv";
+                return $"{filename}.hkpv";
         }
 
         private MemoryStream ZipStream(Stream data, string filename)

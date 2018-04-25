@@ -1,3 +1,6 @@
+// Dokumentation: https://developers.google.com/protocol-buffers/
+// Online generator z.B. :https://protogen.marcgravell.com/
+
 syntax = "proto3";
 package Vodamep.Hkpv;
 

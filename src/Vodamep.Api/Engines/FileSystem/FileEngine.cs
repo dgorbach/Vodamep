@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.Text.RegularExpressions;
 using Vodamep.Api.CmdQry;
 using Vodamep.Hkpv;
@@ -10,22 +10,22 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Api.Engines.FileSystem
 {
-
     public class FileEngine : IEngine
     {
         private readonly string _path;
         private readonly ILogger<FileEngine> _logger;
+        private AuthContext _authContext;
 
-        public FileEngine(string path, ILogger<FileEngine> logger)
+        public FileEngine(FileEngineConfiguration configuration, ILogger<FileEngine> logger)
         {
-            this._path = path;
+            this._path = configuration.Path;
             this._logger = logger;
 
-            _logger?.LogInformation("Uses Directory {path}", path);
+            _logger?.LogInformation("Uses Directory {path}", _path);
 
             if (!Directory.Exists(_path))
             {
-                _logger?.LogInformation("Creates Directory {path}", path);
+                _logger?.LogInformation("Creates Directory {path}", _path);
                 Directory.CreateDirectory(_path);
             }
         }
@@ -37,23 +37,6 @@ namespace Vodamep.Api.Engines.FileSystem
                     this.Save(save.Report);
                     return;
             }
-        }
-
-        public QueryResult<T> Query<T>(IQuery<T> query)
-        {
-            QueryResult<T> result = null;
-
-            switch (query)
-            {
-                case HkpvReportQuery q:
-                    result = new QueryResult<T>() { Result = this.Query(q).Cast<T>().ToArray() };
-                    break;
-                case HkpvReportInfoQuery q:
-                    result = new QueryResult<T>() { Result = this.Query(q).Cast<T>().ToArray() };
-                    break;
-            }
-
-            return result;
         }
 
         private void Save(HkpvReport report)
@@ -71,6 +54,11 @@ namespace Vodamep.Api.Engines.FileSystem
             report.WriteToFile(filename, asJson: false, compressed: true);
 
             _logger.LogInformation("Report saved: {filename}", filename);
+        }
+
+        public void Login(IPrincipal principal)
+        {
+            this._authContext = principal != null ? new AuthContext(principal) : null;
         }
 
         private static Regex _filenamePattern = new Regex(@"^(?<id>\d+)__(?<institution>.+?)_(?<year>\d+)_(?<month>\d+)_(?<hash>.+?)\.(zip|hkpv|json)$");
@@ -94,23 +82,13 @@ namespace Vodamep.Api.Engines.FileSystem
                     Institution = currentId.Match.Groups["institution"].Value,
                     Year = int.Parse(currentId.Match.Groups["year"].Value),
                     Month = int.Parse(currentId.Match.Groups["month"].Value),
-                    Hash = currentId.Match.Groups["hash"].Value
+                    HashSHA256 = currentId.Match.Groups["hash"].Value
                 };
 
                 return (info, currentId.Filename);
             }
 
             return (null, string.Empty);
-        }
-
-        private IEnumerable<HkpvReport> Query(HkpvReportQuery qry)
-        {
-            throw new NotImplementedException();
-        }
-
-        private IEnumerable<HkpvReportInfo> Query(HkpvReportInfoQuery qry)
-        {
-            throw new NotImplementedException();
         }
     }
 }

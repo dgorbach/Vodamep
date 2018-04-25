@@ -206,9 +206,11 @@ Task("PublishApi")
 		
 		var files = new [] {
 			publishDir + "/dms/dms.exe",
-			publishDir + "/dms/libuv.dll",			
+			publishDir + "/dms/libuv.dll",
 			publishDir + "/dms/clrcompression.dll",
-			publishDir + "/dms/web.config"			
+			publishDir + "/dms/sni.dll",
+			publishDir + "/dms/web.config",
+			publishDir + "/dms/appsettings.json"
 		};
 
 		Zip(publishDir + "/dms", publishDir + "/dms.zip", files);

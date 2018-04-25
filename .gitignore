@@ -298,4 +298,5 @@ tools/**
 
 *.g.cs
 
-build/**
+build/
+data/

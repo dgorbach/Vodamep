@@ -124,7 +124,10 @@ namespace Vodamep.Api
 
             var saveCmd = new HkpvReportSaveCommand() { Report = report };
 
-            _engineFactory().Execute(saveCmd);
+            var engine = _engineFactory();
+
+            engine.Login(context.User);
+            engine.Execute(saveCmd);
 
             await RespondSuccess(context, msg);
         }
