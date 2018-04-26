@@ -1,0 +1,16 @@
+// Religion aus Hl7 v2:
+// https://hl7.org/fhir/v2/0006/2.4/index.html
+// kurze Liste mit deutscher Übersetzung: http://wiki.hl7.de/index.php?title=Segment_PID#Tabelle_0006:_Religion 
+
+NOE;nicht-religiös
+OTH;Andere
+VAR;Unbekannt
+ATH;Atheist
+EVC;Evangelisch
+PRO;Protestant
+CAT;römisch-katholisch
+JEW;Jüdisch
+MOS;Muslim
+HIN;Hindu
+BUD;Buddhist
+SIK;Sikh

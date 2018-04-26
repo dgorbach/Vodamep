@@ -17,9 +17,10 @@ namespace Vodamep.Api
             return app.UseRouter(r =>
             {
                 r.MapPut("{year:int}/{month:int}", vodamepHandler);
+                r.MapPost("{year:int}/{month:int}", vodamepHandler); // auch Post akzeptieren
 
                 r.MapGet("{year:int}/{month:int}", defaultHandler);
-                r.MapGet("", vodamepHandler);
+                r.MapGet("", defaultHandler);
                 r.DefaultHandler = new RouteHandler(defaultHandler);
             });
         }

@@ -1,0 +1,55 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: Vodamep
+paths:
+  '/{year}/{month}':
+    put:
+      tags:
+        - Vodamep
+      operationId: VodamepPut
+      consumes:
+        - application/octet-stream
+      produces:        
+        - application/json        
+      parameters:
+        - name: year
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: month
+          in: path
+          required: true
+          type: integer
+          format: int32
+        - name: payload
+          in: body
+          required: true
+          schema:
+            format: byte
+            type: string
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/SendResult'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/SendResult'
+definitions:
+  SendResult:
+    type: object
+    properties:
+      isValid:
+        type: boolean
+      errorMessage:
+        type: string
+      message:
+        type: string
+securityDefinitions:
+  basic:
+    type: basic
+security:
+  - basic: []

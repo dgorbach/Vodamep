@@ -1,0 +1,82 @@
+//Organisationsbeschreibung DVP (Datenaustausch mit Vertragspartner) V3.5 vom 01/2017
+//https://www.sozialversicherung.at/cdscontent/load?contentid=10008.637649&version=1494499223 (Seite 65)
+
+// Frage: Ist Trennung nach Landesstelle notwendig? (Seite 51)
+
+02;Pensionsversicherung 
+05;Versicherungsanstalt für Eisenbahnen und Bergbau 
+07;Versicherungsanstalt öffentlich Bediensteter 
+11;GKK Wien 
+12;GKK Niederösterreich 
+13;GKK Burgenland 
+14;GKK Oberösterreich 
+15;GKK Steiermark
+16;GKK Kärnten
+17;GKK Salzburg
+18;GKK Tirol
+19;GKK Vorarlberg 
+22;Wiener Verkehrsbetriebe 
+24;Mondi 
+25;Voestalpine Bahnsysteme 
+26;Zeltweg 
+28;Kapfenberg
+40;Sozialversicherungsanstalt der gewerblichen Wirtschaft 
+41;Sozialversicherungsanstalt der gewerblichen Wirtschaft, Landesstelle Wien 
+42;Sozialversicherungsanstalt der gewerblichen Wirtschaft, Landesstelle Niederösterreich 
+43;Sozialversicherungsanstalt der gewerblichen Wirtschaft, Landesstelle Burgenland 
+44;Sozialversicherungsanstalt der gewerblichen Wirtschaft, Landesstelle Oberösterreich 
+45;Sozialversicherungsanstalt der gewerblichen Wirtschaft, Landesstelle Steiermark 
+46;Sozialversicherungsanstalt der gewerblichen Wirtschaft, Landesstelle Kärnten 
+47;Sozialversicherungsanstalt der gewerblichen Wirtschaft, Landesstelle Salzburg 
+48;Sozialversicherungsanstalt der gewerblichen Wirtschaft, Landesstelle Tirol 
+49;Sozialversicherungsanstalt der gewerblichen Wirtschaft, Landesstelle Vorarlberg 
+50;Sozialversicherungsanstalt der Bauern 
+51;Sozialversicherungsanstalt der Bauern, Landesstelle Wien 
+52;Sozialversicherungsanstalt der Bauern, Landesstelle Niederösterreich 
+53;Sozialversicherungsanstalt der Bauern, Landesstelle Burgenland 
+54;Sozialversicherungsanstalt der Bauern, Landesstelle Oberösterreich 
+55;Sozialversicherungsanstalt der Bauern, Landesstelle Steiermark 
+56;Sozialversicherungsanstalt der Bauern, Landesstelle Kärnten 
+57;Sozialversicherungsanstalt der Bauern, Landesstelle Salzburg 
+58;Sozialversicherungsanstalt der Bauern, Landesstelle Tirol 
+59;Sozialversicherungsanstalt der Bauern, Landesstelle Vorarlberg 
+1A;Krankenfürsorgeanstalt der Bediensteten der Stadt Wien 
+2A;Krankenfürsorgeanstalt der Beamten der Stadtgemeinde Baden 
+4A;Krankenfürsorge für die Beamten der Landeshauptstadt Linz 
+4B;Kranken- und Unfallfürsorge für oberösterreichische Gemeindebeamte 
+4C;Krankenfürsorgeanstalt für oberösterreichische Landesbeamte 
+4D;Oberösterreichische Lehrer-Kranken- und Unfallfürsorge 
+4E;Krankenfürsorge für die Beamten des Magistrates Steyr 
+4F;Krankenfürsorge für oberösterreichische Beamten der Stadt Wels 
+5A;Krankenfürsorgeanstalt für die Beamten der Landeshauptstadt Graz 
+6A;Krankenfürsorgeanstalt für die Beamten der Stadt Villach 
+7A;Krankenfürsorgeanstalt der Magistratsbeamten der Landeshauptstadt Salzburg 
+7C;Krankenfürsorgeeinrichtung der Beamten der Stadtgemeinde Hallein  
+8B;Kranken- und Unfallfürsorge der Tiroler Gemeindebeamten 
+8C;Kranken- und Unfallfürsorge der Tiroler Landesbeamten 
+8D;Kranken- und Unfallfürsorge der Tiroler Landeslehrer
+1L;Magistrat der Stadt Wien 
+4L;Landesregierung Oberösterreich 
+4G;Magistrat der Stadt Steyr 
+
+
+// woher kommt das?
+80;Arbeitsmarktverwaltung - allgemein
+91;Bundesministerium für Unterricht und Kunst
+95;Bundesministerium für Landesverteidigung
+99;Hauptverband der österreichischen Sozialversicherungsträger
+B9;Bezirkshauptmannschaft im Bundesland Vorarlberg
+CH;in der Schweiz versichert
+DV;in Deutschland versichert
+FA;Krankenfürsorgeanstalt der Beamten d.Stadt Bregenz
+FL;in Liechtenstein versichert
+KS;Bezirkshauptmannschaften
+LH;Lebenshilfe-Patienten
+CA;Caritas-Patienten
+NV;nicht versichert
+PV;Privat versichert
+S9;Bundessozialamt Vorarlberg
+SO;Sonstige
+SZ;Selbstzahler
+UB;unbekannt
+ 

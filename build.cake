@@ -18,7 +18,8 @@ Task("Appveyor")
 	.IsDependentOn("Default")    
 	.IsDependentOn("PublishLegacy")
 	.IsDependentOn("PublishClient")
-	.IsDependentOn("PublishApi");
+	.IsDependentOn("PublishApi")
+	.IsDependentOn("PublishSpecs");
     
 
 Task("Proto")
@@ -27,7 +28,7 @@ Task("Proto")
         var executable = GetFiles("./tools/**/windows_x64/protoc.exe").First().FullPath;
         var protoTools = System.IO.Directory.GetParent(executable).Parent.FullName;
 
-        foreach(var file in GetFiles("proto/**/*.proto"))
+        foreach(var file in GetFiles("specifications/**/*.proto"))
         {            
             var protoPaths = new List<string>();
             protoPaths.Add(protoTools);
@@ -214,6 +215,19 @@ Task("PublishApi")
 		};
 
 		Zip(publishDir + "/dms", publishDir + "/dms.zip", files);
+	});
+
+Task("PublishSpecs")	
+	.Does(() =>
+	{
+		EnsureDirectoryExists(publishDir);
+		
+		if (FileExists(publishDir + "/specifications.zip"))
+		{
+			DeleteFile(publishDir + "/specifications.zip");
+		}
+
+		Zip("./specifications", publishDir + "/specifications.zip");
 	});
 
 RunTarget(target);

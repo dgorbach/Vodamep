@@ -12,3 +12,5 @@ artifacts:
   name: dms.zip
 - path: publish/dml.zip
   name: dml.zip
+- path: publish/specifications.zip
+  name: specifications.zip

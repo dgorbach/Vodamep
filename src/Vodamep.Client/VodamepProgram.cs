@@ -15,7 +15,7 @@ namespace Vodamep.Client
 
         private void HandleFailure(string message = null)
         {
-            throw new Exception(message);            
+            throw new Exception(message);
         }
 
         [ArgActionMethod, ArgDescription("Absenden der Meldung.")]
@@ -23,7 +23,11 @@ namespace Vodamep.Client
         {
             var report = ReadReport(args.File);
 
-            var sendResult = report.Send(new Uri(args.Address), args.User, args.Pwd).Result;
+            var address = args.Address.Trim();
+
+            address = address.EndsWith(@"\") ? address : $"{address}/";
+
+            var sendResult = report.Send(new Uri(address), args.User, args.Password).Result;
 
             if (!string.IsNullOrEmpty(sendResult?.Message))
             {
@@ -54,11 +58,18 @@ namespace Vodamep.Client
 
             var formatter = new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text);
             var message = formatter.Format(report, result);
-            Console.WriteLine(message);
 
             if (!result.IsValid)
             {
-                HandleFailure();
+                HandleFailure(message);
+            }
+            else if (!string.IsNullOrEmpty(message))
+            {
+                Console.WriteLine(message);
+            }
+            else
+            {
+                Console.WriteLine("ok");
             }
         }
 

@@ -20,8 +20,7 @@ namespace Vodamep.Hkpv.Model
                 To = this.To
             };
 
-            result.Activities.AddRange(this.Activities.OrderBy(x => x));
-            result.OtherActivities.AddRange(this.OtherActivities.OrderBy(x => x));
+            result.Activities.AddRange(this.Activities.OrderBy(x => x));            
             result.Consultations.AddRange(this.Consultations.OrderBy(x => x));
 
             result.Persons.AddRange(this.Persons.OrderBy(x => x.Id));

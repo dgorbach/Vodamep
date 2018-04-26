@@ -12,6 +12,6 @@ namespace Vodamep.Client
                 
         public string User { get; set; }
                 
-        public string Pwd { get; set; }
+        public string Password { get; set; }
     }
 }

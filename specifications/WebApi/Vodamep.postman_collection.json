@@ -1,0 +1,33 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Vodamep",
+		"_postman_id": "f103f534-e47d-58f8-26d2-01c2a93e9818",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Vodamep_Put",
+			"request": {
+				"url": "http://localhost:5000/dms/2018/1",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic dGVzdDp0ZXN0",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {
+						"src": ""
+					}
+				},
+				"description": "Meldung versenden"
+			},
+			"response": []
+		}
+	]
+}

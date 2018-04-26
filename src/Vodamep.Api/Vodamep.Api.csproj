@@ -7,10 +7,15 @@
 
   <ItemGroup>
     <None Remove="Engines\SqlServer\Scripts\0001_CreateTable.sql" />
+    <None Remove="swagger.yaml" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Engines\SqlServer\Scripts\0001_CreateTable.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\specifications\WebApi\swagger.yaml" Link="swagger.yaml" />
   </ItemGroup>
 
   <ItemGroup>    

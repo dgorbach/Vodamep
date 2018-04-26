@@ -21,8 +21,7 @@ namespace Vodamep.Hkpv.Validation
                 new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Persons)), GetNameOfPerson),
                 new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.PersonalData)), GetNameOfPerson),
                 new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Staffs)), GetNameOfStaff),
-                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Activities)), GetNameOfActivity),
-                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.OtherActivities)), GetNameOfOtherActivity),
+                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Activities)), GetNameOfActivity),                
                 new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Consultations)), GetNameOfConsultation),
 
                 new GetNameByPatternStrategy($"^{nameof(HkpvReport.To)}$",(a,b) => string.Empty),
@@ -141,16 +140,6 @@ namespace Vodamep.Hkpv.Validation
             return $"{e.FamilyName} {e.GivenName}";
         }
 
-        private string GetNameOfOtherActivity(HkpvReport report, int id)
-        {
-            if (report.OtherActivities.Count > id && id >= 0)
-            {
-                var e = report.OtherActivities[id];
-                return $"Aktivität anderer Verein {e.DateD.ToString("dd.MM.yyyy")}: {GetNameOfPersonById(report, e.PersonId)} {GetNameOfStaffById(report, e.StaffId)}";
-            }
-
-            return string.Empty;
-        }
 
         private string GetNameOfConsultation(HkpvReport report, int id)
         {

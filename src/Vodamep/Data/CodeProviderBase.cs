@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Vodamep.Data
 {
 
     public abstract class CodeProviderBase
     {
+        private static Regex _commentPattern = new Regex("//.*$");
         private readonly IDictionary<string, string> _dict = new SortedDictionary<string, string>();
         protected CodeProviderBase()
         {
@@ -27,8 +29,14 @@ namespace Vodamep.Data
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    var xx = line.Split(';');
-                    _dict.Add(xx[0], xx[1]);
+
+                    line = _commentPattern.Replace(line, string.Empty).Trim();
+
+                    if (string.IsNullOrEmpty(line))
+                        continue;
+
+                    var values = line.Split(';');
+                    _dict.Add(values[0], values[1]);
                 }
             }
         }

@@ -1,22 +1,19 @@
-// Dokumentation: https://developers.google.com/protocol-buffers/
-// Online generator z.B. :https://protogen.marcgravell.com/
-
 syntax = "proto3";
 package Vodamep.Hkpv;
 
 option csharp_namespace = "Vodamep.Hkpv.Model";
 
+// Datumswerte werden nach ISO 8601 im Format JJJJ-MM-TT angegeben
 
 message HkpvReport {   
     Institution institution = 1;   
-    string from = 2;
-    string to = 3;    	
+    string from = 2;							// Datum
+    string to = 3;    							// Datum	
     repeated Staff staffs = 4; 
     repeated Person persons = 5;     
     repeated PersonalData personal_data = 6;
     repeated Activity activities = 7; 
-    repeated Consultation consultations = 8;
-    repeated Activity other_activities = 9;
+    repeated Consultation consultations = 8;    
 }
 
 // Einrichtung
@@ -25,38 +22,7 @@ message Institution {
     string name = 2;    
 }
 
-// Leistungen
-message Activity {
-    string date = 1;
-    string person_id = 2;
-    string staff_id = 3;    
-    ActivityType type = 4;
-    int32 amount = 5;
-}
-
-// Stammdaten zu einer Person
-message Person {
-    string id = 1;
-    string religion = 2;
-    string insurance = 3;               // Sozialversicherung
-    string nationality = 4;             // Staatsbürgerschaft
-    CareAllowance care_allowance = 5;   // Pflegegeld
-    string postcode = 6;
-    string city = 7;
-    Gender gender = 8;
-}
-
-// Personenbezug
-message PersonalData {
-    string id = 1;        
-    string family_name = 2;
-    string given_name = 3;
-    string street = 4;        
-    string ssn = 5;
-    string birthday = 6;
-}
-
-// Mitarbeiter
+// Mitarbeiter, die im Zeitraum eine Leistung erbracht haben
 message Staff {
     string id = 1;    
     string family_name = 3;
@@ -64,9 +30,40 @@ message Staff {
     StaffRole role = 5;
 }
 
+// Personenbezug von Personen, die im Zeitraum eine Leistung bezogen haben
+message PersonalData {
+    string id = 1;        
+    string family_name = 2;
+    string given_name = 3;
+    string street = 4;        
+    string ssn = 5;
+    string birthday = 6;				// Datum
+}
+
+// Stammdaten zu einer Person
+message Person {
+    string id = 1;
+    string religion = 2;				// Ein Wert aus der Liste der Religionen
+    string insurance = 3;               // Ein Wert aus der Liste der Sozialversicherungen
+    string nationality = 4;             // Staatsbürgerschaft, Zwei-stelliges Länderkürzel nach Iso 3166-2
+    CareAllowance care_allowance = 5;   // Pflegegeld
+    string postcode = 6;				// postcode und city müssen zusammen einem Wert aus der Liste der Orte entsprechen
+    string city = 7;
+    Gender gender = 8;
+}
+
+// Leistungen
+message Activity {
+    string date = 1;					// Datum
+    string person_id = 2;
+    string staff_id = 3;    
+    ActivityType type = 4;
+    int32 amount = 5;
+}
+
 // Beratungen
 message Consultation {
-    string date = 1;    
+    string date = 1;					// Datum
     string staff_id = 3;    
     ConsultationType type = 4;
     int32 amount = 5;
@@ -134,23 +131,6 @@ enum Gender {
 
 
 /*
-Ländercodes: iso 3166-2
-Übernommen aus Bestand (xp_IGK_2002_GNV.mdb, Tabelle Staaten_ISO)
-
-
-Sozialversicherung:
-Übernommen aus Bestand (xp_IGK_2002_GNV.mdb, Tabelle TB_Versicherung)
-"Codeverzeichnis der Versicherungsträger"
-(z.b. https://www.evga.at/fileadmin/user_upload/E_HV_Kassen.pdf, https://www.sozialversicherung.at/cdscontent/load?contentid=10008.640505&version=1493195855)
-
-
-Religion aus Hl7 v2:
-
- https://hl7.org/fhir/v2/0006/2.4/index.html
- german translation: http://wiki.hl7.de/index.php?title=Segment_PID#Tabelle_0006:_Religion 
- 
-In Elga wird Hl7 v3 verwendet:
-https://termpub.gesundheit.gv.at/TermBrowser/gui/main/main.zul?loadType=ValueSet&loadName=ELGA_ReligiousAffiliation
-
-http://hl7.org/fhir/terminologies-systems.html
+Dokumentation zu Protobuf: https://developers.google.com/protocol-buffers/
+Online generator z.B. :https://protogen.marcgravell.com/
 */ 

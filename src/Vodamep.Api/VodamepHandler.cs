@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Vodamep.Api.CmdQry;
 using Vodamep.Hkpv;
@@ -53,7 +54,13 @@ namespace Vodamep.Api
                 return;
             }
 
-            await context.Response.WriteAsync($"Verb =  {context.Request.Method.ToUpperInvariant()} - Path = {context.Request.Path} - Route values - {string.Join(", ", context.GetRouteData().Values)}");
+            var assembly = this.GetType().Assembly;
+            var resourceStream = assembly.GetManifestResourceStream($"Vodamep.Api.swagger.yaml");
+            using (var reader = new StreamReader(resourceStream))
+            {
+                context.Response.ContentType = "text/plain; charset=utf-8";
+                await context.Response.WriteAsync(reader.ReadToEnd());               
+            }            
         }
 
         public async Task HandlePut(HttpContext context)

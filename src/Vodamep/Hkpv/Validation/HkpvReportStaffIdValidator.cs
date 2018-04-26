@@ -22,19 +22,17 @@ namespace Vodamep.Hkpv.Validation
                     }
                 });
 
-            //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später: new { x.Staffs, x.Activities, x.OtherActivities, x.Consultations }
-            this.RuleFor(x => new Tuple<IList<Staff>, IEnumerable<Activity>, IEnumerable<Activity>, IEnumerable<Consultation>>(x.Staffs, x.Activities, x.OtherActivities, x.Consultations))
+            //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später: new { x.Staffs, x.Activities, x.Consultations }
+            this.RuleFor(x => new Tuple<IList<Staff>, IEnumerable<Activity>, IEnumerable<Consultation>>(x.Staffs, x.Activities, x.Consultations))
                .Custom((a, ctx) =>
                {
                    var staffs = a.Item1;
-                   var activities = a.Item2;
-                   var otherActivities = a.Item3;
-                   var consultations = a.Item4;
+                   var activities = a.Item2;                   
+                   var consultations = a.Item3;
 
                    var idStaffs = staffs.Select(x => x.Id).Distinct().ToArray();
                    var idActivities = (
-                                activities.Select(x => x.StaffId)
-                                .Union(otherActivities.Select(x => x.StaffId))
+                                activities.Select(x => x.StaffId)                                
                                 .Union(consultations.Select(x => x.StaffId))
                                 ).Distinct().ToArray();
 

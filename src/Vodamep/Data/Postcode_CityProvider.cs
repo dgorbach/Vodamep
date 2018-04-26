@@ -24,7 +24,7 @@ namespace Vodamep.Data
             }
         }
 
-        protected override string ResourceName => "Data.Postcode_Cities.txt";
+        protected override string ResourceName => "Data.postcode_cities.csv";
 
         public override string Unknown => "";
     }

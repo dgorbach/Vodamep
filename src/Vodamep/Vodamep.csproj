@@ -17,19 +17,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Data\Dummy\Aktivitäten.txt"/>
-    <EmbeddedResource Include="Data\Dummy\gemplzstr_8.csv"/>          
-    <EmbeddedResource Include="Data\Dummy\Nachnamen.txt"/>    
-    <EmbeddedResource Include="Data\Dummy\Vornamen.txt"/>
-    <EmbeddedResource Include="Data\german-iso-3166.csv" />
-    <EmbeddedResource Include="Data\insurances.csv" />
-    <EmbeddedResource Include="Data\Postcode_Cities.txt" />
-    <EmbeddedResource Include="Data\religions.csv" />
+    <EmbeddedResource Include="Data\Dummy\Aktivitäten.txt" />
+    <EmbeddedResource Include="Data\Dummy\gemplzstr_8.csv" />          
+    <EmbeddedResource Include="Data\Dummy\Nachnamen.txt" />    
+    <EmbeddedResource Include="Data\Dummy\Vornamen.txt" />
   </ItemGroup>
   
   <ItemGroup>
-    <Compile Include="..\..\proto\Hkpv\Hkpv.g.cs" Link="Hkpv\Model\Hkpv.g.cs" />
-    <None Include="..\..\proto\Hkpv\Hkpv.proto" Link="Hkpv\Model\Hkpv.proto" />
+    <Compile Include="..\..\specifications\Hkpv\Hkpv.g.cs" Link="Hkpv\Model\Hkpv.g.cs" />
+    <EmbeddedResource Include="..\..\specifications\Datasets\postcode_cities.csv" Link="Data\postcode_cities.csv" />
+    <EmbeddedResource Include="..\..\specifications\Datasets\german-iso-3166.csv" Link="Data\german-iso-3166.csv" />
+    <EmbeddedResource Include="..\..\specifications\Datasets\insurances.csv" Link="Data\insurances.csv" />
+    <EmbeddedResource Include="..\..\specifications\Datasets\religions.csv" Link="Data\religions.csv" />
+    <None Include="..\..\specifications\Hkpv\Hkpv.proto" Link="Hkpv\Model\Hkpv.proto" />
   </ItemGroup>
 
   <ItemGroup>

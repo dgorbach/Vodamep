@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{6F9EE767
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		build.cake = build.cake
-		code-of-conduct.md = code-of-conduct.md
-		Readme.md = Readme.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vodamep.Client", "src\Vodamep.Client\Vodamep.Client.csproj", "{26FF62E2-D514-40DC-A943-DA8078E1BB49}"
@@ -23,6 +21,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vodamep.Legacy", "src\Vodamep.Legacy\Vodamep.Legacy.csproj", "{BDA9536A-13E7-4532-9B36-F9BEF8890197}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vodamep.Api", "src\Vodamep.Api\Vodamep.Api.csproj", "{932E0F04-C55C-48C3-9509-FA1B80322D3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "specifications", "specifications\specifications.csproj", "{40E6E958-611C-4D46-903A-69534E5325C5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{419C17D5-5014-45BE-8C31-0169753C3864}"
+	ProjectSection(SolutionItems) = preProject
+		code-of-conduct.md = code-of-conduct.md
+		LICENCE = LICENCE
+		Readme.md = Readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +101,18 @@ Global
 		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Release|x64.Build.0 = Release|Any CPU
 		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Release|x86.ActiveCfg = Release|Any CPU
 		{932E0F04-C55C-48C3-9509-FA1B80322D3C}.Release|x86.Build.0 = Release|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Debug|x64.Build.0 = Debug|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Debug|x86.Build.0 = Debug|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Release|x64.ActiveCfg = Release|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Release|x64.Build.0 = Release|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Release|x86.ActiveCfg = Release|Any CPU
+		{40E6E958-611C-4D46-903A-69534E5325C5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
