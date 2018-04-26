@@ -1,10 +1,9 @@
 ﻿# Vodamep - Client
 
+(dmc) Daten-Meldungs-Client:
 
 ```
 dmc.exe
-
-(dmc) Daten-Meldungs-Client:
 
 Usage -  <action>
 

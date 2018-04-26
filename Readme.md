@@ -9,7 +9,7 @@ Inhalte:
 - [Meldungsbibliothek](./src/Vodamep/Readme.md) zur Einbindung in .net-Projekte.
 
 
-Das aktuelle Release ist im [releases-Verzeichnis](.//releases) zu finden.
+Das aktuelle Release ist im releases-Verzeichnis dieses Repositories zu finden.
 
 
 ## Build

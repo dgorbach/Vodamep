@@ -1,12 +1,10 @@
 ﻿# Vodamep - Legacy
 
-(dml) Daten-Meldung-Legacy
+(dml) Daten-Meldungs-Legacy
 
 
 ```
 dml.exe
-
-(dml) Daten-Meldung-Legacy:
 
 Usage - dml <action>
 
