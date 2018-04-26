@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Vodamep.Api
+namespace Vodamep.Api.Authentication
 {
-    internal class CredentialVerifier
+    internal class UsernameEqualsPasswordCredentialVerifier
     {
         public Task<bool> Verify((string username, string password) credentials)
         {
