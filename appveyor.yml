@@ -1,10 +1,19 @@
 version: 1.0.{build}
 image: Visual Studio 2017
+branches:
+  only:
+    - master
+skip_non_tags: true
 build_script:
 - ps: >-
     $env:vodamepnative = $true
 
+    $env:vodamepversion = $env:APPVEYOR_REPO_TAG_NAME
+
+    Write-Host($env:vodamepversion)
+
     .\build.ps1 -Target Appveyor
+    
 artifacts:
 - path: publish/dmc.zip
   name: dmc.zip
@@ -14,3 +23,4 @@ artifacts:
   name: dml.zip
 - path: publish/specifications.zip
   name: specifications.zip
+- path: publish/Vodamep.*.nupkg  

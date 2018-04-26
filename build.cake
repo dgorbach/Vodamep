@@ -1,6 +1,5 @@
 #tool "Google.Protobuf.Tools"
 
-
 var target = Argument("target", "Default");
 var configuration = "Release";
 var publishDir = MakeAbsolute(Directory("./publish")).FullPath;
@@ -15,10 +14,11 @@ Task("Default")
 	
 
 Task("Appveyor")    
-	.IsDependentOn("Default")    
+	.IsDependentOn("Default")   
+	.IsDependentOn("PublishNuget") 
 	.IsDependentOn("PublishLegacy")
 	.IsDependentOn("PublishClient")
-	.IsDependentOn("PublishApi")
+	.IsDependentOn("PublishApi")	
 	.IsDependentOn("PublishSpecs");
     
 
@@ -95,11 +95,11 @@ Task("Build")
 
 Task("Test")	
     .Does(() => 
-    {	
+    {
 		var settings = new DotNetCoreTestSettings
 		{
 			Configuration = "Release",
-			NoBuild = true
+			NoBuild = true			
 		};
 
         foreach(var file in GetFiles("./tests/**/*.csproj")) 
@@ -142,7 +142,7 @@ Task("PublishClient")
 			DeleteFile(publishDir + "/dmc.zip");
 		}
 
-		var ms = new DotNetCoreMSBuildSettings();			
+		var ms = new DotNetCoreMSBuildSettings();
 
 		var settings = new DotNetCorePublishSettings
 		{         
@@ -183,7 +183,7 @@ Task("PublishApi")
 			DeleteFile(publishDir + "/dms.zip");
 		}
 
-		var ms = new DotNetCoreMSBuildSettings();			
+		var ms = new DotNetCoreMSBuildSettings();
 
 		var settings = new DotNetCorePublishSettings
 		{         
@@ -228,6 +228,25 @@ Task("PublishSpecs")
 		}
 
 		Zip("./specifications", publishDir + "/specifications.zip");
+	});
+
+Task("PublishNuget")
+	.Does(() =>
+	{
+		var version = EnvironmentVariable("vodamepversion") ?? "0.0.1";
+
+		var ms = new DotNetCoreMSBuildSettings();
+
+		var settings = new DotNetCorePackSettings
+		{
+			Configuration = "Release",
+			OutputDirectory = publishDir,
+			MSBuildSettings = ms,
+		};
+
+		settings.MSBuildSettings = settings.MSBuildSettings.WithProperty("Version", version);
+
+		DotNetCorePack("./src/Vodamep/Vodamep.csproj", settings);
 	});
 
 RunTarget(target);
