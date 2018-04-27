@@ -68,8 +68,8 @@ Task("Build")
     .Does(() => 
     {	
 		Func<IFileSystemInfo, bool> exclude_legacy =
-			fileSystemInfo => !fileSystemInfo.Path.FullPath.EndsWith(
-				".Legacy", StringComparison.OrdinalIgnoreCase);
+			fileSystemInfo => !fileSystemInfo.Path.FullPath.EndsWith(".Legacy", StringComparison.OrdinalIgnoreCase) 
+				&& !fileSystemInfo.Path.FullPath.EndsWith(".Specs", StringComparison.OrdinalIgnoreCase);
 
 
 		var files = GetFiles("./**/*.csproj", exclude_legacy);
@@ -89,6 +89,7 @@ Task("Build")
     	};
 
 		MSBuild("./src/Vodamep.Legacy/Vodamep.Legacy.csproj",msBuildSettings);
+		MSBuild("./tests/Vodamep.Specs/Vodamep.Specs.csproj",msBuildSettings);
 		
     });
 

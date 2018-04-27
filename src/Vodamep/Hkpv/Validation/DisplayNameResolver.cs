@@ -40,6 +40,8 @@ namespace Vodamep.Hkpv.Validation
             _dict.Add(nameof(HkpvReport.From), "Von");
             _dict.Add(nameof(HkpvReport.FromD), "Von");
 
+            _dict.Add(nameof(HkpvReport.Institution), "Einrichtung");
+
         }
 
         public string GetDisplayName(string name)

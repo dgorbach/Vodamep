@@ -21,7 +21,7 @@ namespace Vodamep.Hkpv.Validation
         }
         public HkpvReportValidator()
         {
-            this.RuleFor(x => x.Institution).NotNull();
+            this.RuleFor(x => x.Institution).NotEmpty();
             this.RuleFor(x => x.Institution).SetValidator(new InstitutionValidator());
             this.RuleFor(x => x.From).NotEmpty();
             this.RuleFor(x => x.To).NotEmpty();
