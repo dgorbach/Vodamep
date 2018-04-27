@@ -10,8 +10,6 @@ build_script:
 
     $env:vodamepversion = $env:APPVEYOR_REPO_TAG_NAME
 
-    Write-Host($env:vodamepversion)
-
     .\build.ps1 -Target Appveyor
     
 artifacts:
