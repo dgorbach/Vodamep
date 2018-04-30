@@ -7,6 +7,11 @@ init:
 - ps: Set-Culture de-AT
 build_script:
 - ps: >-
+    if ($env:APPVEYOR_RDP_PASSWORD)
+    { 
+        $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+    }
+
     $env:vodamepnative = $true
 
     $env:vodamepversion = $env:APPVEYOR_BUILD_VERSION
