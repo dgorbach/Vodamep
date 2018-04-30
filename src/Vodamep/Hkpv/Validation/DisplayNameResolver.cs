@@ -28,6 +28,7 @@ namespace Vodamep.Hkpv.Validation
             _dict.Add(nameof(Person.CareAllowance), "Pflegegeld");
             _dict.Add(nameof(Person.Postcode), "Plz");
             _dict.Add(nameof(Person.City), "Ort");
+            _dict.Add(nameof(Person.Gender), "Geschlecht");
 
             _dict.Add(nameof(Activity.Amount), "Anzahl");
             _dict.Add(nameof(Activity.Date), "Datum");

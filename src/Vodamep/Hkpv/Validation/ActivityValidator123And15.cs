@@ -16,12 +16,18 @@ namespace Vodamep.Hkpv.Validation
                     if (!list?.Any() ?? false)
                         return;
 
-                    var entries123 = list.Where(x => x.Type == ActivityType.Lv01 || x.Type == ActivityType.Lv02 || x.Type == ActivityType.Lv03)
+                    var l = list
+                        .Where(x => !string.IsNullOrEmpty(x.Date))
+                        .Where(x => x.Amount > 0)
+                        .Where(x => !string.IsNullOrEmpty(x.StaffId))
+                        .Where(x => !string.IsNullOrEmpty(x.PersonId));
+
+                    var entries123 = l.Where(x => x.Type == ActivityType.Lv01 || x.Type == ActivityType.Lv02 || x.Type == ActivityType.Lv03)
                         .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId, PersonId = x.PersonId })
                         .Select(x => x.Key)
                         .ToArray();
 
-                    var entries4 = list.Where(x => ((int)x.Type > 3))
+                    var entries4 = l.Where(x => ((int)x.Type > 3))
                         .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId, PersonId = x.PersonId })
                         .Select(x => x.Key)
                         .ToArray();

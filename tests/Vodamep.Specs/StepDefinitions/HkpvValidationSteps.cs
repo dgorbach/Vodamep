@@ -26,7 +26,8 @@ namespace Vodamep.Specs.StepDefinitions
             var loc = new DisplayNameResolver();
             ValidatorOptions.DisplayNameResolver = (type, memberInfo, expression) => loc.GetDisplayName(memberInfo?.Name);
 
-            this.Report = DataGenerator.Instance.CreateHkpvReport(null, null, 0, 0, false);
+            var date = DateTime.Today.AddMonths(-1);
+            this.Report = DataGenerator.Instance.CreateHkpvReport(date.Year, date.Month, 1, 1, true);
         }
 
         public HkpvReport Report { get; private set; }
@@ -50,36 +51,21 @@ namespace Vodamep.Specs.StepDefinitions
             // nichts zu tun
         }
 
-        [Given(@"die Eigenschaft '(.*)' ist nicht gesetzt")]
-        public void GivenThePropertyIsDefault(string name)
+        [Given(@"die Eigenschaft '(\w*)' von '(\w*)' ist nicht gesetzt")]
+        public void GivenThePropertyOfPersonalDataIsDefault(string name, string type)
         {
-            var field = HkpvReport.Descriptor.Fields.InDeclarationOrder().Where(x => string.Equals(x.Name, name, System.StringComparison.CurrentCultureIgnoreCase)).First();
+            if (type == nameof(HkpvReport))
+                this.Report.SetDefault(name);
+            else if (type == nameof(PersonalData))
+                this.Report.PersonalData[0].SetDefault(name);
+            else if (type == nameof(Person))
+                this.Report.Persons[0].SetDefault(name);
+            else if (type == nameof(Staff))
+                this.Report.Staffs[0].SetDefault(name);
+            
 
-            switch (field.FieldType)
-            {
-                case Google.Protobuf.Reflection.FieldType.String:
-                    field.Accessor.SetValue(this.Report, string.Empty);
-                    break;
-                case Google.Protobuf.Reflection.FieldType.Int64:
-                case Google.Protobuf.Reflection.FieldType.Int32:
-                case Google.Protobuf.Reflection.FieldType.SInt32:
-                case Google.Protobuf.Reflection.FieldType.SInt64:
-                case Google.Protobuf.Reflection.FieldType.UInt32:
-                case Google.Protobuf.Reflection.FieldType.UInt64:
-                case Google.Protobuf.Reflection.FieldType.SFixed32:
-                case Google.Protobuf.Reflection.FieldType.SFixed64:
-                case Google.Protobuf.Reflection.FieldType.Double:
-                case Google.Protobuf.Reflection.FieldType.Float:
-                case Google.Protobuf.Reflection.FieldType.Enum:
-                    field.Accessor.SetValue(this.Report, 0);
-                    break;
-
-                case Google.Protobuf.Reflection.FieldType.Message:
-                    field.Accessor.SetValue(this.Report, null);
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }            
+            else
+                throw new NotImplementedException();
         }
 
         [Then(@"*enthält (das Validierungsergebnis )?genau einen Fehler")]

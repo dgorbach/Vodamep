@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Validators;
 using Vodamep.Data;
 using Vodamep.Hkpv.Model;
 
@@ -17,7 +18,7 @@ namespace Vodamep.Hkpv.Validation
             this.RuleFor(x => x.Nationality).NotEmpty();
             this.RuleFor(x => x.Nationality).SetValidator(new CodeValidator<CountryCodeProvider>());
 
-            this.RuleFor(x => x.CareAllowance).NotEqual(CareAllowance.UndefinedAllowance);
+            this.RuleFor(x => x.CareAllowance).NotEmpty();
 
             this.RuleFor(x => x.Postcode).NotEmpty();
             this.RuleFor(x => x.City).NotEmpty();
@@ -26,7 +27,7 @@ namespace Vodamep.Hkpv.Validation
                 .Unless(x => string.IsNullOrEmpty(x.City) || string.IsNullOrEmpty(x.Postcode))
                 .WithMessage(Validationmessages.InvalidPostCode_City);
 
-            this.RuleFor(x => x.Gender).NotEqual(Gender.UndefinedGender);
+            this.RuleFor(x => x.Gender).NotEmpty();
 
 
         }
