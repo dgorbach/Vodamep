@@ -19,7 +19,7 @@ namespace Vodamep.Hkpv.Validation
         public static string BirthdayNotInSsn(PersonalData data) => $"Das Geburtsdatum {data.BirthdayD.ToString("dd.MM.yyyy")} unterscheidet sich vom Wert in der Versicherungsnummer {SSNHelper.Format(data.Ssn).Substring(5)}.";
         public static string SsnNotValid => "Die Versicherungsnummer {PropertyValue} ist nicht korrekt.";
         public static string SsnNotUnique(IEnumerable<PersonalData> p) => $"Mehrere Personen haben die selbe Versicherungsnummer {p.First().Ssn}: {string.Join(", ", p.Select(x => $"{x.GivenName} {x.FamilyName}({x.Id})"))}";
-        public static string LocalDate => "'{PropertyName}' ist kein gültiges Datum.";
+        public static string LocalDate => "'{PropertyName}': '{PropertyValue}' ist kein gültiges Datum.";
         public static string OneMonth => "Die Meldung muss genau einen Monat beinhalten.";
         public static string LastDateInMonth => "'{PropertyName}' muss der letzte Tag des Monats sein.";
         public static string FirstDateInMOnth => "'{PropertyName}' muss der erste Tag des Monats sein.";

@@ -6,7 +6,7 @@ Szenario: Korrekt befüllt
 	Dann enthält das Validierungsergebnis keine Fehler
 	Und es enthält keine Warnungen
 
-Szenariogrundriss: Eine Eigenschaft vom HkpvReport ist nicht gesetzt
+Szenariogrundriss: Eine Eigenschaft ist nicht gesetzt
 	Angenommen die Eigenschaft '<Name>' von '<Art>' ist nicht gesetzt
 	Dann enthält das Validierungsergebnis genau einen Fehler
 	Und die Fehlermeldung lautet: ''<Bezeichnung>' darf nicht leer sein.'
@@ -29,7 +29,18 @@ Beispiele:
 	| family_name | Familienname        | Staff        |
 	| given_name  | Vorname             | Staff        |
 	| date        | Datum               | Activity     |
-	| date        | Datum               | Consultation |	
+	| date        | Datum               | Consultation |
+
+Szenariogrundriss: Eine Eigenschaft vom Typ Datum hat ein falsches Format
+	Angenommen die Eigenschaft '<Name>' von '<Art>' ist auf 'xxx' gesetzt
+	Dann enthält das Validierungsergebnis den Fehler ''<Bezeichnung>': 'xxx' ist kein gültiges Datum.'	
+Beispiele:
+	| Name        | Bezeichnung         | Art          |
+	| from        | Von                 | HkpvReport   |
+	| to          | Bis                 | HkpvReport   |
+	| birthday    | Geburtsdatum        | PersonalData |
+	| date        | Datum               | Activity     |
+	| date        | Datum               | Consultation |
 
 Szenariogrundriss: Eine Eigenschaft vom HkpvReport mit einem ungültigen Wert gesetzt.
 	Angenommen die Eigenschaft '<Name>' von '<Art>' ist auf '<Wert>' gesetzt

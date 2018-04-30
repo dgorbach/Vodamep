@@ -99,6 +99,12 @@ namespace Vodamep.Specs.StepDefinitions
                 this.Report.Persons[0].SetValue(name, value);
             else if (type == nameof(Staff))
                 this.Report.Staffs[0].SetValue(name, value);
+            else if (type == nameof(Activity))
+                foreach (var a in this.Report.Activities)
+                    a.SetValue(name, value);
+            else if (type == nameof(Consultation))
+                foreach (var c in this.Report.Consultations)
+                    c.SetValue(name, value);
             else
                 throw new NotImplementedException();
         }
