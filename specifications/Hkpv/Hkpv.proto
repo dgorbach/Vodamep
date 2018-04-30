@@ -99,7 +99,7 @@ enum ConsultationType {
   LV31 = 31;            // Persönliche Beratung                                         (1 LP)
   LV32 = 32;            // Anzahl der Personen zu 31
   LV33 = 33;            // Telefonische Beratung                                        (1 LP)
-  LV34 = 34;            // Anzahl der Personen
+  LV34 = 34;            // Anzahl der Personen zu 33
 }
 
 enum StaffRole {
