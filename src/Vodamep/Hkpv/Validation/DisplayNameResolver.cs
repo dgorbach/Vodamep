@@ -33,6 +33,7 @@ namespace Vodamep.Hkpv.Validation
             _dict.Add(nameof(Activity.Amount), "Anzahl");
             _dict.Add(nameof(Activity.Date), "Datum");
             _dict.Add(nameof(Activity.DateD), "Datum");
+            _dict.Add(nameof(Activity.Type), "Art");
 
 
             _dict.Add(nameof(HkpvReport.To), "Bis");

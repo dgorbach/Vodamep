@@ -2,7 +2,9 @@
 
 ## Datenmodel 
 
-[Für die Hauskrankenpflege](./Hkpv/Hkpv.proto) (im protobuf-Format)
+### Hauskrankenpflege]
+- [Datenaustausch](./Hkpv/Hkpv.proto) (im protobuf-Format)
+- [Validierungen](./Hkpv/HkpvValidation.feature) (im Gherkin-Format)
 
 #### Werte
 - [Religionen](./Datasets/religions.csv)

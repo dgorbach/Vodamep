@@ -37,5 +37,35 @@ namespace Vodamep.Specs.StepDefinitions
                     throw new NotImplementedException();
             }
         }
+
+
+        public static void SetValue(this IMessage m, string name, string value)
+        {
+            var field = m.Descriptor.Fields.InDeclarationOrder().Where(x => x.Name == name).First();
+
+            switch (field.FieldType)
+            {
+                case FieldType.String:
+                    field.Accessor.SetValue(m, value);
+                    break;
+                case FieldType.Int64:
+                case FieldType.Int32:
+                case FieldType.SInt32:
+                case FieldType.SInt64:
+                case FieldType.UInt32:
+                case FieldType.UInt64:
+                case FieldType.SFixed32:
+                case FieldType.SFixed64:                
+                case FieldType.Enum:
+                    field.Accessor.SetValue(m, long.Parse(value));
+                    break;
+                case FieldType.Double:
+                case FieldType.Float:
+                    field.Accessor.SetValue(m, double.Parse(value));
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }
