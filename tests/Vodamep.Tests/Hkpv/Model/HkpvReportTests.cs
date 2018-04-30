@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Linq;
 using Vodamep.Data.Dummy;
-using Vodamep.Hkpv.Validation.Tests;
 using Xunit;
 
 namespace Vodamep.Hkpv.Model.Tests
 {
-    public class HkpvReportTests : ValidationTestsBase
+    public class HkpvReportTests
     {
+
+        public HkpvReportTests()
+        {
+            this.Report = DataGenerator.Instance.CreateHkpvReport(null, null, 0, 0, false);
+        }
+
+        protected HkpvReport Report { get; }
+
         [Fact]
         public void AsSorted_ActivitiesArSortedByType()
         {
@@ -54,7 +61,7 @@ namespace Vodamep.Hkpv.Model.Tests
             var a2 = new Activity() { PersonId = p2, DateD = DateTime.Today, Amount = 1, StaffId = this.Report.Staffs[0].Id, Type = ActivityType.Lv01 };
             var a3 = new Activity() { PersonId = p3, DateD = DateTime.Today, Amount = 1, StaffId = this.Report.Staffs[0].Id, Type = ActivityType.Lv01 };
 
-            this.Report.Activities.AddRange(new [] { a2, a3, a1 });
+            this.Report.Activities.AddRange(new[] { a2, a3, a1 });
 
             var sorted = this.Report.AsSorted();
 

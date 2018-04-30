@@ -119,6 +119,10 @@ Beispiele:
     | 16       |
 	| 17       |
 
+Szenario: Eine Mitarbeiter hat eine Aktivität öfter als 5 Mal an einem Tag bei einem Klienten.
+	Angenommen die Meldung enthält die Aktivitäten '2,15,15,15,15,15,15'
+	Dann enthält das Validierungsergebnis die Warnung 'Es wurden mehr als 5 gemeldet.'
+
 Szenario: Eine Aktivität sind nicht kummuliert.
 	Angenommen die Meldung enthält die Aktivitäten '2,15'
 		Und die Meldung enthält die Aktivitäten '15'

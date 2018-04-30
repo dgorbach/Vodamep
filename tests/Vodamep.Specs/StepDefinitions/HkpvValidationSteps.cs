@@ -106,9 +106,9 @@ namespace Vodamep.Specs.StepDefinitions
         [Given(@"die Meldung enthält am '(.*)' die Aktivitäten '(.*)'")]
         public void GivenTheActivitiesAt(string date, string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)))
+            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Activities.Add(new Activity() { Amount = 1, Date = date, PersonId = this.Report.Persons[0].Id, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv });
+                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = date, PersonId = this.Report.Persons[0].Id, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
             }
         }
 
@@ -116,18 +116,18 @@ namespace Vodamep.Specs.StepDefinitions
         [Given(@"die Meldung enthält die Aktivitäten '(.*?)'")]
         public void GivenTheActivities(string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)))
+            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Activities.Add(new Activity() { Amount = 1, Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv });
+                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
             }
         }
 
         [Given(@"die Meldung enthält bei der Person '(.*)' die Aktivitäten '(.*)'")]
         public void GivenTheActivitiesAtPerson(string personId, string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)))
+            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Activities.Add(new Activity() { Amount = 1, Date = this.Report.To, PersonId = personId, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv });
+                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = this.Report.To, PersonId = personId, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
             }
         }
 
@@ -135,9 +135,9 @@ namespace Vodamep.Specs.StepDefinitions
         [Given(@"die Meldung enthält von der Mitarbeiterin '(.*)' die Aktivitäten '(.*)'")]
         public void GivenTheActivitiesFromStaff(string staffId, string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)))
+            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Activities.Add(new Activity() { Amount = 1, Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = staffId, Type = (ActivityType)lv });
+                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = staffId, Type = (ActivityType)lv.Key });
             }
         }
 
@@ -180,9 +180,9 @@ namespace Vodamep.Specs.StepDefinitions
             s.Role = StaffRole.Trainee;
             var staffId = s.Id;
 
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)))
+            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Activities.Add(new Activity() { Amount = 1, Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = staffId, Type = (ActivityType)lv });
+                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = staffId, Type = (ActivityType)lv.Key });
             }
         }
 
@@ -203,9 +203,9 @@ namespace Vodamep.Specs.StepDefinitions
         [Given(@"die Meldung enthält die Beratungen '(.*?)'")]
         public void GivenTheConsultations(string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)))
+            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Consultations.Add(new Consultation() { Amount = 1, Date = this.Report.To, StaffId = this.Report.Staffs[0].Id, Type = (ConsultationType)lv });
+                this.Report.Consultations.Add(new Consultation() { Amount = lv.Count(), Date = this.Report.To, StaffId = this.Report.Staffs[0].Id, Type = (ConsultationType)lv.Key });
             }
         }
 
@@ -213,9 +213,9 @@ namespace Vodamep.Specs.StepDefinitions
         [Given(@"die Meldung enthält am '(.*)' die Beratungen '(.*)'")]
         public void GivenTheConsultationsAt(string date, string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)))
+            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Consultations.Add(new Consultation() { Amount = 1, Date = date, StaffId = this.Report.Staffs[0].Id, Type = (ConsultationType)lv });
+                this.Report.Consultations.Add(new Consultation() { Amount = lv.Count(), Date = date, StaffId = this.Report.Staffs[0].Id, Type = (ConsultationType)lv.Key });
             }
         }
 

@@ -7,6 +7,7 @@ namespace Vodamep.Hkpv.Validation
     public class Validationmessages
     {  
         public static string ActivityIsNotUnique => $"Die Einträge sind nicht kumuliert.";
+        public static string ActivityMoreThenFive => $"Es wurden mehr als 5 gemeldet.";
         public static string TraineeMustNotContain06To10(Staff staff) => $"'{staff.FamilyName} {staff.GivenName} ({staff.Id})' darf als Auszubildende/r keine medizinischen Leistungen (6-10) dokumentieren.";
         public static string IdIsNotUnique => "Der Id ist nicht eindeutig.";
         public static string IdIsMissing(string id) => $"Der Id '{id}' fehlt.";
@@ -23,7 +24,6 @@ namespace Vodamep.Hkpv.Validation
         public static string LastDateInMonth => "'{PropertyName}' muss der letzte Tag des Monats sein.";
         public static string FirstDateInMOnth => "'{PropertyName}' muss der erste Tag des Monats sein.";
         public static string InvalidCode => "Für '{PropertyName}' ist '{PropertyValue}' kein gültiger Code.";
-
         public static string InvalidPostCode_City => "'{PropertyValue}' ist kein gültiger Ort.";
     }
 }
