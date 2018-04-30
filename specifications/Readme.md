@@ -2,7 +2,7 @@
 
 ## Datenmodel 
 
-### Hauskrankenpflege]
+### Hauskrankenpflege
 - [Datenaustausch](./Hkpv/Hkpv.proto) (im protobuf-Format)
 - [Validierungen](./Hkpv/HkpvValidation.feature) (im Gherkin-Format)
 
