@@ -13,7 +13,7 @@ Task("Default")
 	.IsDependentOn("Test");
 	
 
-Task("Appveyor")    
+Task("Publish")    
 	.IsDependentOn("Default")   
 	.IsDependentOn("PublishNuget") 
 	.IsDependentOn("PublishLegacy")
