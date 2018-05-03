@@ -5,7 +5,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class ConsultationValidator : AbstractValidator<Consultation>
+    internal class ConsultationValidator : AbstractValidator<Consultation>
     {
         public ConsultationValidator(DateTime from, DateTime to)
         {

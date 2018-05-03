@@ -4,7 +4,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class Validationmessages
+    internal class Validationmessages
     {  
         public static string ActivityIsNotUnique => $"Die Einträge sind nicht kumuliert.";
         public static string ActivityMoreThenFive => $"Es wurden mehr als 5 gemeldet.";

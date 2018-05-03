@@ -8,7 +8,7 @@ using Vodamep.Hkpv.Validation;
 
 namespace Vodamep.Data.Dummy
 {
-    public class DataGenerator
+    internal class DataGenerator
     {
 
         private static DataGenerator _instance;

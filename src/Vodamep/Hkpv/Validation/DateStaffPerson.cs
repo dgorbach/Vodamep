@@ -2,7 +2,7 @@
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class DateStaffPerson : IEquatable<DateStaffPerson>
+    internal class DateStaffPerson : IEquatable<DateStaffPerson>
     {
         public DateTime Date { get; set; }
         public string StaffId { get; set; }

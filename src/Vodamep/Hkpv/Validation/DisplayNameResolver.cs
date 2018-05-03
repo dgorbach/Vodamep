@@ -3,7 +3,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class DisplayNameResolver
+    internal class DisplayNameResolver
     {
         private readonly IDictionary<string, string> _dict = new SortedDictionary<string, string>();
 

@@ -8,7 +8,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class ConsultationsValidator3132And3334 : AbstractValidator<HkpvReport>
+    internal class ConsultationsValidator3132And3334 : AbstractValidator<HkpvReport>
     {
 
         public ConsultationsValidator3132And3334()

@@ -3,7 +3,7 @@ using Vodamep.Data;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class CodeValidator<T> : PropertyValidator
+    internal class CodeValidator<T> : PropertyValidator
         where T: CodeProviderBase
     {
         public CodeValidator()

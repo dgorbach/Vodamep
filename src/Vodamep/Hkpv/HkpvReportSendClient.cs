@@ -7,7 +7,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv
 {
-    public class HkpvReportSendClient
+    internal class HkpvReportSendClient
     {
         private readonly Uri _address;
 

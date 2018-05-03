@@ -5,7 +5,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Data.Dummy
 {
-    public static class DumnyDataReportExtensions
+    internal static class DataGeneratorHkpvReportExtensions
     {
         public static (Person person, PersonalData Data) AddDummyPerson(this HkpvReport report)
         {

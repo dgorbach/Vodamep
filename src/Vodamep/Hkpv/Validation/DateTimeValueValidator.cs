@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class DateTimeValueValidator : PropertyValidator
+    internal class DateTimeValueValidator : PropertyValidator
     {
         public DateTimeValueValidator()
             : base(Validationmessages.LocalDate)

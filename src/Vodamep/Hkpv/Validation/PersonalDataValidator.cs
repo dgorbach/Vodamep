@@ -3,7 +3,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class PersonalDataValidator :    AbstractValidator<PersonalData>
+    internal class PersonalDataValidator :    AbstractValidator<PersonalData>
     {
         public PersonalDataValidator()
         {

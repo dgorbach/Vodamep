@@ -6,7 +6,7 @@ using Vodamep.Hkpv.Model;
 namespace Vodamep.Hkpv.Validation
 {
 
-    public class PersonalDataBirthdayValidator : AbstractValidator<PersonalData>
+    internal class PersonalDataBirthdayValidator : AbstractValidator<PersonalData>
     {
         public PersonalDataBirthdayValidator()
         {

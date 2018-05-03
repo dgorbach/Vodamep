@@ -5,7 +5,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class PersonalDataSsnIsUniqueValidator : AbstractValidator<HkpvReport>
+    internal class PersonalDataSsnIsUniqueValidator : AbstractValidator<HkpvReport>
     {
         public PersonalDataSsnIsUniqueValidator()
         {

@@ -6,7 +6,7 @@ using Vodamep.Hkpv.Model;
 namespace Vodamep.Hkpv.Validation
 {
 
-    public class ActivityValidator123And15 : AbstractValidator<HkpvReport>
+    internal class ActivityValidator123And15 : AbstractValidator<HkpvReport>
     {
         public ActivityValidator123And15()
         {

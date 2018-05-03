@@ -6,7 +6,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv
 {
-    public class HkpvReportSerializer
+    internal class HkpvReportSerializer
     {
         public HkpvReport Deserialize(Stream stream)
         {

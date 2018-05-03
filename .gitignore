@@ -299,4 +299,4 @@ tools/**
 *.g.cs
 
 build/
-data/
+store/

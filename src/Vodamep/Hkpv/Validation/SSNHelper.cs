@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public static class SSNHelper
+    internal static class SSNHelper
     {
         private static Regex Pattern = new Regex(@"^(?<nr>\d{3})(?<cd>\d)-?(?<tt>(0?[1-9]|[12][0-9]|3[01]))\.?(?<mm>(0?[1-9]|1[0123]))\.?(?<jj>\d{1,2})$");
         public static bool IsValid(string vnummer)

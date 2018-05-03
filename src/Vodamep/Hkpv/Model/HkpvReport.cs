@@ -1,8 +1,5 @@
-﻿using Google.Protobuf;
-using System;
-using System.Linq;
-using System.Security.Cryptography;
-
+﻿using System;
+using Vodamep.Data.Dummy;
 namespace Vodamep.Hkpv.Model
 {
     public partial class HkpvReport
@@ -11,35 +8,28 @@ namespace Vodamep.Hkpv.Model
 
         public DateTime ToD { get => this.To.AsDate(); set => this.To = value.AsValue(); }
 
-        public HkpvReport AsSorted()
+
+        public static HkpvReport CreateDummyData()
         {
-            var result = new HkpvReport()
+            var r = new HkpvReport()
             {
-                Institution = this.Institution,
-                From = this.From,
-                To = this.To
+                Institution = new Institution()
+                {
+                    Id = "test",
+                    Name = "Test"
+                }
             };
+            
+            r.FromD = DateTime.Today.FirstDateInMonth().AddMonths(-1);
+            r.ToD = r.FromD.LastDateInMonth();
 
-            result.Activities.AddRange(this.Activities.OrderBy(x => x));            
-            result.Consultations.AddRange(this.Consultations.OrderBy(x => x));
+            r.AddDummyPerson();
+            r.AddDummyStaff();
+            r.AddDummyActivities();
 
-            result.Persons.AddRange(this.Persons.OrderBy(x => x.Id));
-            result.PersonalData.AddRange(this.PersonalData.OrderBy(x => x.Id));
-            result.Staffs.AddRange(this.Staffs.OrderBy(x => x.Id));
-
-            return result;
+            return r;
+            
         }
 
-        public string GetSHA256Hash()
-        {
-            using (var s = SHA256.Create())
-            {
-                var h = s.ComputeHash(this.ToByteArray());
-
-                var sha256 = System.Net.WebUtility.UrlEncode(Convert.ToBase64String(h));
-
-                return sha256;
-            }
-        }        
     }
 }

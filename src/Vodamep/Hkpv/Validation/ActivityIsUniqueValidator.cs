@@ -6,7 +6,7 @@ using Vodamep.Hkpv.Model;
 namespace Vodamep.Hkpv.Validation
 {
 
-    public class ActivityIsUniqueValidator : AbstractValidator<HkpvReport>
+    internal class ActivityIsUniqueValidator : AbstractValidator<HkpvReport>
     {
         public ActivityIsUniqueValidator()
             : base()

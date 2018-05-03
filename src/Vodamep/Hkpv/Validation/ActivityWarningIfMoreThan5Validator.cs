@@ -5,7 +5,7 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    public class ActivityWarningIfMoreThan5Validator : AbstractValidator<HkpvReport>
+    internal class ActivityWarningIfMoreThan5Validator : AbstractValidator<HkpvReport>
     {
         public ActivityWarningIfMoreThan5Validator()
             : base()
