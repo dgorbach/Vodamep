@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Threading.Tasks;
 using Vodamep.Api.Authentication;
 using Vodamep.Api.CmdQry;
 using Vodamep.Api.Engines.FileSystem;
@@ -44,8 +43,7 @@ namespace Vodamep.Api
 
         private void ConfigureEngine(IServiceCollection services)
         {
-            var sqlEngineConfig = new SqlServerEngineConfiguration();
-            this._configuration.Bind(nameof(SqlServerEngine), sqlEngineConfig);
+            var sqlEngineConfig = this._configuration.GetSection(nameof(SqlServerEngine)).Get<SqlServerEngineConfiguration>();
 
             if (!string.IsNullOrEmpty(sqlEngineConfig.ConnectionString))
             {
@@ -55,8 +53,7 @@ namespace Vodamep.Api
                 return;
             }
 
-            var fileEngineConfig = new FileEngineConfiguration();
-            this._configuration.Bind(nameof(FileEngine), fileEngineConfig);
+            var fileEngineConfig = this._configuration.GetSection(nameof(FileEngine)).Get<FileEngineConfiguration>();
 
             if (!string.IsNullOrEmpty(fileEngineConfig.Path))
             {
@@ -72,33 +69,34 @@ namespace Vodamep.Api
 
         private void ConfigureAuth(IServiceCollection services)
         {
-            var authConfig = new BasicAuthenticationConfiguration();
-            this._configuration.Bind("BasicAuthentication", authConfig);
+            var authConfig = _configuration.GetSection("BasicAuthentication").Get<BasicAuthenticationConfiguration>();
 
-            if (authConfig.IsDisabled)
+            if (string.Equals(authConfig.Mode, BasicAuthenticationConfiguration.Mode_Disabled, StringComparison.CurrentCultureIgnoreCase))
+            {
+                _loggerFactory.CreateLogger<Startup>().LogInformation("Authentication is disabled");
                 return;
+            }
 
-            Func<(string username, string password), Task<bool>> verifyDelegate = null;
+            if (string.Equals(authConfig.Mode, BasicAuthenticationConfiguration.Mode_UsernameEqualsPassword, StringComparison.CurrentCultureIgnoreCase))
+            {
+                _loggerFactory.CreateLogger<Startup>().LogInformation("Using UsernameEqualsPasswordCredentialVerifier");
+
+                services.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
+                    .AddBasicAuthentication(new UsernameEqualsPasswordCredentialVerifier().Verify);
+
+                return;
+            }
 
             if (!string.IsNullOrEmpty(authConfig.Proxy))
             {
                 _loggerFactory.CreateLogger<Startup>().LogInformation("Using ProxyAuthentication: {proxy}", authConfig.Proxy);
-                verifyDelegate = new ProxyCredentialVerifier(new Uri(authConfig.Proxy)).Verify;
-            }
-            else if (authConfig.IsSimple)
-            {
-                _loggerFactory.CreateLogger<Startup>().LogInformation("Using UsernameEqualsPasswordCredentialVerifier");
-                verifyDelegate = new UsernameEqualsPasswordCredentialVerifier().Verify;
-            }
 
-            if (verifyDelegate != null)
-            {
                 services.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
-                    .AddBasicAuthentication(verifyDelegate);
+                    .AddBasicAuthentication(new ProxyCredentialVerifier(new Uri(authConfig.Proxy)).Verify);
+
                 return;
             }
-
-
+            
             var msg = "Authentication is not configured";
 
             _loggerFactory.CreateLogger<Startup>().LogError(msg);
