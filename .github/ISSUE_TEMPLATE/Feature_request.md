@@ -1,17 +1,17 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
+name: Änderungswunsch
+about: Eine Idee für dieses Projekt vorschlagen.
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+**Hat Ihr Änderungswunsch mit einem Problem zu tun? Bitte beschreiben Sie es.**
+Eine klare und prägnante Beschreibung des Problems. Bsp. Ich bin immer frustriert, wenn ich einen [...]
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+**Beschreiben Sie die Lösung, die Sie sich wünschen.**
+Eine klare und prägnante Beschreibung dessen, was Sie wollen.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+**Beschreiben Sie Alternativen, die Sie in Betracht gezogen haben.**
+Eine klare und prägnante Beschreibung aller alternativen Lösungen oder Funktionen, die Sie in Betracht gezogen haben.
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+**Zusätzliche Information.**
+Fügen Sie hier weitere Informamtionen oder Screenshots zum Änderungswunsch hinzu.

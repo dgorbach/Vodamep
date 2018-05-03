@@ -1,35 +1,24 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Fehlerbericht
+about: Erstellen Sie einen Fehlerbericht, um uns bei der Verbesserung zu helfen.
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Beschreiben Sie den Fehler.**
+Eine klare und prägnante Beschreibung, was der Fehler ist.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Um den Fehler zu reproduzieren.**
+Schritte, um das Verhalten zu reproduzieren:
+1. ....
+2. ....
+4. Siehe Fehler
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Erwartetes Verhalten.**
+Eine klare und prägnante Beschreibung dessen, was Sie erwartet haben.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+Fügen Sie ggf. Screenshots hinzu, um Ihr Problem zu erklären.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+**Zusätzliche Informationen.**
+Fügen Sie hier einen weitere Informationen zum Problem hinzu.
