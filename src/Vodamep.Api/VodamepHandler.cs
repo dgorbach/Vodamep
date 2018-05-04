@@ -98,7 +98,7 @@ namespace Vodamep.Api
             HkpvReport report;
             try
             {
-                report = new HkpvReportSerializer().Deserialize(context.Request.Body);
+                report = HkpvReport.Read(context.Request.Body);
             }
             catch (Exception e)
             {

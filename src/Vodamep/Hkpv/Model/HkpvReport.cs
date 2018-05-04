@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Vodamep.Data.Dummy;
 namespace Vodamep.Hkpv.Model
 {
@@ -19,7 +20,7 @@ namespace Vodamep.Hkpv.Model
                     Name = "Test"
                 }
             };
-            
+
             r.FromD = DateTime.Today.FirstDateInMonth().AddMonths(-1);
             r.ToD = r.FromD.LastDateInMonth();
 
@@ -28,8 +29,32 @@ namespace Vodamep.Hkpv.Model
             r.AddDummyActivities();
 
             return r;
-            
+
         }
+
+        public static HkpvReport ReadFile(string file)
+        {
+            var report = new HkpvReportSerializer().DeserializeFile(file);
+            return report;
+        }
+
+        public static HkpvReport Read(byte[] data)
+        {
+            var report = new HkpvReportSerializer().Deserialize(data);
+            return report;
+        }
+
+        public static HkpvReport Read(Stream data)
+        {
+            var report = new HkpvReportSerializer().Deserialize(data);
+            return report;
+        }
+
+        public string WriteToPath(string path, bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToPath(this, path, asJson, compressed);
+
+        public void WriteToFile(string filename, bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToFile(this, filename, asJson, compressed);
+
+        public MemoryStream WriteToStream(bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToStream(this, asJson, compressed);
 
     }
 }

@@ -134,8 +134,7 @@ namespace Vodamep.Client
         {
             try
             {
-                var report = new HkpvReportSerializer().DeserializeFile(file);
-                return report;
+                return HkpvReport.ReadFile(file);
             }
             catch
             {

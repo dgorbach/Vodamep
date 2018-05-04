@@ -11,7 +11,6 @@ namespace Vodamep.Hkpv.Model
 {
     public static class HkpvReportExtensions
     {
-
         public static HkpvReport AddPerson(this HkpvReport report, Person person) => report.InvokeAndReturn(m => m.Persons.Add(person));
         public static HkpvReport AddPersons(this HkpvReport report, IEnumerable<Person> persons) => report.InvokeAndReturn(m => m.Persons.AddRange(persons));
 
@@ -20,12 +19,6 @@ namespace Vodamep.Hkpv.Model
             action(m);
             return m;
         }
-
-        public static string WriteToPath(this HkpvReport report, string path, bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToPath(report, path, asJson, compressed);
-
-        public static void WriteToFile(this HkpvReport report, string filename, bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToFile(report, filename, asJson, compressed);
-
-        public static MemoryStream WriteToStream(this HkpvReport report, bool asJson = false, bool compressed = true) => new HkpvReportSerializer().WriteToStream(report, asJson, compressed);
 
         public static Task<SendResult> Send(this HkpvReport report, Uri address, string username, string password) => new HkpvReportSendClient(address).Send(report, username, password);
 
