@@ -1,8 +1,9 @@
-version: 1.0.{build}
+version: 0.1.{build}
 image: Visual Studio 2017
 branches:
   only:
     - release
+skip_tags: true
 init:
 - ps: Set-Culture de-AT
 build_script:
@@ -18,6 +19,9 @@ build_script:
 
     .\build.ps1 -Target Publish
 test: off
+nuget:
+  account_feed: true
+  project_feed: true
 artifacts:
 - path: publish/dmc.zip
   name: dmc.zip
@@ -28,3 +32,11 @@ artifacts:
 - path: publish/specifications.zip
   name: specifications.zip
 - path: publish/Vodamep.*.nupkg  
+deploy:
+  release: vodamep-v$(appveyor_build_version)  
+  provider: GitHub
+  auth_token:
+    secure: ClNmDsT1ydvADFoQ3MyX5Cpes7dDVwofuo1AwmrMEOog9w07YsliTfUFBpqJ2fzf    
+  prerelease: true
+  on:
+    branch: release                # release from master branch only    
