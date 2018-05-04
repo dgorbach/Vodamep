@@ -88,5 +88,19 @@ namespace Vodamep.Hkpv.Model.Tests
 
             Assert.Equal(new[] { s1, s2, s3 }, sorted.Activities.Select(x => x.StaffId));
         }
+
+
+        [Fact]
+        public void WriteThenRead_ReportsAreEqual()
+        {
+            var report = HkpvReport.CreateDummyData();
+            
+            using (var s = report.WriteToStream())
+            {
+                var report2 = HkpvReport.Read(s);
+
+                Assert.Equal(report, report2);                
+            }
+        }
     }
 }

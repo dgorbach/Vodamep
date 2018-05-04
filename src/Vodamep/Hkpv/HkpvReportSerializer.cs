@@ -107,6 +107,7 @@ namespace Vodamep.Hkpv
                 ms.Dispose();
             }
 
+            result.Position = 0;
             return result;
         }
 

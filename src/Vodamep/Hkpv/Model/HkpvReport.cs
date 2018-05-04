@@ -28,7 +28,7 @@ namespace Vodamep.Hkpv.Model
             r.AddDummyStaff();
             r.AddDummyActivities();
 
-            return r;
+            return r.AsSorted();
 
         }
 

@@ -17,7 +17,7 @@ build_script:
     $env:vodamepversion = $env:APPVEYOR_BUILD_VERSION
 
     .\build.ps1 -Target Publish
-    
+test: off
 artifacts:
 - path: publish/dmc.zip
   name: dmc.zip
