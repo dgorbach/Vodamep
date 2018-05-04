@@ -13,8 +13,7 @@
       <Type Name="Vodamep.Hkpv.Model.HkpvReport" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Institution" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Activity" Dynamic="Required All" />
-      <Type Name="Vodamep.Hkpv.Model.Person" Dynamic="Required All" />
-      <Type Name="Vodamep.Hkpv.Model.PersonalData" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.Person" Dynamic="Required All" />      
       <Type Name="Vodamep.Hkpv.Model.Staff" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Consultation" Dynamic="Required All" />
     </Assembly>

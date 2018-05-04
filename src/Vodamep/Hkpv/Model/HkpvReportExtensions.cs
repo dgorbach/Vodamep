@@ -15,31 +15,6 @@ namespace Vodamep.Hkpv.Model
         public static HkpvReport AddPerson(this HkpvReport report, Person person) => report.InvokeAndReturn(m => m.Persons.Add(person));
         public static HkpvReport AddPersons(this HkpvReport report, IEnumerable<Person> persons) => report.InvokeAndReturn(m => m.Persons.AddRange(persons));
 
-        public static HkpvReport AddPerson(this HkpvReport report, (Person Person, PersonalData Data) p)
-        {
-            if (p.Person != null)
-                report.Persons.Add(p.Person);
-
-            if (p.Data != null)
-                report.PersonalData.Add(p.Data);
-
-            return report;
-        }
-
-        public static HkpvReport AddPersons(this HkpvReport report, (Person Person, PersonalData Data)[] ps)
-        {
-            foreach (var p in ps)
-            {
-                if (p.Person != null)
-                    report.Persons.Add(p.Person);
-
-                if (p.Data != null)
-                    report.PersonalData.Add(p.Data);
-            }
-
-            return report;
-        }
-
         private static HkpvReport InvokeAndReturn(this HkpvReport m, Action<HkpvReport> action)
         {
             action(m);
@@ -70,8 +45,7 @@ namespace Vodamep.Hkpv.Model
             result.Activities.AddRange(report.Activities.OrderBy(x => x));
             result.Consultations.AddRange(report.Consultations.OrderBy(x => x));
 
-            result.Persons.AddRange(report.Persons.OrderBy(x => x.Id));
-            result.PersonalData.AddRange(report.PersonalData.OrderBy(x => x.Id));
+            result.Persons.AddRange(report.Persons.OrderBy(x => x.Id));            
             result.Staffs.AddRange(report.Staffs.OrderBy(x => x.Id));
 
             return result;

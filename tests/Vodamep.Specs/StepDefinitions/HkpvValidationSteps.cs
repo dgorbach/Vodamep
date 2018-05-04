@@ -71,9 +71,7 @@ namespace Vodamep.Specs.StepDefinitions
         public void GivenThePropertyIsDefault(string name, string type)
         {
             if (type == nameof(HkpvReport))
-                this.Report.SetDefault(name);
-            else if (type == nameof(PersonalData))
-                this.Report.PersonalData[0].SetDefault(name);
+                this.Report.SetDefault(name);            
             else if (type == nameof(Person))
                 this.Report.Persons[0].SetDefault(name);
             else if (type == nameof(Staff))
@@ -92,9 +90,7 @@ namespace Vodamep.Specs.StepDefinitions
         public void GivenThePropertyIsSetTo(string name, string type, string value)
         {
             if (type == nameof(HkpvReport))
-                this.Report.SetValue(name, value);
-            else if (type == nameof(PersonalData))
-                this.Report.PersonalData[0].SetValue(name, value);
+                this.Report.SetValue(name, value);            
             else if (type == nameof(Person))
                 this.Report.Persons[0].SetValue(name, value);
             else if (type == nameof(Staff))
@@ -150,22 +146,22 @@ namespace Vodamep.Specs.StepDefinitions
         [Given(@"eine Versicherungsnummer ist nicht eindeutig")]
         public void GivenSsnNotUnique()
         {
-            var p0 = this.Report.PersonalData[0];
+            var p0 = this.Report.Persons[0];
 
             var p = this.Report.AddDummyPerson();
 
-            p.Data.Ssn = p0.Ssn;
+            p.Ssn = p0.Ssn;
         }
 
         [Given(@"der Id einer Person ist nicht eindeutig")]
         public void GivenPersonIdNotUnique()
         {
-            var p0 = this.Report.PersonalData[0];
+            var p0 = this.Report.Persons[0];
 
             var p = this.Report.AddDummyPerson();
 
-            p.Data.Id = p0.Id;
-            p.person.Id = p0.Id;
+            p.Id = p0.Id;
+            p.Id = p0.Id;
         }
 
         [Given(@"der Id einer Mitarbeiterin ist nicht eindeutig")]

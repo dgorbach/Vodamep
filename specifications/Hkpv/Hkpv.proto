@@ -10,10 +10,9 @@ message HkpvReport {
     string from = 2;							// Datum
     string to = 3;    							// Datum	
     repeated Staff staffs = 4; 
-    repeated Person persons = 5;     
-    repeated PersonalData personal_data = 6;
-    repeated Activity activities = 7; 
-    repeated Consultation consultations = 8;    
+    repeated Person persons = 5;         
+    repeated Activity activities = 6; 
+    repeated Consultation consultations = 7;    
 }
 
 // Einrichtung
@@ -30,26 +29,21 @@ message Staff {
     StaffRole role = 5;
 }
 
-// Personenbezug von Personen, die im Zeitraum eine Leistung bezogen haben
-message PersonalData {
+// Personen und Stammdaten, die im Zeitraum eine Leistung bezogen haben
+message Person {
     string id = 1;        
     string family_name = 2;
     string given_name = 3;
     string street = 4;        
-    string ssn = 5;
-    string birthday = 6;				// Datum
-}
-
-// Stammdaten zu einer Person
-message Person {
-    string id = 1;
-    string religion = 2;				// Ein Wert aus der Liste der Religionen
-    string insurance = 3;               // Ein Wert aus der Liste der Sozialversicherungen
-    string nationality = 4;             // Staatsbürgerschaft, Zwei-stelliges Länderkürzel nach Iso 3166-2
-    CareAllowance care_allowance = 5;   // Pflegegeld
-    string postcode = 6;				// postcode und city müssen zusammen einem Wert aus der Liste der Orte entsprechen
-    string city = 7;
-    Gender gender = 8;
+    string postcode = 5;				// postcode und city müssen zusammen einem Wert aus der Liste der Orte entsprechen
+    string city = 6;
+	Gender gender = 7;
+	string ssn = 8;
+    string birthday = 9;				// Datum	
+    string nationality = 10;            // Staatsbürgerschaft, Zwei-stelliges Länderkürzel nach Iso 3166-2
+	string insurance = 11;              // Ein Wert aus der Liste der Sozialversicherungen
+	CareAllowance care_allowance = 12;  // Pflegegeld, zum Stichtag Bis-Datum der Meldung
+	string religion = 13;				// Ein Wert aus der Liste der Religionen
 }
 
 // Leistungen

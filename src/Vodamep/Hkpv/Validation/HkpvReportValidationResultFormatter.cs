@@ -18,8 +18,7 @@ namespace Vodamep.Hkpv.Validation
 
             _strategies = new[]
             {
-                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Persons)), GetNameOfPerson),
-                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.PersonalData)), GetNameOfPerson),
+                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Persons)), GetNameOfPerson),                
                 new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Staffs)), GetNameOfStaff),
                 new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Activities)), GetNameOfActivity),                
                 new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Consultations)), GetNameOfConsultation),
@@ -92,7 +91,7 @@ namespace Vodamep.Hkpv.Validation
         {
             if (report.Persons.Count > index && index >= 0)
             {
-                var e = report.PersonalData[index];
+                var e = report.Persons[index];
                 return $"Person: {e.FamilyName} {e.GivenName}";
             }
 
@@ -122,7 +121,7 @@ namespace Vodamep.Hkpv.Validation
 
         private string GetNameOfPersonById(HkpvReport report, string id)
         {
-            var e = report.PersonalData.Where(x => x.Id == id).FirstOrDefault();
+            var e = report.Persons.Where(x => x.Id == id).FirstOrDefault();
 
             if (e == null)
                 return string.Empty;

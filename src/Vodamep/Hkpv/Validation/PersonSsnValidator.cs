@@ -3,9 +3,9 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    internal class PersonalDataSsnValidator : AbstractValidator<PersonalData>
+    internal class PersonSsnValidator : AbstractValidator<Person>
     {
-        public PersonalDataSsnValidator()   
+        public PersonSsnValidator()   
         {
             this.CascadeMode = CascadeMode.StopOnFirstFailure;
 

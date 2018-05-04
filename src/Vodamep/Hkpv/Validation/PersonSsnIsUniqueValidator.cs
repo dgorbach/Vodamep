@@ -5,11 +5,11 @@ using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    internal class PersonalDataSsnIsUniqueValidator : AbstractValidator<HkpvReport>
+    internal class PersonSsnIsUniqueValidator : AbstractValidator<HkpvReport>
     {
-        public PersonalDataSsnIsUniqueValidator()
+        public PersonSsnIsUniqueValidator()
         {
-            RuleFor(x => x.PersonalData)
+            RuleFor(x => x.Persons)
                 .Custom((list, ctx) =>
                 {
                     var dublicates = list.Where(x => !string.IsNullOrEmpty(x.Ssn))
@@ -18,7 +18,7 @@ namespace Vodamep.Hkpv.Validation
 
                     foreach (var entry in dublicates)
                     {
-                        ctx.AddFailure(new ValidationFailure(nameof(HkpvReport.PersonalData), Validationmessages.SsnNotUnique(entry)));
+                        ctx.AddFailure(new ValidationFailure(nameof(HkpvReport.Persons), Validationmessages.SsnNotUnique(entry)));
                     }
                 });
         }

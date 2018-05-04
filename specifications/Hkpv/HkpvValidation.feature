@@ -15,11 +15,11 @@ Beispiele:
 	| from        | Von                 | HkpvReport   |
 	| to          | Bis                 | HkpvReport   |
 	| institution | Einrichtung         | HkpvReport   |
-	| ssn         | Versicherungsnummer | PersonalData |
-	| birthday    | Geburtsdatum        | PersonalData |
-	| family_name | Familienname        | PersonalData |
-	| given_name  | Vorname             | PersonalData |
-	| street      | Anschrift           | PersonalData |
+	| ssn         | Versicherungsnummer | Person       |
+	| birthday    | Geburtsdatum        | Person       |
+	| family_name | Familienname        | Person       |
+	| given_name  | Vorname             | Person       |
+	| street      | Anschrift           | Person       |
 	| religion    | Religion            | Person       |
 	| insurance   | Versicherung        | Person       |
 	| nationality | Staatsangehörigkeit | Person       |
@@ -38,7 +38,7 @@ Beispiele:
 	| Name        | Bezeichnung         | Art          |
 	| from        | Von                 | HkpvReport   |
 	| to          | Bis                 | HkpvReport   |
-	| birthday    | Geburtsdatum        | PersonalData |
+	| birthday    | Geburtsdatum        | Person       |
 	| date        | Datum               | Activity     |
 	| date        | Datum               | Consultation |
 
@@ -76,21 +76,21 @@ Szenario: Die Meldung darf nicht die Zukunft betreffen.
 	Dann enthält das Validierungsergebnis den Fehler 'Der Wert von 'Bis' muss kleiner oder gleich .*'
 
 Szenario: Das Geburtsdatum darf nicht in der Zukunft liegen.
-	Angenommen die Eigenschaft 'birthday' von 'PersonalData' ist auf '2058-04-30' gesetzt
+	Angenommen die Eigenschaft 'birthday' von 'Person' ist auf '2058-04-30' gesetzt
 	Dann enthält das Validierungsergebnis den Fehler ''Geburtsdatum' darf nicht in der Zukunft liegen.'
 
 Szenario: Das Geburtsdatum darf nicht vor 1900 liegen.
-	Angenommen die Eigenschaft 'birthday' von 'PersonalData' ist auf '1899-12-31' gesetzt
+	Angenommen die Eigenschaft 'birthday' von 'Person' ist auf '1899-12-31' gesetzt
 	Dann enthält das Validierungsergebnis den Fehler 'Der Wert von 'Geburtsdatum' muss grösser oder gleich .*'
 
 Szenario: Geburtsdatum und Datum aus der Sozialversicherungsnummer sollten übereinstimmen.
-	Angenommen die Eigenschaft 'birthday' von 'PersonalData' ist auf '1966-01-03' gesetzt
-		Und die Eigenschaft 'ssn' von 'PersonalData' ist auf '9778-01.03.66' gesetzt
+	Angenommen die Eigenschaft 'birthday' von 'Person' ist auf '1966-01-03' gesetzt
+		Und die Eigenschaft 'ssn' von 'Person' ist auf '9778-01.03.66' gesetzt
 	Dann enthält das Validierungsergebnis die Warnung 'Das Geburtsdatum 03.01.1966 unterscheidet sich vom Wert in der Versicherungsnummer 01.03.66.'
 		Und es enthält keine Fehler
 
 Szenario: Die Versicherungsnummer ist nicht korrekt.
-	Angenommen die Eigenschaft 'ssn' von 'PersonalData' ist auf '9999-23.10.54' gesetzt
+	Angenommen die Eigenschaft 'ssn' von 'Person' ist auf '9999-23.10.54' gesetzt
 	Dann enthält das Validierungsergebnis den Fehler 'Die Versicherungsnummer 9999-23.10.54 ist nicht korrekt.'
 
 Szenario: Eine Aktivität ist nach dem Meldungszeitraum.

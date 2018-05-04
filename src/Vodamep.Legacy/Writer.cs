@@ -20,17 +20,7 @@ namespace Vodamep.Legacy
             foreach (var a in data.A)
             {
                 var name = GetName(a.Name_1);
-                report.AddPerson((new Person()
-                {
-                    Id = GetId(a.Adressnummer),
-                    Insurance = a.Versicherung ?? string.Empty,
-                    Nationality = a.Staatsbuergerschaft ?? string.Empty,
-                    CareAllowance = (CareAllowance)a.Pflegestufe,
-                    Religion = ReligionCodeProvider.Instance.Unknown,
-                    Postcode = a.Postleitzahl ?? string.Empty,
-                    City = a.Ort ?? string.Empty,
-                    Gender = GetGender(a.Geschlecht)
-                }, new PersonalData()
+                report.AddPerson(new Person()
                 {
                     Id = GetId(a.Adressnummer),
                     BirthdayD = a.Geburtsdatum,
@@ -38,10 +28,15 @@ namespace Vodamep.Legacy
                     GivenName = name.Givenname,
                     Ssn = a.Versicherungsnummer ?? string.Empty,
                     Street = a.Adresse ?? string.Empty,
-
-                }));
+                    Insurance = a.Versicherung ?? string.Empty,
+                    Nationality = a.Staatsbuergerschaft ?? string.Empty,
+                    CareAllowance = (CareAllowance)a.Pflegestufe,
+                    Religion = ReligionCodeProvider.Instance.Unknown,
+                    Postcode = a.Postleitzahl ?? string.Empty,
+                    City = a.Ort ?? string.Empty,
+                    Gender = GetGender(a.Geschlecht)
+                });
             }
-
 
             foreach (var p in data.P)
             {

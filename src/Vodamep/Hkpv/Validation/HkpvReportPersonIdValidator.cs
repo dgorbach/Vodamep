@@ -23,42 +23,7 @@ namespace Vodamep.Hkpv.Validation
                     }
                 });
 
-            this.RuleFor(x => x.PersonalData)
-               .Custom((list, ctx) =>
-               {
-                   foreach (var id in list.Select(x => x.Id).OrderBy(x => x).GroupBy(x => x).Where(x => x.Count() > 1))
-                   {
-                       var item = list.Where(x => x.Id == id.Key).First();
-                       var index = list.IndexOf(item);
-                       ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.PersonalData)}[{index}]", Validationmessages.IdIsNotUnique));
-                   }
-               });
-
-            //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später: new { x.Persons, x.PersonalData }
-            this.RuleFor(x => new Tuple<IList<Person>, IList<PersonalData>>(x.Persons, x.PersonalData))
-               .Custom((a, ctx) =>
-               {
-                   var persons = a.Item1;
-                   var personalData = a.Item2;
-
-                   var idPersons = persons.Select(x => x.Id).Distinct().ToArray();
-                   var idPersonalData = personalData.Select(x => x.Id).Distinct().ToArray();
-
-                   foreach (var id in idPersons.Except(idPersonalData))
-                   {
-                       var item = persons.Where(x => x.Id == id).First();
-                       var index = persons.IndexOf(item);
-                       ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Persons)}[{index}]", Validationmessages.PersonWithoutPersonalDate));
-                   }
-
-                   foreach (var id in idPersonalData.Except(idPersons))
-                   {
-                       var item = personalData.Where(x => x.Id == id).First();
-                       var index = personalData.IndexOf(item);
-                       ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.PersonalData)}[{index}]", Validationmessages.PersonWithoutData));
-                   }
-               });
-
+           
             //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später: new { x.Persons, x.Activities }
             this.RuleFor(x => new Tuple<IList<Person>, IList<Activity>>(x.Persons, x.Activities))
                .Custom((a, ctx) =>

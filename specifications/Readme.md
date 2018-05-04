@@ -28,6 +28,11 @@
     }],
     "persons": [{
         "id": "1",
+        "familyName": "Radl",
+        "givenName": "Elena",
+        "street": "Fußenegg 21",
+        "ssn": "4221-30.07.50",
+        "birthday": "1950-07-30",
         "religion": "VAR",
         "insurance": "19",
         "nationality": "AT",
@@ -35,15 +40,7 @@
         "postcode": "6850",
         "city": "Dornbirn",
         "gender": "female"
-    }],
-    "personalData": [{
-        "id": "1",
-        "familyName": "Radl",
-        "givenName": "Elena",
-        "street": "Fußenegg 21",
-        "ssn": "4221-30.07.50",
-        "birthday": "1950-07-30"
-    }],
+    }],    
     "activities": [{
         "date": "2018-03-01",
         "personId": "1",

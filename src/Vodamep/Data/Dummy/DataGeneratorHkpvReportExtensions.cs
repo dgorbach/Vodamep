@@ -7,14 +7,14 @@ namespace Vodamep.Data.Dummy
 {
     internal static class DataGeneratorHkpvReportExtensions
     {
-        public static (Person person, PersonalData Data) AddDummyPerson(this HkpvReport report)
+        public static Person AddDummyPerson(this HkpvReport report)
         {
             var p = DataGenerator.Instance.CreatePerson();
             report.AddPerson(p);
             return p;
         }
 
-        public static (Person person, PersonalData Data)[] AddDummyPersons(this HkpvReport report, int count)
+        public static Person[] AddDummyPersons(this HkpvReport report, int count)
         {
             var p = DataGenerator.Instance.CreatePersons(count).ToArray();
             report.AddPersons(p);

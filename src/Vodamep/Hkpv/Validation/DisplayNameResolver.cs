@@ -15,12 +15,12 @@ namespace Vodamep.Hkpv.Validation
         private void Init()
         {
 
-            _dict.Add(nameof(PersonalData.GivenName), "Vorname");
-            _dict.Add(nameof(PersonalData.FamilyName), "Familienname");
-            _dict.Add(nameof(PersonalData.Street), "Anschrift");            
-            _dict.Add(nameof(PersonalData.Ssn), "Versicherungsnummer");
-            _dict.Add(nameof(PersonalData.Birthday), "Geburtsdatum");
-            _dict.Add(nameof(PersonalData.BirthdayD), "Geburtsdatum");
+            _dict.Add(nameof(Person.GivenName), "Vorname");
+            _dict.Add(nameof(Person.FamilyName), "Familienname");
+            _dict.Add(nameof(Person.Street), "Anschrift");            
+            _dict.Add(nameof(Person.Ssn), "Versicherungsnummer");
+            _dict.Add(nameof(Person.Birthday), "Geburtsdatum");
+            _dict.Add(nameof(Person.BirthdayD), "Geburtsdatum");
             
             _dict.Add(nameof(Person.Religion), "Religion");
             _dict.Add(nameof(Person.Insurance), "Versicherung");

@@ -46,10 +46,6 @@ namespace Vodamep.Hkpv.Validation
                 .Unless(x => string.IsNullOrEmpty(x.From))
                 .WithMessage(Validationmessages.FirstDateInMOnth);
 
-
-
-            this.RuleForEach(report => report.PersonalData).SetValidator(new PersonalDataValidator());
-
             this.RuleForEach(report => report.Persons).SetValidator(new PersonValidator());
 
             this.RuleForEach(report => report.Activities).SetValidator(r => new ActivityValidator(r.FromD, r.ToD));
@@ -70,7 +66,7 @@ namespace Vodamep.Hkpv.Validation
 
             this.Include(new HkpvReportStaffIdValidator());
 
-            this.Include(new PersonalDataSsnIsUniqueValidator());
+            this.Include(new PersonSsnIsUniqueValidator());
 
             this.Include(new ConsultationsValidator3132And3334());
         }

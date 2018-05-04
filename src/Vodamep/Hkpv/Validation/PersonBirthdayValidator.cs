@@ -6,9 +6,9 @@ using Vodamep.Hkpv.Model;
 namespace Vodamep.Hkpv.Validation
 {
 
-    internal class PersonalDataBirthdayValidator : AbstractValidator<PersonalData>
+    internal class PersonBirthdayValidator : AbstractValidator<Person>
     {
-        public PersonalDataBirthdayValidator()
+        public PersonBirthdayValidator()
         {
             this.CascadeMode = CascadeMode.StopOnFirstFailure;
 
@@ -35,11 +35,11 @@ namespace Vodamep.Hkpv.Validation
         }
 
 
-        private bool CheckDates(PersonalData data, DateTime date)
+        private bool CheckDates(Person person, DateTime date)
         {
             if (date == null) return false;
 
-            var date2 = SSNHelper.GetBirthDay(data.Ssn);
+            var date2 = SSNHelper.GetBirthDay(person.Ssn);
 
             if (!date2.HasValue) return true;
 

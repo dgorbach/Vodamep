@@ -82,25 +82,20 @@ namespace Vodamep.Data.Dummy
             return report;
         }
 
-        public (Person Person, PersonalData data) CreatePerson()
+        public Person CreatePerson()
         {
             var id = (_id++).ToString();
 
             var person = new Person()
             {
-                Id = id,
+                Id = id,                
+                FamilyName = _familynames[_rand.Next(_familynames.Length)],
+                GivenName = _names[_rand.Next(_names.Length)],
                 Insurance = "19",
                 Religion = "VAR",
                 Nationality = "AT",
                 CareAllowance = _careAllowances[_rand.Next(_careAllowances.Length)],
                 Gender = _rand.Next(2) == 1 ? Gender.Female : Gender.Male
-            };
-
-            var data = new PersonalData
-            {
-                Id = id,
-                FamilyName = _familynames[_rand.Next(_familynames.Length)],
-                GivenName = _names[_rand.Next(_names.Length)]
             };
 
             // die Anschrift
@@ -109,17 +104,17 @@ namespace Vodamep.Data.Dummy
 
                 person.Postcode = address[6];
                 person.City = address[3];
-                data.Street = string.Format("{0} {1}", address[5], 1 + _rand.Next(30));
+                person.Street = string.Format("{0} {1}", address[5], 1 + _rand.Next(30));
             }
 
-            data.BirthdayD = new DateTime(1920, 01, 01).AddDays(_rand.Next(20000));
+            person.BirthdayD = new DateTime(1920, 01, 01).AddDays(_rand.Next(20000));
 
-            data.Ssn = CreateRandomSSN(data.BirthdayD);
+            person.Ssn = CreateRandomSSN(person.BirthdayD);
 
-            return (person, data);
+            return person;
 
         }
-        public IEnumerable<(Person Person, PersonalData data)> CreatePersons(int count)
+        public IEnumerable<Person> CreatePersons(int count)
         {
             for (var i = 0; i < count; i++)
                 yield return CreatePerson();
