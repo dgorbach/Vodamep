@@ -6,52 +6,6 @@ Szenario: Korrekt befüllt
 	Dann enthält das Validierungsergebnis keine Fehler
 	Und es enthält keine Warnungen
 
-Szenariogrundriss: Eine Eigenschaft ist nicht gesetzt
-	Angenommen die Eigenschaft '<Name>' von '<Art>' ist nicht gesetzt
-	Dann enthält das Validierungsergebnis genau einen Fehler
-	Und die Fehlermeldung lautet: ''<Bezeichnung>' darf nicht leer sein.'
-Beispiele:
-	| Name        | Bezeichnung         | Art          |
-	| from        | Von                 | HkpvReport   |
-	| to          | Bis                 | HkpvReport   |
-	| institution | Einrichtung         | HkpvReport   |
-	| ssn         | Versicherungsnummer | Person       |
-	| birthday    | Geburtsdatum        | Person       |
-	| family_name | Familienname        | Person       |
-	| given_name  | Vorname             | Person       |
-	| street      | Anschrift           | Person       |
-	| religion    | Religion            | Person       |
-	| insurance   | Versicherung        | Person       |
-	| nationality | Staatsangehörigkeit | Person       |
-	| postcode    | Plz                 | Person       |
-	| city        | Ort                 | Person       |
-	| gender      | Geschlecht          | Person       |
-	| family_name | Familienname        | Staff        |
-	| given_name  | Vorname             | Staff        |
-	| date        | Datum               | Activity     |
-	| date        | Datum               | Consultation |
-
-Szenariogrundriss: Eine Eigenschaft vom Typ Datum hat ein falsches Format
-	Angenommen die Eigenschaft '<Name>' von '<Art>' ist auf 'xxx' gesetzt
-	Dann enthält das Validierungsergebnis den Fehler ''<Bezeichnung>': 'xxx' ist kein gültiges Datum.'	
-Beispiele:
-	| Name        | Bezeichnung         | Art          |
-	| from        | Von                 | HkpvReport   |
-	| to          | Bis                 | HkpvReport   |
-	| birthday    | Geburtsdatum        | Person       |
-	| date        | Datum               | Activity     |
-	| date        | Datum               | Consultation |
-
-Szenariogrundriss: Eine Eigenschaft vom HkpvReport mit einem ungültigen Wert gesetzt.
-	Angenommen die Eigenschaft '<Name>' von '<Art>' ist auf '<Wert>' gesetzt
-	Dann enthält das Validierungsergebnis genau einen Fehler
-	Und die Fehlermeldung lautet: 'Für '<Bezeichnung>' ist '<Wert>' kein gültiger Code.'
-Beispiele: 
-	| Name        | Bezeichnung         | Art    | Wert |
-	| religion    | Religion            | Person | test |
-	| insurance   | Versicherung        | Person | test |
-	| nationality | Staatsangehörigkeit | Person | test |
-
 Szenario: Es wurde ein ungültiger Ort angegeben.
 	Angenommen die Eigenschaft 'postcode' von 'Person' ist auf '6900' gesetzt
 	Und die Eigenschaft 'city' von 'Person' ist auf 'Dornbirn' gesetzt
@@ -201,3 +155,50 @@ Szenario: Eine Beratung 33 ohne 34.
 Szenario: Eine Beratung 34 ohne 33.
 	Angenommen die Meldung enthält die Beratungen '34'
 	Dann enthält das Validierungsergebnis den Fehler 'Kein Eintrag 'Lv33' vorhanden.'
+
+Szenariogrundriss: Eine Eigenschaft ist nicht gesetzt
+	Angenommen die Eigenschaft '<Name>' von '<Art>' ist nicht gesetzt
+	Dann enthält das Validierungsergebnis genau einen Fehler
+	Und die Fehlermeldung lautet: ''<Bezeichnung>' darf nicht leer sein.'
+Beispiele:
+	| Name        | Bezeichnung         | Art          |
+	| from        | Von                 | HkpvReport   |
+	| to          | Bis                 | HkpvReport   |
+	| institution | Einrichtung         | HkpvReport   |
+	| ssn         | Versicherungsnummer | Person       |
+	| birthday    | Geburtsdatum        | Person       |
+	| family_name | Familienname        | Person       |
+	| given_name  | Vorname             | Person       |
+	| street      | Anschrift           | Person       |
+	| religion    | Religion            | Person       |
+	| insurance   | Versicherung        | Person       |
+	| nationality | Staatsangehörigkeit | Person       |
+	| postcode    | Plz                 | Person       |
+	| city        | Ort                 | Person       |
+	| gender      | Geschlecht          | Person       |
+	| family_name | Familienname        | Staff        |
+	| given_name  | Vorname             | Staff        |
+	| date        | Datum               | Activity     |
+	| date        | Datum               | Consultation |
+
+Szenariogrundriss: Eine Eigenschaft vom Typ Datum hat ein falsches Format
+	Angenommen die Eigenschaft '<Name>' von '<Art>' ist auf 'xxx' gesetzt
+	Dann enthält das Validierungsergebnis den Fehler ''<Bezeichnung>': 'xxx' ist kein gültiges Datum.'	
+Beispiele:
+	| Name        | Bezeichnung         | Art          |
+	| from        | Von                 | HkpvReport   |
+	| to          | Bis                 | HkpvReport   |
+	| birthday    | Geburtsdatum        | Person       |
+	| date        | Datum               | Activity     |
+	| date        | Datum               | Consultation |
+
+Szenariogrundriss: Eine Eigenschaft vom HkpvReport mit einem ungültigen Wert gesetzt.
+	Angenommen die Eigenschaft '<Name>' von '<Art>' ist auf '<Wert>' gesetzt
+	Dann enthält das Validierungsergebnis genau einen Fehler
+	Und die Fehlermeldung lautet: 'Für '<Bezeichnung>' ist '<Wert>' kein gültiger Code.'
+Beispiele: 
+	| Name        | Bezeichnung         | Art    | Wert |
+	| religion    | Religion            | Person | test |
+	| insurance   | Versicherung        | Person | test |
+	| nationality | Staatsangehörigkeit | Person | test |
+
