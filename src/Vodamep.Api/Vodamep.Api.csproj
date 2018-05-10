@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -30,7 +30,7 @@
 
   <ItemGroup Condition="'$(CoreRT)' == 'True'">
     <RdXmlFile Include="rd.xml" />    
-    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />
+    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-26428-01" />
   </ItemGroup>
 
   <ItemGroup>
