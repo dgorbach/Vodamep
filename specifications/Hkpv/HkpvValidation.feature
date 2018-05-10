@@ -63,6 +63,7 @@ Beispiele:
 	| 1        | 
 	| 2        |
 	| 3        |
+	| 2,6      |
 
 Szenariogrundriss: Eine Aktivität 4-17 aber keine 1,2 oder 3.
 	Angenommen die Meldung enthält die Aktivitäten '<Art>'

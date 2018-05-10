@@ -32,17 +32,22 @@ namespace Vodamep.Hkpv.Validation
                         .Select(x => x.Key)
                         .ToArray();
 
-                    var error1 = entries123.Except(entries4).ToArray();
-                    var error2 = entries4.Except(entries123).ToArray();
+                    var entries15 = l.Where(x => ((int)x.Type == 15))
+                       .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId, PersonId = x.PersonId })
+                       .Select(x => x.Key)
+                       .ToArray();
 
-                    foreach (var entry in error1)
+                    var error15 = entries123.Except(entries15).ToArray();
+                    var error123 = entries4.Except(entries123).ToArray();
+
+                    foreach (var entry in error15)
                     {
                         var item = list.Where(x => x.DateD == entry.Date && x.StaffId == entry.StaffId && x.PersonId == entry.PersonId).First();
                         var index = list.IndexOf(item);
                         ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Activities)}[{index}]", Validationmessages.WithoutEntry("15")));
                     }
 
-                    foreach (var entry in error2)
+                    foreach (var entry in error123)
                     {                        
                         var item = list.Where(x => x.DateD == entry.Date && x.StaffId == entry.StaffId && x.PersonId == entry.PersonId).First();
                         var index = list.IndexOf(item);
