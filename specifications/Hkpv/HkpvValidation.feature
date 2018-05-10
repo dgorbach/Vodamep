@@ -203,3 +203,38 @@ Beispiele:
 	| insurance   | Versicherung        | Person | test |
 	| nationality | Staatsangehörigkeit | Person | test |
 
+
+
+## Im folgenden kann für Meldungen von ganz spezifischen Aktivitäten sichergestellt werden, dass die Validierung sich korrekt verhält:
+Szenariogrundriss: Gültige Aktivitäten
+	Angenommen die Meldung enthält die Aktivitäten '<Art>'	
+	Dann enthält das Validierungsergebnis keine Fehler
+	Und es enthält keine Warnungen
+Beispiele:
+	| Art       |
+	| 2,15      |
+	| 2,2,15,15 |  # zwei Hausbesuche an einem Tag
+
+Szenariogrundriss: ungültige Aktivitäten
+	Angenommen die Meldung enthält die Aktivitäten '<Art>'	
+	Dann enthält das Validierungsergebnis den Fehler '<Fehler>'	
+Beispiele:
+	| Art    | Fehler                       |
+	| 2      | Kein Eintrag '15' vorhanden. |
+	
+/*
+Todo:
+lt. unterlagen_connexia/20171211 - Prueflogik.xls: 
+- Patientenkontakt 02 oder 03 ohne Leistung 04-17 (Patientenkontakt 01 ohne Leistung möglich)
+- Leistung 04-17 ohne Patientenkontakt 01 bis 03
+
+Frage gültig, nicht gültig: 
+ - 1		# a.k.a Hausbesuch mit kurzer Wegzeit ohne 15er
+ - 2,4		# a.k.a Hausbesuch mit kurzer Wegzeit ohne 15er
+ - 2,2,15   # zwei Hausbesuche an einem Tag. braucht jeder nen 15er?
+ - 15       # Evaluierung der Pflegeplanung
+ 
+*/
+
+
+
