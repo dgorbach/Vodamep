@@ -11,7 +11,6 @@ Inhalte:
 
 Das aktuelle Release ist im releases-Verzeichnis dieses Repositories zu finden.
 
-
 ## Build
 
 Für ein Build ist die Installation von [.Net Core SDK](https://www.microsoft.com/net/download/windows) erforderlich.
