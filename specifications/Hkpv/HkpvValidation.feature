@@ -230,7 +230,7 @@ lt. unterlagen_connexia/20171211 - Prueflogik.xls:
 
 Frage gültig, nicht gültig: 
  - 1		# a.k.a Hausbesuch mit kurzer Wegzeit ohne 15er
- - 2,4		# a.k.a Hausbesuch mit kurzer Wegzeit ohne 15er
+ - 2,4		# Hausbesuch ohne 15er
  - 2,2,15   # zwei Hausbesuche an einem Tag. braucht jeder nen 15er?
  - 15       # Evaluierung der Pflegeplanung
  
