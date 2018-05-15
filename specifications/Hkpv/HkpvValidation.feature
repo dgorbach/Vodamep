@@ -1,5 +1,6 @@
 ﻿#language: de-DE
-Funktionalität: Validation
+Funktionalität: Validierung der Datenmeldung
+
 
 Szenario: Korrekt befüllt
 	Angenommen eine Meldung ist korrekt befüllt
@@ -234,6 +235,11 @@ Frage gültig, nicht gültig:
  - 2,2,15   # zwei Hausbesuche an einem Tag. braucht jeder nen 15er?
  - 15       # Evaluierung der Pflegeplanung
  
+
+- Falsche Pflegernummer
+- Anzahl der Leistungspunkte pro Patient und Monat größer als XX
+- je Wohnort Definition von Standorten der Stützpunkte, die plausibel sind
+
 */
 
 
