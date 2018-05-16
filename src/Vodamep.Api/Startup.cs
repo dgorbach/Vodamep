@@ -39,7 +39,7 @@ namespace Vodamep.Api
         {
             var useAuthentication = !string.Equals(_authConfig?.Mode, BasicAuthenticationConfiguration.Mode_Disabled, StringComparison.CurrentCultureIgnoreCase);
             if (useAuthentication)
-            { 
+            {
                 app.UseAuthentication();
             }
 
@@ -60,16 +60,13 @@ namespace Vodamep.Api
 
             var fileEngineConfig = this._configuration.GetSection(nameof(FileEngine)).Get<FileEngineConfiguration>();
 
-            if (!string.IsNullOrEmpty(fileEngineConfig.Path))
+            if (string.IsNullOrEmpty(fileEngineConfig.Path))
             {
-                _loggerFactory.CreateLogger<Startup>().LogInformation("Using FileEngine: '{path}'", fileEngineConfig.Path);
-                services.AddTransient<Func<IEngine>>(sp => () => new FileEngine(fileEngineConfig, sp.GetService<ILogger<FileEngine>>()));
-                return;
+                fileEngineConfig.Path = ".";
             }
-            var msg = "No engine is configured";
 
-            _loggerFactory.CreateLogger<Startup>().LogError(msg);
-            throw new Exception(msg);
+            _loggerFactory.CreateLogger<Startup>().LogInformation("Using FileEngine: '{path}'", fileEngineConfig.Path);
+            services.AddTransient<Func<IEngine>>(sp => () => new FileEngine(fileEngineConfig, sp.GetService<ILogger<FileEngine>>()));
         }
 
         private void ConfigureAuth(IServiceCollection services)
@@ -101,7 +98,7 @@ namespace Vodamep.Api
 
                 return;
             }
-            
+
             var msg = "Authentication is not configured";
 
             _loggerFactory.CreateLogger<Startup>().LogError(msg);
