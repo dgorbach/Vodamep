@@ -16,6 +16,7 @@ namespace Vodamep.Api
     {
         private readonly IConfiguration _configuration;
         private readonly ILoggerFactory _loggerFactory;
+        private BasicAuthenticationConfiguration _authConfig;
 
         public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
@@ -30,13 +31,17 @@ namespace Vodamep.Api
             this.ConfigureAuth(services);
             this.ConfigureEngine(services);
 
-            services.AddTransient<VodamepHandler>();
+            services.AddTransient<VodamepHandler>(sp => new VodamepHandler(sp.GetService<Func<IEngine>>(), false, sp.GetService<ILogger<VodamepHandler>>()));
             services.AddSingleton<DbUpdater>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseAuthentication();
+            var useAuthentication = !string.Equals(_authConfig?.Mode, BasicAuthenticationConfiguration.Mode_Disabled, StringComparison.CurrentCultureIgnoreCase);
+            if (useAuthentication)
+            { 
+                app.UseAuthentication();
+            }
 
             app.UseVodamep();
         }
@@ -69,15 +74,15 @@ namespace Vodamep.Api
 
         private void ConfigureAuth(IServiceCollection services)
         {
-            var authConfig = _configuration.GetSection("BasicAuthentication").Get<BasicAuthenticationConfiguration>();
+            _authConfig = _configuration.GetSection("BasicAuthentication").Get<BasicAuthenticationConfiguration>();
 
-            if (string.Equals(authConfig.Mode, BasicAuthenticationConfiguration.Mode_Disabled, StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(_authConfig?.Mode, BasicAuthenticationConfiguration.Mode_Disabled, StringComparison.CurrentCultureIgnoreCase))
             {
                 _loggerFactory.CreateLogger<Startup>().LogInformation("Authentication is disabled");
                 return;
             }
 
-            if (string.Equals(authConfig.Mode, BasicAuthenticationConfiguration.Mode_UsernameEqualsPassword, StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(_authConfig.Mode, BasicAuthenticationConfiguration.Mode_UsernameEqualsPassword, StringComparison.CurrentCultureIgnoreCase))
             {
                 _loggerFactory.CreateLogger<Startup>().LogInformation("Using UsernameEqualsPasswordCredentialVerifier");
 
@@ -87,12 +92,12 @@ namespace Vodamep.Api
                 return;
             }
 
-            if (!string.IsNullOrEmpty(authConfig.Proxy))
+            if (!string.IsNullOrEmpty(_authConfig.Proxy))
             {
-                _loggerFactory.CreateLogger<Startup>().LogInformation("Using ProxyAuthentication: {proxy}", authConfig.Proxy);
+                _loggerFactory.CreateLogger<Startup>().LogInformation("Using ProxyAuthentication: {proxy}", _authConfig.Proxy);
 
                 services.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
-                    .AddBasicAuthentication(new ProxyCredentialVerifier(new Uri(authConfig.Proxy)).Verify);
+                    .AddBasicAuthentication(new ProxyCredentialVerifier(new Uri(_authConfig.Proxy)).Verify);
 
                 return;
             }

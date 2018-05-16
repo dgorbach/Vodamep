@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Vodamep.Api.CmdQry;
 using Vodamep.Hkpv;
@@ -18,11 +19,13 @@ namespace Vodamep.Api
 
         private readonly Func<IEngine> _engineFactory;
         private readonly ILogger<VodamepHandler> _logger;
+        private readonly bool _useAuthentication;
 
-        public VodamepHandler(Func<IEngine> engineFactory, ILogger<VodamepHandler> logger)
+        public VodamepHandler(Func<IEngine> engineFactory, bool useAuthentication, ILogger<VodamepHandler> logger)
         {
             _engineFactory = engineFactory;
             _logger = logger;
+            _useAuthentication = useAuthentication;
         }
         private async Task RespondError(HttpContext context, string message)
         {
@@ -46,12 +49,15 @@ namespace Vodamep.Api
 
         public async Task HandleDefault(HttpContext context)
         {
-            await EnsureIsAuthenticated(context);
-
-            if (!IsAuthenticated(context))
+            if (_useAuthentication)
             {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                return;
+                await EnsureIsAuthenticated(context);
+
+                if (!IsAuthenticated(context))
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    return;
+                }
             }
 
             var assembly = this.GetType().Assembly;
@@ -59,8 +65,8 @@ namespace Vodamep.Api
             using (var reader = new StreamReader(resourceStream))
             {
                 context.Response.ContentType = "text/plain; charset=utf-8";
-                await context.Response.WriteAsync(reader.ReadToEnd());               
-            }            
+                await context.Response.WriteAsync(reader.ReadToEnd());
+            }
         }
 
         public async Task HandlePut(HttpContext context)
@@ -71,12 +77,15 @@ namespace Vodamep.Api
                 return;
             }
 
-            await EnsureIsAuthenticated(context);
-
-            if (!IsAuthenticated(context))
+            if (_useAuthentication)
             {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                return;
+                await EnsureIsAuthenticated(context);
+
+                if (!IsAuthenticated(context))
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    return;
+                }
             }
 
             int.TryParse((string)context.GetRouteValue("year"), out int year);
@@ -133,7 +142,17 @@ namespace Vodamep.Api
 
             var engine = _engineFactory();
 
-            engine.Login(context.User);
+            if (_useAuthentication)
+            { 
+                engine.Login(context.User);
+            }
+            else
+            {
+                var identity = new ClaimsIdentity("anonymous");
+                identity.AddClaim(new Claim(ClaimTypes.Name, "anonymous"));
+
+                engine.Login(new ClaimsPrincipal(identity));
+            }
             engine.Execute(saveCmd);
 
             await RespondSuccess(context, msg);
