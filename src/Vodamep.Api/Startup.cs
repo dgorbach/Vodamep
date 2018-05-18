@@ -31,15 +31,16 @@ namespace Vodamep.Api
             this.ConfigureAuth(services);
             this.ConfigureEngine(services);
 
-            services.AddTransient<VodamepHandler>(sp => new VodamepHandler(sp.GetService<Func<IEngine>>(), false, sp.GetService<ILogger<VodamepHandler>>()));
+            services.AddTransient<VodamepHandler>(sp => new VodamepHandler(sp.GetService<Func<IEngine>>(), !IsAuthDisabled(_authConfig), sp.GetService<ILogger<VodamepHandler>>()));
             services.AddSingleton<DbUpdater>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            var useAuthentication = !string.Equals(_authConfig?.Mode, BasicAuthenticationConfiguration.Mode_Disabled, StringComparison.CurrentCultureIgnoreCase);
+            var useAuthentication = !IsAuthDisabled(_authConfig);
             if (useAuthentication)
             {
+                _loggerFactory.CreateLogger<Startup>().LogInformation("Authentication is disabled");
                 app.UseAuthentication();
             }
 
@@ -48,7 +49,7 @@ namespace Vodamep.Api
 
         private void ConfigureEngine(IServiceCollection services)
         {
-            var sqlEngineConfig = this._configuration.GetSection(nameof(SqlServerEngine)).Get<SqlServerEngineConfiguration>();
+            var sqlEngineConfig = this._configuration.GetSection(nameof(SqlServerEngine)).Get<SqlServerEngineConfiguration>() ?? new SqlServerEngineConfiguration();
 
             if (!string.IsNullOrEmpty(sqlEngineConfig.ConnectionString))
             {
@@ -58,9 +59,9 @@ namespace Vodamep.Api
                 return;
             }
 
-            var fileEngineConfig = this._configuration.GetSection(nameof(FileEngine)).Get<FileEngineConfiguration>();
+            var fileEngineConfig = this._configuration.GetSection(nameof(FileEngine)).Get<FileEngineConfiguration>() ?? new FileEngineConfiguration();
 
-            if (string.IsNullOrEmpty(fileEngineConfig.Path))
+            if (string.IsNullOrEmpty(fileEngineConfig?.Path))
             {
                 fileEngineConfig.Path = ".";
             }
@@ -71,9 +72,9 @@ namespace Vodamep.Api
 
         private void ConfigureAuth(IServiceCollection services)
         {
-            _authConfig = _configuration.GetSection("BasicAuthentication").Get<BasicAuthenticationConfiguration>();
+            _authConfig = _configuration.GetSection("BasicAuthentication").Get<BasicAuthenticationConfiguration>() ?? new BasicAuthenticationConfiguration();
 
-            if (string.Equals(_authConfig?.Mode, BasicAuthenticationConfiguration.Mode_Disabled, StringComparison.CurrentCultureIgnoreCase))
+            if (IsAuthDisabled(_authConfig))
             {
                 _loggerFactory.CreateLogger<Startup>().LogInformation("Authentication is disabled");
                 return;
@@ -104,5 +105,11 @@ namespace Vodamep.Api
             _loggerFactory.CreateLogger<Startup>().LogError(msg);
             throw new Exception(msg);
         }
+
+
+        private bool IsAuthDisabled(BasicAuthenticationConfiguration configuration) => string.IsNullOrEmpty(configuration?.Mode) || string.Equals(_authConfig.Mode, BasicAuthenticationConfiguration.Mode_Disabled, StringComparison.CurrentCultureIgnoreCase);
     }
+
+
+   
 }
