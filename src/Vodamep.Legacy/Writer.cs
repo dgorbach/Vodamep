@@ -70,7 +70,7 @@ namespace Vodamep.Legacy
                 }
             }
 
-            var filename = report.WriteToPath("", asJson: asJson, compressed: true);
+            var filename = report.AsSorted().WriteToPath("", asJson: asJson, compressed: true);
 
             return filename;
         }
