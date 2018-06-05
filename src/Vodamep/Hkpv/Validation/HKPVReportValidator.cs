@@ -54,7 +54,9 @@ namespace Vodamep.Hkpv.Validation
 
             this.RuleForEach(report => report.Staffs).SetValidator(new StaffValidator());
 
-            this.Include(new ActivityValidator123And15());
+            this.Include(new ActivityValidator23Without417());
+
+            this.Include(new ActivityValidator4141617Without123());
 
             this.Include(new ActivityIsUniqueValidator());
 

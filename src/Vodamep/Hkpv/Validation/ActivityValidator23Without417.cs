@@ -6,9 +6,9 @@ using Vodamep.Hkpv.Model;
 namespace Vodamep.Hkpv.Validation
 {
 
-    internal class ActivityValidator123And15 : AbstractValidator<HkpvReport>
+    internal class ActivityValidator23Without417 : AbstractValidator<HkpvReport>
     {
-        public ActivityValidator123And15()
+        public ActivityValidator23Without417()
         {
             RuleFor(x => x.Activities)
                 .Custom((list, ctx) =>
@@ -22,7 +22,9 @@ namespace Vodamep.Hkpv.Validation
                         .Where(x => !string.IsNullOrEmpty(x.StaffId))
                         .Where(x => !string.IsNullOrEmpty(x.PersonId));
 
-                    var entries123 = l.Where(x => x.Type == ActivityType.Lv01 || x.Type == ActivityType.Lv02 || x.Type == ActivityType.Lv03)
+
+
+                    var entries23 = l.Where(x => x.Type == ActivityType.Lv02 || x.Type == ActivityType.Lv03)
                         .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId, PersonId = x.PersonId })
                         .Select(x => x.Key)
                         .ToArray();
@@ -32,29 +34,19 @@ namespace Vodamep.Hkpv.Validation
                         .Select(x => x.Key)
                         .ToArray();
 
-                    var entries15 = l.Where(x => ((int)x.Type == 15))
-                       .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId, PersonId = x.PersonId })
-                       .Select(x => x.Key)
-                       .ToArray();
 
-                    var error15 = entries123.Except(entries15).ToArray();
-                    var error123 = entries4.Except(entries123).ToArray();
 
-                    foreach (var entry in error15)
+                    var errorWithout4 = entries23.Except(entries4).ToArray();
+
+
+                    foreach (var entry in errorWithout4)
                     {
                         var item = list.Where(x => x.DateD == entry.Date && x.StaffId == entry.StaffId && x.PersonId == entry.PersonId).First();
                         var index = list.IndexOf(item);
-                        ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Activities)}[{index}]", Validationmessages.WithoutEntry("15")));
+                        ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Activities)}[{index}]", Validationmessages.WithoutEntry("4-17")));
                     }
 
-                    foreach (var entry in error123)
-                    {                        
-                        var item = list.Where(x => x.DateD == entry.Date && x.StaffId == entry.StaffId && x.PersonId == entry.PersonId).First();
-                        var index = list.IndexOf(item);
-                        ctx.AddFailure(new ValidationFailure($"{nameof(HkpvReport.Activities)}[{index}]", Validationmessages.WithoutEntry("1,2,3")));
-
-                    }
                 });
-        }        
+        }
     }
 }

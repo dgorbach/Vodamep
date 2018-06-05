@@ -56,17 +56,15 @@ Szenario: Eine Aktivität ist vor dem Meldungszeitraum.
 	Angenommen die Meldung enthält am '2008-04-30' die Aktivitäten '02,15'
 	Dann enthält das Validierungsergebnis den Fehler 'Der Wert von 'Datum' muss grösser oder gleich (.*) sein.'
 
-Szenariogrundriss: Eine Aktivität 1,2 oder 3 aber keinen 15er an diesem Tag.
+Szenariogrundriss: Eine Aktivität 2 oder 3 aber keine Leistung 4-17 an diesem Tag.
 	Angenommen die Meldung enthält die Aktivitäten '<Art>'
-	Dann enthält das Validierungsergebnis den Fehler 'Kein Eintrag '15' vorhanden.'
+	Dann enthält das Validierungsergebnis den Fehler 'Kein Eintrag '4-17' vorhanden.'
 Beispiele:
-	| Art      |
-	| 1        | 
+	| Art      |	
 	| 2        |
-	| 3        |
-	| 2,6      |
+	| 3        |	
 
-Szenariogrundriss: Eine Aktivität 4-17 aber keine 1,2 oder 3.
+Szenariogrundriss: Eine Aktivität 4-14, 16-17 aber keine 1,2 oder 3.
 	Angenommen die Meldung enthält die Aktivitäten '<Art>'
 	Dann enthält das Validierungsergebnis den Fehler 'Kein Eintrag '1,2,3''
 Beispiele:
@@ -81,8 +79,7 @@ Beispiele:
 	| 11       |
 	| 12       |
 	| 13       |
-	| 14       |
-	| 15       |
+	| 14       |	
     | 16       |
 	| 17       |
 
@@ -213,12 +210,16 @@ Szenariogrundriss: Gültige Aktivitäten
 	Und es enthält keine Warnungen
 Beispiele:
 	| Art       |
-	| 2,15      |
-	| 2,2,15,15 |  # zwei Hausbesuche an einem Tag
+	| 1         |
+	| 2,6       |
+	| 15        |  
+	| 2,15      |	
+	| 2,2,15    |  # zwei Hausbesuche an einem Tag
 
 Szenariogrundriss: ungültige Aktivitäten
 	Angenommen die Meldung enthält die Aktivitäten '<Art>'	
 	Dann enthält das Validierungsergebnis den Fehler '<Fehler>'	
 Beispiele:
-	| Art    | Fehler                       |
-	| 2      | Kein Eintrag '15' vorhanden. |
+	| Art    | Fehler                         |
+	| 2      | Kein Eintrag '4-17' vorhanden. |
+	
