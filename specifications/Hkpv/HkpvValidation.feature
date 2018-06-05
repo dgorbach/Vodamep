@@ -222,25 +222,3 @@ Szenariogrundriss: ungültige Aktivitäten
 Beispiele:
 	| Art    | Fehler                       |
 	| 2      | Kein Eintrag '15' vorhanden. |
-	
-/*
-Todo:
-lt. unterlagen_connexia/20171211 - Prueflogik.xls: 
-- Patientenkontakt 02 oder 03 ohne Leistung 04-17 (Patientenkontakt 01 ohne Leistung möglich)
-- Leistung 04-17 ohne Patientenkontakt 01 bis 03
-
-Frage gültig, nicht gültig: 
- - 1		# a.k.a Hausbesuch mit kurzer Wegzeit ohne 15er
- - 2,4		# Hausbesuch ohne 15er
- - 2,2,15   # zwei Hausbesuche an einem Tag. braucht jeder nen 15er?
- - 15       # Evaluierung der Pflegeplanung
- 
-
-- Falsche Pflegernummer
-- Anzahl der Leistungspunkte pro Patient und Monat größer als XX
-- je Wohnort Definition von Standorten der Stützpunkte, die plausibel sind
-
-*/
-
-
-
