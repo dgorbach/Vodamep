@@ -8,6 +8,7 @@ namespace Vodamep.Hkpv.Validation
     {  
         public static string ActivityIsNotUnique => $"Die Einträge sind nicht kumuliert.";
         public static string ActivityMoreThenFive => $"Es wurden mehr als 5 gemeldet.";
+        public static string ActivityMoreThen250(Person p, int x) => $"Für '{p.FamilyName} {p.GivenName}' wurden mehr als 250 LP in einem Monat erfasst. ({x})";
         public static string TraineeMustNotContain06To10(Staff staff) => $"'{staff.FamilyName} {staff.GivenName} ({staff.Id})' darf als Auszubildende/r keine medizinischen Leistungen (6-10) dokumentieren.";
         public static string IdIsNotUnique => "Der Id ist nicht eindeutig.";
         public static string IdIsMissing(string id) => $"Der Id '{id}' fehlt.";

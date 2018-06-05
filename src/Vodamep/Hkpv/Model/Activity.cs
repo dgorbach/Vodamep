@@ -26,7 +26,9 @@ namespace Vodamep.Hkpv.Model
             return result;
         }
 
-        public int GetMinutes()
+        public int GetMinutes() => GetLP() * 5;
+       
+        public int GetLP()
         {
             switch (this.Type)
             {
@@ -34,7 +36,7 @@ namespace Vodamep.Hkpv.Model
                 case ActivityType.Lv06:
                 case ActivityType.Lv08:
                 case ActivityType.Lv15:
-                    return 5;
+                    return 1;
                 case ActivityType.Lv02:
                 case ActivityType.Lv05:
                 case ActivityType.Lv07:
@@ -44,13 +46,13 @@ namespace Vodamep.Hkpv.Model
                 case ActivityType.Lv12:
                 case ActivityType.Lv13:
                 case ActivityType.Lv16:
-                    return 10;
+                    return 2;
                 case ActivityType.Lv14:
                 case ActivityType.Lv17:
-                    return 15;
+                    return 3;
                 case ActivityType.Lv03:
                 case ActivityType.Lv04:
-                    return 20;
+                    return 4;
 
                 default:
                     throw new NotImplementedException();

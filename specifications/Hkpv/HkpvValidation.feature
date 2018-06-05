@@ -87,6 +87,10 @@ Szenario: Eine Mitarbeiter hat eine Aktivität öfter als 5 Mal an einem Tag bei
 	Angenommen die Meldung enthält die Aktivitäten '2,15,15,15,15,15,15'
 	Dann enthält das Validierungsergebnis die Warnung 'Es wurden mehr als 5 gemeldet.'
 
+Szenario: Eine einen Klienten wurden mehr als 250 LP gemeldet
+	Angenommen die Meldung enthält jeden Tag die Aktivitäten '2,04,04,04,15'
+	Dann enthält das Validierungsergebnis die Warnung 'wurden mehr als 250 LP in einem Monat erfasst.'
+
 Szenario: Eine Aktivität sind nicht kummuliert.
 	Angenommen die Meldung enthält die Aktivitäten '2,15'
 		Und die Meldung enthält die Aktivitäten '15'

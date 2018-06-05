@@ -42,7 +42,7 @@ namespace Vodamep.Specs.StepDefinitions
 
         private void AddConsultation(HkpvReport report, string staffId)
         {
-            report.Consultations.Add(new Consultation() { Date = report.From, Amount = 1, StaffId = staffId, Type = ConsultationType.Lv31 });            
+            report.Consultations.Add(new Consultation() { Date = report.From, Amount = 1, StaffId = staffId, Type = ConsultationType.Lv31 });
         }
 
         public HkpvReport Report { get; private set; }
@@ -70,7 +70,7 @@ namespace Vodamep.Specs.StepDefinitions
         public void GivenThePropertyIsDefault(string name, string type)
         {
             if (type == nameof(HkpvReport))
-                this.Report.SetDefault(name);            
+                this.Report.SetDefault(name);
             else if (type == nameof(Person))
                 this.Report.Persons[0].SetDefault(name);
             else if (type == nameof(Staff))
@@ -89,7 +89,7 @@ namespace Vodamep.Specs.StepDefinitions
         public void GivenThePropertyIsSetTo(string name, string type, string value)
         {
             if (type == nameof(HkpvReport))
-                this.Report.SetValue(name, value);            
+                this.Report.SetValue(name, value);
             else if (type == nameof(Person))
                 this.Report.Persons[0].SetValue(name, value);
             else if (type == nameof(Staff))
@@ -120,6 +120,15 @@ namespace Vodamep.Specs.StepDefinitions
             foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
                 this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
+            }
+        }
+
+        [Given(@"die Meldung enthält jeden Tag die Aktivitäten '(.*?)'")]
+        public void GivenTheDailyActivities(string values)
+        {
+            foreach (var day in Enumerable.Range(1, this.Report.ToD.Day))
+            {
+                this.GivenTheActivitiesAt(new DateTime(this.Report.ToD.Year, this.Report.ToD.Month, day).ToString("yyyy-MM-dd"), values);
             }
         }
 
