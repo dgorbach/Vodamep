@@ -139,22 +139,6 @@ Szenario: Eine Beratung ist vor dem Meldungszeitraum.
 	Angenommen die Meldung enthält am '2008-04-30' die Beratungen '31,32'
 	Dann enthält das Validierungsergebnis den Fehler 'Der Wert von 'Datum' muss grösser oder gleich (.*) sein.'
 
-Szenario: Eine Beratung 31 ohne 32.
-	Angenommen die Meldung enthält die Beratungen '31'
-	Dann enthält das Validierungsergebnis den Fehler 'Kein Eintrag 'Lv32' vorhanden.'
-
-Szenario: Eine Beratung 32 ohne 31.
-	Angenommen die Meldung enthält die Beratungen '32'
-	Dann enthält das Validierungsergebnis den Fehler 'Kein Eintrag 'Lv31' vorhanden.'
-
-Szenario: Eine Beratung 33 ohne 34.
-	Angenommen die Meldung enthält die Beratungen '33'
-	Dann enthält das Validierungsergebnis den Fehler 'Kein Eintrag 'Lv34' vorhanden.'
-
-Szenario: Eine Beratung 34 ohne 33.
-	Angenommen die Meldung enthält die Beratungen '34'
-	Dann enthält das Validierungsergebnis den Fehler 'Kein Eintrag 'Lv33' vorhanden.'
-
 Szenariogrundriss: Eine Eigenschaft ist nicht gesetzt
 	Angenommen die Eigenschaft '<Name>' von '<Art>' ist nicht gesetzt
 	Dann enthält das Validierungsergebnis genau einen Fehler

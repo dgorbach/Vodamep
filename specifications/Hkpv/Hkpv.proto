@@ -90,10 +90,8 @@ enum ActivityType {
 // Beratungen ohne Klientenbezug
 enum ConsultationType {  
   undefined_consultation = 0;
-  LV31 = 31;            // Persönliche Beratung                                         (1 LP)
-  LV32 = 32;            // Anzahl der Personen zu 31
-  LV33 = 33;            // Telefonische Beratung                                        (1 LP)
-  LV34 = 34;            // Anzahl der Personen zu 33
+  LV31 = 31;            // Persönliche Beratung                                         (1 LP)  
+  LV33 = 33;            // Telefonische Beratung                                        (1 LP)  
 }
 
 enum StaffRole {

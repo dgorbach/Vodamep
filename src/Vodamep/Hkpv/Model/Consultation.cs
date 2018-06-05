@@ -28,10 +28,7 @@ namespace Vodamep.Hkpv.Model
             {
                 case ConsultationType.Lv31:
                 case ConsultationType.Lv33:
-                    return 5;
-                case ConsultationType.Lv32:
-                case ConsultationType.Lv34:
-                    return 0;
+                    return 5;               
                 default:
                     throw new NotImplementedException();
             }

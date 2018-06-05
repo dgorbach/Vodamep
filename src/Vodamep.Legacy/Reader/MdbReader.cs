@@ -27,7 +27,7 @@ namespace Vodamep.Legacy.Reader
 
                 var sqlLeistungen = @"SELECT l.Adressnummer, l.Pfleger, l.Datum, l.Leistung, l.Anzahl
 FROM Leistungen AS l
-WHERE(l.Datum Between @from And @to);";
+WHERE(l.Datum Between @from And @to) and not (l.Leistung in (32,34));";
 
                 var leistungen = connection.Query<LeistungDTO>(sqlLeistungen, new { from = from, to = to }).ToArray();
 

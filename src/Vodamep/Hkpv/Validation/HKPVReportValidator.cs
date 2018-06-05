@@ -69,8 +69,6 @@ namespace Vodamep.Hkpv.Validation
             this.Include(new HkpvReportStaffIdValidator());
 
             this.Include(new PersonSsnIsUniqueValidator());
-
-            this.Include(new ConsultationsValidator3132And3334());
         }
 
         public override async Task<ValidationResult> ValidateAsync(ValidationContext<HkpvReport> context, CancellationToken cancellation = default(CancellationToken))

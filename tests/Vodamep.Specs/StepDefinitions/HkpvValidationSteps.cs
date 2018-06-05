@@ -42,8 +42,7 @@ namespace Vodamep.Specs.StepDefinitions
 
         private void AddConsultation(HkpvReport report, string staffId)
         {
-            report.Consultations.Add(new Consultation() { Date = report.From, Amount = 1, StaffId = staffId, Type = ConsultationType.Lv31 });
-            report.Consultations.Add(new Consultation() { Date = report.From, Amount = 1, StaffId = staffId, Type = ConsultationType.Lv32 });
+            report.Consultations.Add(new Consultation() { Date = report.From, Amount = 1, StaffId = staffId, Type = ConsultationType.Lv31 });            
         }
 
         public HkpvReport Report { get; private set; }
@@ -200,17 +199,6 @@ namespace Vodamep.Specs.StepDefinitions
         {
             this.Report.AddDummyPerson();
         }
-
-
-        [Given(@"die Meldung enthält die Beratungen '(.*?)'")]
-        public void GivenTheConsultations(string values)
-        {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
-            {
-                this.Report.Consultations.Add(new Consultation() { Amount = lv.Count(), Date = this.Report.To, StaffId = this.Report.Staffs[0].Id, Type = (ConsultationType)lv.Key });
-            }
-        }
-
 
         [Given(@"die Meldung enthält am '(.*)' die Beratungen '(.*)'")]
         public void GivenTheConsultationsAt(string date, string values)
