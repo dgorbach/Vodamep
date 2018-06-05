@@ -38,7 +38,7 @@ namespace Vodamep.Legacy
 
             foreach (var month in months)
             {
-                var data = reader.Read(args.Year, args.Month);
+                var data = reader.Read(args.Year, month);
 
                 var filename = new Writer().Write(data, args.Json);
 
