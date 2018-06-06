@@ -40,8 +40,13 @@ namespace Vodamep.Legacy
             {
                 var data = reader.Read(args.Year, month);
 
-                var filename = new Writer().Write(data, args.Json);
+                if (data == null || data.Equals(ReadResult.Empty))
+                {
+                    Console.WriteLine($"Keine Daten für {args.Year}-{month}.");
+                    continue;
+                }
 
+                var filename = new Writer().Write(data, args.Json);
                 Console.WriteLine($"{filename} wurde erzeugt.");
             }
         }

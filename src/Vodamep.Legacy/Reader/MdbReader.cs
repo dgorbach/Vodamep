@@ -31,6 +31,9 @@ WHERE(l.Datum Between @from And @to) and not (l.Leistung in (32,34));";
 
                 var leistungen = connection.Query<LeistungDTO>(sqlLeistungen, new { from = from, to = to }).ToArray();
 
+                if (!leistungen.Any())
+                    return ReadResult.Empty;
+
                 var adressnummern = leistungen.Where(x => x.Leistung < 20).Select(x => x.Adressnummer).Distinct().ToArray();
 
                 var sqlAdressen = @"SELECT a.Adressnummer, a.Name_1, a.Name_2, a.Adresse, a.Land, a.Postleitzahl, a.Geburtsdatum, a.Staatsbuergerschaft, a.Versicherung, a.Versicherungsnummer, o.Ort, a.Geschlecht
