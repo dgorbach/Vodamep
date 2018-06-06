@@ -15,14 +15,21 @@ namespace Vodamep.Legacy
         {
             var reader = new MdbReader(args.File);
 
-            if (args.Year == 0) args.Year = DateTime.Today.AddMonths(-1).Year;
+            this.Read(reader, args);
+        }
+
+        private void Read(IReader reader, ReadBaseArgs args)
+        {
+            var year = args.Year;
+            
+            if (year == 0) year = DateTime.Today.AddMonths(-1).Year;
 
 
             int[] months;
 
             if (args.Month == 0)
             {
-                if (args.Year == DateTime.Today.Year)
+                if (year == DateTime.Today.Year)
                 {
                     months = Enumerable.Range(1, DateTime.Today.AddMonths(-1).Month).ToArray();
                 }
@@ -38,11 +45,11 @@ namespace Vodamep.Legacy
 
             foreach (var month in months)
             {
-                var data = reader.Read(args.Year, month);
+                var data = reader.Read(year, month);
 
                 if (data == null || data.Equals(ReadResult.Empty))
                 {
-                    Console.WriteLine($"Keine Daten für {args.Year}-{month}.");
+                    Console.WriteLine($"Keine Daten für {year}-{month}.");
                     continue;
                 }
 
@@ -50,5 +57,6 @@ namespace Vodamep.Legacy
                 Console.WriteLine($"{filename} wurde erzeugt.");
             }
         }
+
     }
 }

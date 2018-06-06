@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LegacyProgram.cs" />
+    <Compile Include="ReadBaseArgs.cs" />
     <Compile Include="Reader\MdbReader.cs" />
     <Compile Include="Reader\IReader.cs" />
     <Compile Include="Model\AdresseDTO.cs" />
