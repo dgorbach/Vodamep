@@ -59,7 +59,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reader\ReadResult.cs" />
+    <Compile Include="Reader\Td45Reader.cs" />
     <Compile Include="ReadMdbArgs.cs" />
+    <Compile Include="ReadTd45Args.cs" />
     <Compile Include="Writer.cs" />
   </ItemGroup>
   <ItemGroup>
