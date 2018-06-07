@@ -15,7 +15,7 @@ namespace Vodamep.Legacy
         public string Password { get; set; }
 
         public string GetSqlServerCS() => string.IsNullOrEmpty(this.User) ?
-            $"Server={this.Server};Database={this.Database};Trusted_Connection)True;" :
+            $"Server={this.Server};Database={this.Database};Trusted_Connection=True;" :
             $"Server={this.Server};Database={this.Database};User Id={this.User};Password={Password}";
     }
 }
