@@ -43,8 +43,10 @@ FROM qryhtblKISAuswertung q
 INNER JOIN tblKISBereichPunkt kbp ON q.KISBereichPunktID = kbp.KISBereichPunktID
 WHERE kbp.KISBereichID LIKE 'HK%'
 GROUP BY q.SeniorID, q.PflegerID, q.Datum, kbp.PunktID;";
-                
-                var leistungen = connection.Query<LeistungDTO>(sqlLeistungen, new { from = from, to = to }).ToArray();
+
+                //Timeout auf 3 Minuten setzen, weil die KISCode-Auswertung relativ lang dauert
+                var leistungenCommand = new CommandDefinition(sqlLeistungen, new { from = from, to = to }, commandTimeout: 180);
+                var leistungen = connection.Query<LeistungDTO>(leistungenCommand).ToArray();
 
                 if (!leistungen.Any())
                     return ReadResult.Empty;
@@ -58,7 +60,8 @@ WHERE s2.ctlName IN ('Religion', 'Konfession', 'ReligionAndere')
 	AND s2.SeniorID = s.SeniorID
 ORDER BY CASE WHEN s2.ctlName Like 'Religion' THEN 1 ELSE 0 END, s2.vonDatum DESC";
 
-                var sqlAdressen = $@"SELECT s.SeniorID AS Adressnummer, s.Nachname AS Name_1, s.Vorname AS Name_2,
+                var sqlAdressen = $@"SELECT s.SeniorID AS Adressnummer, 
+    coalesce(s.Nachname, '???') AS Name_1, coalesce(s.Vorname, '???') AS Name_2,
     q.Anschrift AS Adresse, q.Postleitzahl, q.Ort, s1.Geburtsdatum,
 	(SELECT TOP 1 Land FROM tblLand WHERE Bezeichnung LIKE s1.Staatsangehörigkeit) AS Staatsbuergerschaft,
     v.Code AS Versicherung, s1.VNummer1 AS Versicherungsnummer,
@@ -100,7 +103,7 @@ FROM tblSenior s WHERE s.SeniorID IN @ids;";
 
                 var pflegernummern = leistungen.Select(x => x.Pfleger).Distinct().ToArray();
 
-                var sqlPfleger = @"SELECT PflegerID AS Pflegernummer, coalesce(Nachname, '') + ' ' + coalesce(Vorname, '') AS Pflegername 
+                var sqlPfleger = @"SELECT PflegerID AS Pflegernummer, coalesce(Nachname, '???') + ' ' + coalesce(Vorname, '???') AS Pflegername 
 FROM tblPfleger WHERE PflegerID in @ids;";
 
                 var pfleger = connection.Query<PflegerDTO>(sqlPfleger, new { ids = pflegernummern }).ToArray();
