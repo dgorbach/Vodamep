@@ -83,9 +83,15 @@ Beispiele:
     | 16       |
 	| 17       |
 
-Szenario: Eine Mitarbeiter hat eine Aktivität öfter als 5 Mal an einem Tag bei einem Klienten.
-	Angenommen die Meldung enthält die Aktivitäten '2,15,15,15,15,15,15'
+Szenario: Eine Mitarbeiter hat eine Aktivität 1-17 öfter als 5 Mal an einem Tag bei einem Klienten.
+	Angenommen die Meldung enthält die Aktivitäten '2,15,15,15,15,15,15'		
 	Dann enthält das Validierungsergebnis die Warnung 'Es wurden mehr als 5 gemeldet.'
+
+Szenario: Eine Mitarbeiter hat eine Aktivität 31 oder 33 öfter als 5 Mal an einem Tag.
+	Angenommen die Meldung enthält bei der Person '' die Aktivitäten '31,31,31,31,31,31,31'
+		Und die Meldung enthält die Aktivitäten '2,15'	
+	Dann enthält das Validierungsergebnis keine Fehler
+	Und es enthält keine Warnungen
 
 Szenario: Ein Klienten hat jeden Tag Leistungen dokumentiert, in Summe mehr als 250 LP.
 	Angenommen die Meldung enthält jeden Tag die Aktivitäten '2,04,04,04,15'

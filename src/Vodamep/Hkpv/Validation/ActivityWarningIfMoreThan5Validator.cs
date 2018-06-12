@@ -13,7 +13,7 @@ namespace Vodamep.Hkpv.Validation
             RuleFor(x => x.Activities)
                 .Custom((list, ctx) =>
                 {
-                    var moreThan5 = list.Where(x => x.Amount > 5);
+                    var moreThan5 = list.Where(x => x.Amount > 5 && !Activity.ActivityTypesWithoutPerson.Contains(x.Type));
 
                     foreach (var entry in moreThan5)
                     {
