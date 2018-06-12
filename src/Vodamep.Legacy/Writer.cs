@@ -19,7 +19,9 @@ namespace Vodamep.Legacy
             };
             foreach (var a in data.A)
             {
-                var name = GetName(a.Name_1);
+                var name = (Familyname: a.Name_1, Givenname: a.Name_2);
+                if (string.IsNullOrEmpty(name.Givenname)) name = GetName(a.Name_1);
+
                 report.AddPerson(new Person()
                 {
                     Id = GetId(a.Adressnummer),
