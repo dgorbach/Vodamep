@@ -24,15 +24,15 @@ namespace Vodamep.Legacy
                 {
                     Id = GetId(a.Adressnummer),
                     BirthdayD = a.Geburtsdatum,
-                    FamilyName = name.Familyname,
-                    GivenName = name.Givenname,
-                    Ssn = a.Versicherungsnummer ?? string.Empty,                    
-                    Insurance = a.Versicherung ?? string.Empty,
-                    Nationality = a.Staatsbuergerschaft ?? string.Empty,
+                    FamilyName = (name.Familyname ?? string.Empty).Trim(),
+                    GivenName = (name.Givenname ?? string.Empty).Trim(),
+                    Ssn = (a.Versicherungsnummer ?? string.Empty).Trim(),                    
+                    Insurance = (a.Versicherung ?? string.Empty).Trim(),
+                    Nationality = (a.Staatsbuergerschaft ?? string.Empty).Trim(),
                     CareAllowance = (CareAllowance)a.Pflegestufe,
                     Religion = ReligionCodeProvider.Instance.Unknown,
-                    Postcode = a.Postleitzahl ?? string.Empty,
-                    City = a.Ort ?? string.Empty,
+                    Postcode = (a.Postleitzahl ?? string.Empty).Trim(),
+                    City = (a.Ort ?? string.Empty).Trim(),
                     Gender = GetGender(a.Geschlecht)
                 });
             }
