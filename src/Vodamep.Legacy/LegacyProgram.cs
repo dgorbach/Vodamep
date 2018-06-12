@@ -31,6 +31,15 @@ namespace Vodamep.Legacy
             }
         }
 
+        [ArgActionMethod]
+        [ArgDescription("Liest Daten aus der Version 45 von TransDok.")]
+        public void ReadTd45(ReadTd45Args args)
+        {
+            var reader = new Td45Reader(args.GetSqlServerCS());
+
+            this.Read(reader, args);
+        }
+
         private void Read(IReader reader, ReadBaseArgs args)
         {
             var year = args.Year;
