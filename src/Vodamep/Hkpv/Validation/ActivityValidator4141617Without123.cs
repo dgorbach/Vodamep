@@ -27,15 +27,12 @@ namespace Vodamep.Hkpv.Validation
                         .ToArray();
 
                  
-                    var entries4Except15 = l.Where(x => x.Type != ActivityType.Lv15 && ((int)x.Type > 3))
+                    var entries4Except15 = l.Where(x => x.Type != ActivityType.Lv15 && ((int)x.Type > 3) && ((int)x.Type <= 17))
                         .GroupBy(x => new DateStaffPerson { Date = x.DateD, StaffId = x.StaffId, PersonId = x.PersonId })
                         .Select(x => x.Key)
                         .ToArray();
-
                   
-                    var errorWithout123 = entries4Except15.Except(entries123).ToArray();
-
-                   
+                    var errorWithout123 = entries4Except15.Except(entries123).ToArray();                   
 
                     foreach (var entry in errorWithout123)
                     {

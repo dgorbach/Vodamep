@@ -36,8 +36,7 @@ namespace Vodamep.Hkpv.Model
             };
 
             result.Activities.AddRange(report.Activities.OrderBy(x => x));
-            result.Consultations.AddRange(report.Consultations.OrderBy(x => x));
-
+            
             result.Persons.AddRange(report.Persons.OrderBy(x => x.Id));            
             result.Staffs.AddRange(report.Staffs.OrderBy(x => x.Id));
 

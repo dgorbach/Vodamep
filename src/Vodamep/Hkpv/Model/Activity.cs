@@ -53,10 +53,15 @@ namespace Vodamep.Hkpv.Model
                 case ActivityType.Lv03:
                 case ActivityType.Lv04:
                     return 4;
-
+                case ActivityType.Lv31:
+                case ActivityType.Lv33:
+                    return 1;
                 default:
                     throw new NotImplementedException();
             }
         }
+
+
+        public static ActivityType[] ActivityTypesWithoutPerson = new[] { ActivityType.Lv31, ActivityType.Lv33 };
     }
 }

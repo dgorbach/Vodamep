@@ -19,8 +19,6 @@ namespace Vodamep.Specs.StepDefinitions
 
         private HkpvReportValidationResult _result;
         private Activity[] _dummyActivities;
-        
-
 
         public HkpvValidationSteps()
         {
@@ -35,7 +33,7 @@ namespace Vodamep.Specs.StepDefinitions
 
             this.AddDummyActivities(Report.Persons[0].Id, Report.Staffs[0].Id);
 
-            this.Report.Consultations.Add(new Consultation() { Date = this.Report.From, Amount = 1, StaffId = Report.Staffs[0].Id, Type = ConsultationType.Lv31 });
+            this.Report.Activities.Add(new Activity() { Date = this.Report.From, Amount = 1, StaffId = Report.Staffs[0].Id, Type = ActivityType.Lv31 });
         }
 
         public HkpvReport Report { get; private set; }
@@ -71,9 +69,6 @@ namespace Vodamep.Specs.StepDefinitions
             else if (type == nameof(Activity))
                 foreach (var a in this.Report.Activities)
                     a.SetDefault(name);
-            else if (type == nameof(Consultation))
-                foreach (var c in this.Report.Consultations)
-                    c.SetDefault(name);
             else
                 throw new NotImplementedException();
         }
@@ -90,9 +85,7 @@ namespace Vodamep.Specs.StepDefinitions
             else if (type == nameof(Activity))
                 foreach (var a in this.Report.Activities)
                     a.SetValue(name, value);
-            else if (type == nameof(Consultation))
-                foreach (var c in this.Report.Consultations)
-                    c.SetValue(name, value);
+
             else
                 throw new NotImplementedException();
         }
@@ -217,7 +210,7 @@ namespace Vodamep.Specs.StepDefinitions
         {
             foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Consultations.Add(new Consultation() { Amount = lv.Count(), Date = date, StaffId = this.Report.Staffs[0].Id, Type = (ConsultationType)lv.Key });
+                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = date, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
             }
         }
 

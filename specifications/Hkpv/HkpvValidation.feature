@@ -97,7 +97,7 @@ Szenario: Ein Klienten hat innerhalb kurzer Zeit mehr als 250 LP gemeldet.
 	Angenommen die Meldung enthält am '2008-04-28' die Aktivitäten '02,04,04,04,04,05,05,05,05,06,06,06,07,07,07,08,08,08,09,09,09,10,10,10,11,11,11,12,12,12,13,13,13,14,14,14,15,15,15,16,16,16,17,17,17'	
 	Dann enthält das Validierungsergebnis die Warnung 'wurden mehr als 250 LP in einem Monat erfasst.'
 
-Szenario: Eine Aktivität sind nicht kummuliert.
+Szenario: Aktivitäten sind nicht kummuliert.
 	Angenommen die Meldung enthält die Aktivitäten '2,15'
 		Und die Meldung enthält die Aktivitäten '15'
 	Dann enthält das Validierungsergebnis den Fehler 'Die Einträge sind nicht kumuliert.'
@@ -105,6 +105,14 @@ Szenario: Eine Aktivität sind nicht kummuliert.
 Szenario: Eine Aktivität ohne entsprechenden Eintrag in Persons.
 	Angenommen die Meldung enthält bei der Person 'unbekannteId' die Aktivitäten '02,15'
 	Dann enthält das Validierungsergebnis den Fehler 'Der Id 'unbekannteId' fehlt'
+
+Szenario: Eine Aktivität 1-17 ohne Klientenbezug.
+	Angenommen die Meldung enthält bei der Person '' die Aktivitäten '02,15'
+	Dann enthält das Validierungsergebnis den Fehler ''PersonId' darf nicht leer sein.'
+
+Szenario: Eine Aktivität 31,33 mit Klientenbezug.
+	Angenommen die Meldung enthält bei der Person '1' die Aktivitäten '31'
+	Dann enthält das Validierungsergebnis den Fehler ''PersonId' sollte leer sein.'
 
 Szenario: Eine Aktivität ohne entsprechenden Eintrag in Staffs.
 	Angenommen die Meldung enthält von der Mitarbeiterin 'unbekannteId' die Aktivitäten '02,15'
@@ -141,14 +149,6 @@ Szenario: Eine Mitarbeiterin ohne Aktivität.
 	Angenommen zu einer Mitarbeiterin sind keine Aktivitäten dokumentiert
 	Dann enthält das Validierungsergebnis den Fehler 'Keine Aktivitäten'
 
-Szenario: Eine Beratung ist nach dem Meldungszeitraum.
-	Angenommen die Meldung enthält am '2058-04-30' die Beratungen '31,32'
-	Dann enthält das Validierungsergebnis den Fehler 'Der Wert von 'Datum' muss kleiner oder gleich (.*) sein'
-
-Szenario: Eine Beratung ist vor dem Meldungszeitraum.
-	Angenommen die Meldung enthält am '2008-04-30' die Beratungen '31,32'
-	Dann enthält das Validierungsergebnis den Fehler 'Der Wert von 'Datum' muss grösser oder gleich (.*) sein.'
-
 Szenariogrundriss: Eine Eigenschaft ist nicht gesetzt
 	Angenommen die Eigenschaft '<Name>' von '<Art>' ist nicht gesetzt
 	Dann enthält das Validierungsergebnis genau einen Fehler
@@ -171,8 +171,7 @@ Beispiele:
 	| gender      | Geschlecht          | Person       |
 	| family_name | Familienname        | Staff        |
 	| given_name  | Vorname             | Staff        |
-	| date        | Datum               | Activity     |
-	| date        | Datum               | Consultation |
+	| date        | Datum               | Activity     |	
 
 Szenariogrundriss: Eine Eigenschaft vom Typ Datum hat ein falsches Format
 	Angenommen die Eigenschaft '<Name>' von '<Art>' ist auf 'xxx' gesetzt
@@ -182,8 +181,7 @@ Beispiele:
 	| from        | Von                 | HkpvReport   |
 	| to          | Bis                 | HkpvReport   |
 	| birthday    | Geburtsdatum        | Person       |
-	| date        | Datum               | Activity     |
-	| date        | Datum               | Consultation |
+	| date        | Datum               | Activity     |	
 
 Szenariogrundriss: Eine Eigenschaft vom HkpvReport mit einem ungültigen Wert gesetzt.
 	Angenommen die Eigenschaft '<Name>' von '<Art>' ist auf '<Wert>' gesetzt

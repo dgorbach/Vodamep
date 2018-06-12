@@ -47,7 +47,18 @@ namespace Vodamep.Legacy
 
             foreach (var l in data.L)
             {
-                if (l.Leistung < 20)
+                if (Activity.ActivityTypesWithoutPerson.Contains((ActivityType)l.Leistung))
+                {
+                    report.Activities.Add(new Activity()
+                    {
+                        Amount = l.Anzahl,
+                        DateD = l.Datum,
+                        PersonId = string.Empty,
+                        StaffId = GetId(l.Pfleger),
+                        Type = (ActivityType)l.Leistung
+                    });
+                }
+                else
                 {
                     report.Activities.Add(new Activity()
                     {
@@ -57,16 +68,7 @@ namespace Vodamep.Legacy
                         StaffId = GetId(l.Pfleger),
                         Type = (ActivityType)l.Leistung
                     });
-                }
-                else
-                {
-                    report.Consultations.Add(new Consultation()
-                    {
-                        Amount = l.Anzahl,
-                        DateD = l.Datum,
-                        StaffId = GetId(l.Pfleger),
-                        Type = (ConsultationType)l.Leistung
-                    });
+
                 }
             }
 

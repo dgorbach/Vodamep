@@ -11,8 +11,7 @@ message HkpvReport {
     string to = 3;    							// Datum	
     repeated Staff staffs = 4; 
     repeated Person persons = 5;         
-    repeated Activity activities = 6; 
-    repeated Consultation consultations = 7;    
+    repeated Activity activities = 6;     
 }
 
 // Einrichtung
@@ -55,14 +54,6 @@ message Activity {
     int32 amount = 5;
 }
 
-// Beratungen
-message Consultation {
-    string date = 1;					// Datum
-    string staff_id = 3;    
-    ConsultationType type = 4;
-    int32 amount = 5;
-}
-
 // Leistungen mit Klientenbezug
 // LV=Leistungsvereinbarung, LP=Leistungspunkt
 // 1 LP = ca. 5 min
@@ -85,13 +76,8 @@ enum ActivityType {
   LV15 = 15;            // Abklären,Information und Vermittlung,Dokumentation           (1 LP)
   LV16 = 16;            // Beraten,Anlernen und Begleiten                               (2 LP)
   LV17 = 17;            // Pflegebehelfe,Transporte                                     (3 LP)
-}
-
-// Beratungen ohne Klientenbezug
-enum ConsultationType {  
-  undefined_consultation = 0;
-  LV31 = 31;            // Persönliche Beratung                                         (1 LP)  
-  LV33 = 33;            // Telefonische Beratung                                        (1 LP)  
+  LV31 = 31;            // Persönliche Beratung                                         (1 LP)  - ohne KlientenBezug
+  LV33 = 33;            // Telefonische Beratung                                        (1 LP)  - ohne KlientenBezug
 }
 
 enum StaffRole {

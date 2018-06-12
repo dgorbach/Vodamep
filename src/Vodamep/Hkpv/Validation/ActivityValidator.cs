@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using System;
+using System.Linq;
 using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
@@ -20,8 +21,11 @@ namespace Vodamep.Hkpv.Validation
                 this.RuleFor(x => x.DateD).LessThanOrEqualTo(to).Unless(x => string.IsNullOrEmpty(x.Date));
             }
 
-            this.RuleFor(x => x.StaffId).NotNull();
-            this.RuleFor(x => x.PersonId).NotNull();
+            this.RuleFor(x => x.StaffId).NotEmpty();
+
+            this.RuleFor(x => x.PersonId).NotEmpty().Unless(x => Activity.ActivityTypesWithoutPerson.Contains(x.Type));
+            this.RuleFor(x => x.PersonId).Empty().Unless(x => !Activity.ActivityTypesWithoutPerson.Contains(x.Type));
+
             this.RuleFor(x => x.Amount).GreaterThan(0);
             this.RuleFor(x => x.Type).NotEqual(ActivityType.UndefinedActivity);
         }

@@ -59,20 +59,20 @@ namespace Vodamep.Data.Dummy
             return result;
         }
 
-        public static Consultation[] AddDummyConsultation(this HkpvReport report, string code, DateTime? date = null)
+        public static Activity[] AddDummyConsultation(this HkpvReport report, string code, DateTime? date = null)
         {
             if (!report.Staffs.Any())
                 report.AddDummyStaff();
 
-            var result = code.Split(',').GroupBy(x => x).Select(x => new Consultation()
+            var result = code.Split(',').GroupBy(x => x).Select(x => new Activity()
             {
                 StaffId = report.Staffs[0].Id,
                 DateD = date ?? DateTime.Today,
                 Amount = x.Count(),
-                Type = (ConsultationType)int.Parse(x.Key)
+                Type = (ActivityType)int.Parse(x.Key)
             }).ToArray();
 
-            report.Consultations.AddRange(result);
+            report.Activities.AddRange(result);
 
             return result;
         }

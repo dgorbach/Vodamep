@@ -29,7 +29,7 @@ namespace Vodamep.Hkpv.Validation
                .Custom((a, ctx) =>
                {
                    var persons = a.Item1;
-                   var activities = a.Item2;
+                   var activities = a.Item2.Where(x => !Activity.ActivityTypesWithoutPerson.Contains(x.Type)).ToList();
 
                    var idPersons = persons.Select(x => x.Id).Distinct().ToArray();
                    var idActivities = activities.Select(x => x.PersonId).Distinct().ToArray();
