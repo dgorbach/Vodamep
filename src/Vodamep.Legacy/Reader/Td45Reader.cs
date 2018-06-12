@@ -30,7 +30,8 @@ namespace Vodamep.Legacy.Reader
 -- ############ und zwar alle, die Leistungen mit entsprechendem KISCode haben (unabhängig von Belegung) ############
 INSERT qryhtblSeniorID
 SELECT SeniorID FROM tblDFN 
-WHERE KISCode like '%HK%' AND Datum BETWEEN @from AND @to;
+WHERE KISCode like '%HK%' AND Datum BETWEEN @from AND @to 
+GROUP BY SeniorID;
 
 -- ############ Auswertung der KISCodes vornehmen ############
 EXECUTE procKISAuswertung @from, @to;
