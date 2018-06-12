@@ -16,8 +16,7 @@ namespace Vodamep.Hkpv.Validation
         {
 
             _dict.Add(nameof(Person.GivenName), "Vorname");
-            _dict.Add(nameof(Person.FamilyName), "Familienname");
-            _dict.Add(nameof(Person.Street), "Anschrift");            
+            _dict.Add(nameof(Person.FamilyName), "Familienname");            
             _dict.Add(nameof(Person.Ssn), "Versicherungsnummer");
             _dict.Add(nameof(Person.Birthday), "Geburtsdatum");
             _dict.Add(nameof(Person.BirthdayD), "Geburtsdatum");

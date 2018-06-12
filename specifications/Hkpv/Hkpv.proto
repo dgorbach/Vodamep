@@ -32,17 +32,16 @@ message Staff {
 message Person {
     string id = 1;        
     string family_name = 2;
-    string given_name = 3;
-    string street = 4;        
-    string postcode = 5;				// postcode und city müssen zusammen einem Wert aus der Liste der Orte entsprechen
-    string city = 6;
-	Gender gender = 7;
-	string ssn = 8;
-    string birthday = 9;				// Datum	
-    string nationality = 10;            // Staatsbürgerschaft, Zwei-stelliges Länderkürzel nach Iso 3166-2
-	string insurance = 11;              // Ein Wert aus der Liste der Sozialversicherungen
-	CareAllowance care_allowance = 12;  // Pflegegeld, zum Stichtag Bis-Datum der Meldung
-	string religion = 13;				// Ein Wert aus der Liste der Religionen
+    string given_name = 3;    
+    string postcode = 4;				// postcode und city müssen zusammen einem Wert aus der Liste der Orte entsprechen
+    string city = 5;
+	Gender gender = 6;
+	string ssn = 7;
+    string birthday = 8;				// Datum	
+    string nationality = 9;             // Staatsbürgerschaft, Zwei-stelliges Länderkürzel nach Iso 3166-2
+	string insurance = 10;              // Ein Wert aus der Liste der Sozialversicherungen
+	CareAllowance care_allowance = 11;  // Pflegegeld, zum Stichtag Bis-Datum der Meldung
+	string religion = 12;				// Ein Wert aus der Liste der Religionen
 }
 
 // Leistungen

@@ -11,9 +11,7 @@ namespace Vodamep.Hkpv.Validation
         {
             this.RuleFor(x => x.FamilyName).NotEmpty();
             this.RuleFor(x => x.GivenName).NotEmpty();
-            this.RuleFor(x => x.Street).NotEmpty();
-
-
+            
             this.Include(new PersonBirthdayValidator());
             this.Include(new PersonSsnValidator());
 

@@ -161,8 +161,7 @@ Beispiele:
 	| ssn         | Versicherungsnummer | Person       |
 	| birthday    | Geburtsdatum        | Person       |
 	| family_name | Familienname        | Person       |
-	| given_name  | Vorname             | Person       |
-	| street      | Anschrift           | Person       |
+	| given_name  | Vorname             | Person       |	
 	| religion    | Religion            | Person       |
 	| insurance   | Versicherung        | Person       |
 	| nationality | Staatsangehörigkeit | Person       |

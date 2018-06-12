@@ -63,7 +63,7 @@ ORDER BY CASE WHEN s2.ctlName Like 'Religion' THEN 1 ELSE 0 END, s2.vonDatum DES
 
                 var sqlAdressen = $@"SELECT s.SeniorID AS Adressnummer, 
     coalesce(s.Nachname, '???') AS Name_1, coalesce(s.Vorname, '???') AS Name_2,
-    q.Anschrift AS Adresse, q.Postleitzahl, q.Ort, s1.Geburtsdatum,
+    q.Postleitzahl, q.Ort, s1.Geburtsdatum,
 	(SELECT TOP 1 Land FROM tblLand WHERE Bezeichnung LIKE s1.Staatsangehörigkeit) AS Staatsbuergerschaft,
     v.Code AS Versicherung, s1.VNummer1 AS Versicherungsnummer,
     ({ sqlReligion}) AS Religion,
@@ -72,7 +72,7 @@ FROM tblSenior s
 INNER JOIN tblSenior1 s1 ON s.SeniorID = s1.SeniorID
 LEFT JOIN tblVersicherung v ON v.Versicherung = s1.Versicherung1
 LEFT JOIN(
-       SELECT sbp.SeniorID, bp.Land, bp.Ort, bp.Postleitzahl, bp.Anschrift
+       SELECT sbp.SeniorID, bp.Land, bp.Ort, bp.Postleitzahl
        FROM tblSeniorBezugspersonen sbp
            INNER JOIN (SELECT SeniorID, min(BezugID) as BezugID FROM tblSeniorBezugspersonen
                WHERE Beziehung Like 'Adresse' GROUP BY SeniorID) q0 ON sbp.BezugID = q0.BezugID

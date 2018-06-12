@@ -103,8 +103,7 @@ namespace Vodamep.Data.Dummy
                 var address = _addresses[_rand.Next(_addresses.Length)].Split(';');
 
                 person.Postcode = address[6];
-                person.City = address[3];
-                person.Street = string.Format("{0} {1}", address[5], 1 + _rand.Next(30));
+                person.City = address[3];                
             }
 
             person.BirthdayD = new DateTime(1920, 01, 01).AddDays(_rand.Next(20000));
