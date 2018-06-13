@@ -39,11 +39,12 @@ EXECUTE procKISAuswertung @from, @to;
 -- ############ Ergebnisabfrage ############
 -- ############ Leistungen 31 und 33 sind dabei, 32 und 34 nicht ############
 SELECT q.SeniorID AS Adressnummer, q.PflegerID AS Pfleger, 
-	q.Datum, convert(int,kbp.PunktID) AS Leistung, Count(q.Wert) AS Anzahl
+	convert(smalldatetime,convert(varchar(8),q.Datum,112),112) AS Datum, 
+    convert(int,kbp.PunktID) AS Leistung, Count(q.Wert) AS Anzahl
 FROM qryhtblKISAuswertung q
 INNER JOIN tblKISBereichPunkt kbp ON q.KISBereichPunktID = kbp.KISBereichPunktID
 WHERE kbp.KISBereichID LIKE 'HK%'
-GROUP BY q.SeniorID, q.PflegerID, q.Datum, kbp.PunktID;";
+GROUP BY q.SeniorID, q.PflegerID, convert(smalldatetime,convert(varchar(8),q.Datum,112),112), convert(int,kbp.PunktID);";
 
                 //Timeout auf 3 Minuten setzen, weil die KISCode-Auswertung relativ lang dauert
                 var leistungenCommand = new CommandDefinition(sqlLeistungen, new { from = from, to = to }, commandTimeout: 180);
