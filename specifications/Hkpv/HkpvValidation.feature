@@ -40,13 +40,13 @@ Szenario: Das Geburtsdatum darf nicht vor 1900 liegen.
 
 Szenario: Geburtsdatum und Datum aus der Sozialversicherungsnummer sollten übereinstimmen.
 	Angenommen die Eigenschaft 'birthday' von 'Person' ist auf '1966-01-03' gesetzt
-		Und die Eigenschaft 'ssn' von 'Person' ist auf '9778-01.03.66' gesetzt
+		Und die Eigenschaft 'ssn' von 'Person' ist auf '9778010366' gesetzt
 	Dann enthält das Validierungsergebnis die Warnung 'Das Geburtsdatum 03.01.1966 unterscheidet sich vom Wert in der Versicherungsnummer 01.03.66.'
 		Und es enthält keine Fehler
 
 Szenario: Die Versicherungsnummer ist nicht korrekt.
-	Angenommen die Eigenschaft 'ssn' von 'Person' ist auf '9999-23.10.54' gesetzt
-	Dann enthält das Validierungsergebnis den Fehler 'Die Versicherungsnummer 9999-23.10.54 ist nicht korrekt.'
+	Angenommen die Eigenschaft 'ssn' von 'Person' ist auf '9999231054' gesetzt
+	Dann enthält das Validierungsergebnis den Fehler 'Die Versicherungsnummer 9999231054 ist nicht korrekt.'
 
 Szenario: Eine Aktivität ist nach dem Meldungszeitraum.
 	Angenommen die Meldung enthält am '2058-04-30' die Aktivitäten '02,15'

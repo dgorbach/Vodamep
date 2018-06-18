@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Vodamep.Hkpv.Validation
 {
     internal static class SSNHelper
     {
-        private static Regex Pattern = new Regex(@"^(?<nr>\d{3})(?<cd>\d)-?(?<tt>(0?[1-9]|[12][0-9]|3[01]))\.?(?<mm>(0?[1-9]|1[0123]))\.?(?<jj>\d{1,2})$");
+        private static Regex Pattern = new Regex(@"^(?<nr>\d{3})(?<cd>\d)(?<tt>(0?[1-9]|[12][0-9]|3[01]))(?<mm>(0?[1-9]|1[0123]))(?<jj>\d{1,2})$");
+
+        // auch als Format xxxx-dd.mm.yy
+        private static Regex ParsePattern = new Regex(@"^(?<nr>\d{3})(?<cd>\d)-?(?<tt>(0?[1-9]|[12][0-9]|3[01]))\.?(?<mm>(0?[1-9]|1[0123]))\.?(?<jj>\d{1,2})$");
+
         public static bool IsValid(string vnummer)
         {
             if (string.IsNullOrEmpty(vnummer))
@@ -60,16 +62,19 @@ namespace Vodamep.Hkpv.Validation
             return checkdigit;
         }
 
-        public static string Format(string vnummer)
+        public static string Format(string vnummer, bool useBirthdateFormat = false)
         {
             string result = null;
 
             if (!string.IsNullOrEmpty(vnummer))
             {
-                var m = Pattern.Match(vnummer);
+                var m = ParsePattern.Match(vnummer);
                 if (m.Success)
                 {
-                    result = string.Format("{0}{1}-{2:00}.{3:00}.{4:00}", m.Groups["nr"].Value, m.Groups["cd"].Value, int.Parse(m.Groups["tt"].Value), int.Parse(m.Groups["mm"].Value), int.Parse(m.Groups["jj"].Value));
+                    if (useBirthdateFormat)
+                        result = string.Format("{0}{1}-{2:00}.{3:00}.{4:00}", m.Groups["nr"].Value, m.Groups["cd"].Value, int.Parse(m.Groups["tt"].Value), int.Parse(m.Groups["mm"].Value), int.Parse(m.Groups["jj"].Value));
+                    else
+                        result = string.Format("{0}{1}{2:00}{3:00}{4:00}", m.Groups["nr"].Value, m.Groups["cd"].Value, int.Parse(m.Groups["tt"].Value), int.Parse(m.Groups["mm"].Value), int.Parse(m.Groups["jj"].Value));
                 }
             }
 
@@ -81,7 +86,7 @@ namespace Vodamep.Hkpv.Validation
             DateTime? date = null;
             if (!string.IsNullOrEmpty(vnummer) && IsValid(vnummer))
             {
-                var m = Pattern.Match(vnummer);
+                var m = ParsePattern.Match(vnummer);
 
                 var yearWithFourDigits = CultureInfo.CurrentCulture.Calendar.ToFourDigitYear(int.Parse(m.Groups["jj"].Value));
 

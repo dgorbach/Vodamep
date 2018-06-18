@@ -135,7 +135,7 @@ namespace Vodamep.Data.Dummy
                     break;
             }
 
-            return SSNHelper.Format(string.Format("{0}{1}-{2:dd.MM.yy}", nr, cd, date));
+            return SSNHelper.Format(string.Format("{0}{1}{2:ddMMyy}", nr, cd, date));
         }
 
         public Staff CreateStaff()

@@ -5,7 +5,7 @@ using Vodamep.Hkpv.Model;
 namespace Vodamep.Hkpv.Validation
 {
     internal class Validationmessages
-    {  
+    {
         public static string ActivityIsNotUnique => $"Die Einträge sind nicht kumuliert.";
         public static string ActivityMoreThenFive => $"Es wurden mehr als 5 gemeldet.";
         public static string ActivityMoreThen250(Person p, int x) => $"Für '{p.FamilyName} {p.GivenName}' wurden mehr als 250 LP in einem Monat erfasst. ({x})";
@@ -17,7 +17,7 @@ namespace Vodamep.Hkpv.Validation
         public static string WithoutEntry(string e) => $"Kein Eintrag '{e}' vorhanden.";
         public static string WithoutActivity => $"Keine Aktivitäten.";
         public static string BirthdayNotInFuture => "'Geburtsdatum' darf nicht in der Zukunft liegen.";
-        public static string BirthdayNotInSsn(Person data) => $"Das Geburtsdatum {data.BirthdayD.ToString("dd.MM.yyyy")} unterscheidet sich vom Wert in der Versicherungsnummer {SSNHelper.Format(data.Ssn).Substring(5)}.";
+        public static string BirthdayNotInSsn(Person data) => $"Das Geburtsdatum {data.BirthdayD.ToString("dd.MM.yyyy")} unterscheidet sich vom Wert in der Versicherungsnummer {SSNHelper.Format(data.Ssn, true).Substring(5)}.";
         public static string SsnNotValid => "Die Versicherungsnummer {PropertyValue} ist nicht korrekt.";
         public static string SsnNotUnique(IEnumerable<Person> p) => $"Mehrere Personen haben die selbe Versicherungsnummer {p.First().Ssn}: {string.Join(", ", p.Select(x => $"{x.GivenName} {x.FamilyName}({x.Id})"))}";
         public static string LocalDate => "'{PropertyName}': '{PropertyValue}' ist kein gültiges Datum.";
