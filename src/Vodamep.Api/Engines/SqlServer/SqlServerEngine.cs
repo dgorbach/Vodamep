@@ -36,6 +36,9 @@ namespace Vodamep.Api.Engines.SqlServer
                 case HkpvReportSaveCommand save:
                     this.Save(save.Report);
                     return;
+                case TestCommand test:
+                    this.Test();
+                    return;
             }
 
             throw new System.NotImplementedException();
@@ -44,6 +47,19 @@ namespace Vodamep.Api.Engines.SqlServer
         public void Login(IPrincipal principal)
         {
             this._authContext = principal != null ? new AuthContext(principal) : null;
+        }
+
+
+        private void Test()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var cmd = new SqlCommand("select count(*) from Messages", connection);
+
+                var c = cmd.ExecuteScalar();
+            }
         }
 
         private void Save(HkpvReport report)

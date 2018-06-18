@@ -36,6 +36,8 @@ namespace Vodamep.Api.Engines.FileSystem
                 case HkpvReportSaveCommand save:
                     this.Save(save.Report);
                     return;
+                case TestCommand test:
+                    return;
             }
         }
 
