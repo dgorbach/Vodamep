@@ -15,7 +15,8 @@ namespace Vodamep.Hkpv.Validation
             this.RuleFor(x => new Tuple<IList<Activity>, IEnumerable<Person>>(x.Activities, x.Persons))
                 .Custom((a, ctx) =>
                 {
-                    var moreThan250 = a.Item1.GroupBy(x => x.PersonId)
+                    var moreThan250 = a.Item1.Where(x => x.PersonId != string.Empty)
+                        .GroupBy(x => x.PersonId)
                         .Select(x => new { PersonId = x.Key, Sum = x.Sum(y => y.GetLP() * y.Amount) })
                         .Where(x => x.Sum > 250);
 
