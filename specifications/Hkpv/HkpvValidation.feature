@@ -199,6 +199,18 @@ Beispiele:
 	| nationality | Staatsangehörigkeit | Person | test |
 
 
+Szenariogrundriss: Der Name einer Person enthält ein ungültiges Zeichen
+	Angenommen die Eigenschaft '<Name>' von '<Art>' ist auf '<Wert>' gesetzt
+	Dann enthält das Validierungsergebnis genau einen Fehler
+	Und die Fehlermeldung lautet: ''<Bezeichnung>' weist ein ungültiges Format auf.'
+Beispiele: 
+	| Name        | Bezeichnung         | Art    | Wert |
+	| family_name | Familienname        | Person | t@st |
+	| given_name  | Vorname             | Person | t@st |
+	| family_name | Familienname        | Staff  | t@st |
+	| given_name  | Vorname             | Staff  | t@st |
+	
+
 
 ## Im folgenden kann für Meldungen von ganz spezifischen Aktivitäten sichergestellt werden, dass die Validierung sich korrekt verhält:
 Szenariogrundriss: Gültige Aktivitäten
