@@ -11,10 +11,12 @@ namespace Vodamep.Hkpv.Validation
     {
 
         private readonly ResultFormatterTemplate _template;
+        private readonly bool _ignoreWarnings;
 
-        public HkpvReportValidationResultFormatter(ResultFormatterTemplate template)
+        public HkpvReportValidationResultFormatter(ResultFormatterTemplate template, bool ignoreWarnings = false)
         {
             _template = template;
+            _ignoreWarnings = ignoreWarnings;
 
             _strategies = new[]
             {
@@ -39,7 +41,11 @@ namespace Vodamep.Hkpv.Validation
 
             result.Append(_template.Header(report, validationResult));
 
-            var severities = validationResult.Errors.OrderBy(x => x.Severity).GroupBy(x => x.Severity);
+            var severities = validationResult.Errors
+                .Where(x => !_ignoreWarnings || x.Severity == FluentValidation.Severity.Error)
+                .OrderBy(x => x.Severity)
+                .GroupBy(x => x.Severity);
+
             foreach (var severity in severities)
             {
                 result.Append(_template.HeaderSeverity(GetSeverityName(severity.Key)));

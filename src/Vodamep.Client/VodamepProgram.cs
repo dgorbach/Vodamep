@@ -56,7 +56,7 @@ namespace Vodamep.Client
 
             var result = report.Validate();
 
-            var formatter = new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text);
+            var formatter = new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text, args.IgnoreWarnings);
             var message = formatter.Format(report, result);
 
             if (!result.IsValid)

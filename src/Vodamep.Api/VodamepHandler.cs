@@ -130,7 +130,7 @@ namespace Vodamep.Api
 
             var validationResult = await new HkpvReportValidator().ValidateAsync(report);
 
-            var msg = new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text).Format(report, validationResult);
+            var msg = new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text, false).Format(report, validationResult);
 
             if (!validationResult.IsValid)
             {

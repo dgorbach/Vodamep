@@ -24,7 +24,7 @@ namespace Vodamep.Hkpv.Model
 
         public static HkpvReportValidationResult Validate(this HkpvReport report) => (HkpvReportValidationResult)new HkpvReportValidator().Validate(report);
 
-        public static string ValidateToText(this HkpvReport report) => new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text).Format(report, Validate(report));
+        public static string ValidateToText(this HkpvReport report, bool ignoreWarnings) => new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text, ignoreWarnings).Format(report, Validate(report));
 
         public static HkpvReport AsSorted(this HkpvReport report)
         {
