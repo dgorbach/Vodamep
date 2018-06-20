@@ -22,19 +22,21 @@ namespace Vodamep.Legacy
                 var name = (Familyname: a.Name_1, Givenname: a.Name_2);
                 if (string.IsNullOrEmpty(name.Givenname)) name = GetName(a.Name_1);
 
+                var postcodeCity = GetPostCodeCity(a);
+
                 report.AddPerson(new Person()
                 {
                     Id = GetId(a.Adressnummer),
                     BirthdayD = a.Geburtsdatum,
                     FamilyName = (name.Familyname ?? string.Empty).Trim(),
                     GivenName = (name.Givenname ?? string.Empty).Trim(),
-                    Ssn = (a.Versicherungsnummer ?? string.Empty).Trim(),                    
+                    Ssn = (a.Versicherungsnummer ?? string.Empty).Trim(),
                     Insurance = (a.Versicherung ?? string.Empty).Trim(),
                     Nationality = (a.Staatsbuergerschaft ?? string.Empty).Trim(),
                     CareAllowance = (CareAllowance)a.Pflegestufe,
                     Religion = ReligionCodeProvider.Instance.Unknown,
-                    Postcode = (a.Postleitzahl ?? string.Empty).Trim(),
-                    City = (a.Ort ?? string.Empty).Trim(),
+                    Postcode = postcodeCity.Postcode,
+                    City = postcodeCity.City,
                     Gender = GetGender(a.Geschlecht)
                 });
             }
@@ -109,5 +111,32 @@ namespace Vodamep.Legacy
         }
 
         private string GetId(int id) => $"{id}";
+
+        private (string Postcode, string City) GetPostCodeCity(Model.AdresseDTO a)
+        {
+
+            var plz = (a.Postleitzahl ?? string.Empty).Trim();
+            var ort = (a.Ort ?? string.Empty).Trim();
+                        
+            if (plz.Length > 4)
+            {
+                // im Datenbestand gibt es "gebastelte" Postleitzahlen mit 6 Zeichen
+                // z.b. 690060 Möggers
+                // entweder nur die ersten vier Zeichen verwenden, oder die PLZ anhand des Ortsnames ermitteln
+
+                if (Postcode_CityProvider.Instance.IsValid($"{plz.Substring(0, 4)} {ort}"))
+                {
+                    plz = plz.Substring(0, 4);
+                }
+                else
+                {
+                    var plz2 = Postcode_CityProvider.Instance.GetCSV().Where(x => x.EndsWith($" {ort};")).FirstOrDefault();
+                    if (!string.IsNullOrEmpty(plz2))
+                        plz = plz2;
+                }
+            }
+
+            return (plz, ort);
+        }
     }
 }
