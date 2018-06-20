@@ -10,15 +10,15 @@ namespace Vodamep.Hkpv.Validation
         public ActivityValidator(DateTime from, DateTime to)
         {
             this.RuleFor(x => x.Date).NotEmpty();
-            this.RuleFor(x => x.Date).SetValidator(new DateTimeValueValidator()).Unless(x => string.IsNullOrEmpty(x.Date));
+            this.RuleFor(x => x.Date).SetValidator(new DateTimeValueValidator()).Unless(x => x.Date == null);
 
             if (from != DateTime.MinValue)
             {
-                this.RuleFor(x => x.DateD).GreaterThanOrEqualTo(from).Unless(x => string.IsNullOrEmpty(x.Date));
+                this.RuleFor(x => x.DateD).GreaterThanOrEqualTo(from).Unless(x => x.Date == null);
             }
             if (to > from)
             {
-                this.RuleFor(x => x.DateD).LessThanOrEqualTo(to).Unless(x => string.IsNullOrEmpty(x.Date));
+                this.RuleFor(x => x.DateD).LessThanOrEqualTo(to).Unless(x => x.Date == null);
             }
 
             this.RuleFor(x => x.StaffId).NotEmpty();

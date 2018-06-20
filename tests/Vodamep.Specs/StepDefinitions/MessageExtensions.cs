@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Reflection;
+using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Linq;
 
@@ -63,6 +64,14 @@ namespace Vodamep.Specs.StepDefinitions
                 case FieldType.Float:
                     field.Accessor.SetValue(m, double.Parse(value));
                     break;
+                case FieldType.Message:
+                    if (field.MessageType == Timestamp.Descriptor)
+                    {
+                        field.Accessor.SetValue(m, Timestamp.FromDateTime(value.AsDate()));
+                        break;
+                    }                   
+
+                    throw new NotImplementedException();
                 default:
                     throw new NotImplementedException();
             }

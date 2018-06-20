@@ -17,7 +17,7 @@ namespace Vodamep.Hkpv.Validation
                         return;
 
                     var l = list
-                        .Where(x => !string.IsNullOrEmpty(x.Date))
+                        .Where(x => x.Date != null)
                         .Where(x => x.Amount > 0)
                         .Where(x => !string.IsNullOrEmpty(x.StaffId))
                         .Where(x => !string.IsNullOrEmpty(x.PersonId));

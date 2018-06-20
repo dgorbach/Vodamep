@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -95,9 +96,11 @@ namespace Vodamep.Specs.StepDefinitions
         {
             this.RemoveDummyActivities();
 
+            var d = Timestamp.FromDateTime(date.AsDate());
+
             foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = date, PersonId = this.Report.Persons[0].Id, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
+                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = d, PersonId = this.Report.Persons[0].Id, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
             }
         }
 
@@ -204,13 +207,14 @@ namespace Vodamep.Specs.StepDefinitions
         {
             this.Report.AddDummyPerson();
         }
-
         [Given(@"die Meldung enthält am '(.*)' die Beratungen '(.*)'")]
         public void GivenTheConsultationsAt(string date, string values)
         {
+            var d = Timestamp.FromDateTime(date.AsDate());
+
             foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
             {
-                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = date, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
+                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = d, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
             }
         }
 
