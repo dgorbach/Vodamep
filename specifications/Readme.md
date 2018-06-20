@@ -19,8 +19,8 @@
         "id": "kpv_test",
         "name": "Testverein"
     },
-    "from": "2018-03-01",
-    "to": "2018-03-31",
+    "from": "2018-03-01T00:00:00Z",
+    "to": "2018-03-31T00:00:00Z",
     "staffs": [{
         "id": "2",
         "familyName": "Ilgenfritz",
@@ -31,8 +31,8 @@
         "familyName": "Radl",
         "givenName": "Elena",
         "street": "Fußenegg 21",
-        "ssn": "4221-30.07.50",
-        "birthday": "1950-07-30",
+        "ssn": "4221300750",
+        "birthday": "1950-07-30T00:00:00Z",
         "religion": "VAR",
         "insurance": "19",
         "nationality": "AT",
@@ -42,13 +42,13 @@
         "gender": "female"
     }],    
     "activities": [{
-        "date": "2018-03-01",
+        "date": "2018-03-01T00:00:00Z",
         "personId": "1",
         "staffId": "2",
         "type": "LV02",
         "amount": 1
     }, {
-        "date": "2018-03-01",
+        "date": "2018-03-01T00:00:00Z",
         "personId": "1",
         "staffId": "2",
         "type": "LV15",
