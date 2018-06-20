@@ -30,7 +30,7 @@
 
   <ItemGroup Condition="'$(CoreRT)' == 'True'">
     <RdXmlFile Include="rd.xml" />    
-    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-*" />
+    <PackageReference Include="Microsoft.DotNet.ILCompiler" Version="1.0.0-alpha-26615-01" />
   </ItemGroup>
 
   <ItemGroup>
