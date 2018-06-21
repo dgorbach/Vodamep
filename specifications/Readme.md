@@ -2,9 +2,17 @@
 
 ## Datenmodel 
 
-### Hauskrankenpflege
+### Datenaustausch
+
 - [Datenaustausch](./Hkpv/Hkpv.proto) (im protobuf-Format)
-- [Validierungen](./Hkpv/HkpvValidation.feature) (im Gherkin-Format)
+
+### Validierungen 
+- [Aktivitäten](./Hkpv/HkpvValidation_Activity.feature) 
+- [Personen](./Hkpv/HkpvValidation_Person.feature) 
+- [Mitarbeiter](./Hkpv/HkpvValidation_Staff.feature) 
+- [Meldung](./Hkpv/HkpvValidation_Report.feature) 
+
+Alle Validierungen sind im Gherkin-Format beschrieben.
 
 #### Werte
 - [Religionen](./Datasets/religions.csv)

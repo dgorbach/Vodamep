@@ -50,10 +50,21 @@
     <Compile Include="StepDefinitions\MessageExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\specifications\Hkpv\HkpvValidation.feature">
-      <Link>Features\HkpvValidation.feature</Link>
-      <LastGenOutput>HkpvValidation.feature.cs</LastGenOutput>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <None Include="..\..\specifications\Hkpv\HkpvValidation_Activity.feature">
+      <Link>Features\HkpvValidation_Activity.feature</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\specifications\Hkpv\HkpvValidation_Person.feature">
+      <Link>Features\HkpvValidation_Person.feature</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\specifications\Hkpv\HkpvValidation_Report.feature">
+      <Link>Features\HkpvValidation_Report.feature</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\specifications\Hkpv\HkpvValidation_Staff.feature">
+      <Link>Features\HkpvValidation_Staff.feature</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
