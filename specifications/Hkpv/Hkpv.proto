@@ -24,8 +24,19 @@ message Institution {
 message Staff {
     string id = 1;    
     string family_name = 3;
-    string given_name = 4;
-    StaffRole role = 5;
+    string given_name = 4;    
+	string qualification = 5;
+    repeated Employment employments = 6;
+}
+
+message Employment {
+    google.protobuf.Timestamp from = 1;
+    google.protobuf.Timestamp to = 2;
+	oneof kind {
+	    double ratio = 3; 
+		string institution_id = 4;			// Thema Wochenenddienst
+		bool trainee = 5;					// Wie soll eine Auszubildende gemeldet werden?
+	}
 }
 
 // Personen und Stammdaten, die im Zeitraum eine Leistung bezogen haben
