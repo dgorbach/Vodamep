@@ -42,7 +42,7 @@ namespace Vodamep.Specs.StepDefinitions
 
         public static void SetValue(this IMessage m, string name, string value)
         {
-            var field = m.Descriptor.Fields.InDeclarationOrder().Where(x => x.Name == name).First();
+            var field = m.GetField(name);
 
             switch (field.FieldType)
             {
@@ -56,7 +56,7 @@ namespace Vodamep.Specs.StepDefinitions
                 case FieldType.UInt32:
                 case FieldType.UInt64:
                 case FieldType.SFixed32:
-                case FieldType.SFixed64:                
+                case FieldType.SFixed64:
                 case FieldType.Enum:
                     field.Accessor.SetValue(m, long.Parse(value));
                     break;
@@ -69,12 +69,18 @@ namespace Vodamep.Specs.StepDefinitions
                     {
                         field.Accessor.SetValue(m, Timestamp.FromDateTime(value.AsDate()));
                         break;
-                    }                   
+                    }
 
                     throw new NotImplementedException();
                 default:
                     throw new NotImplementedException();
             }
         }
+
+        public static FieldDescriptor GetField(this IMessage m, string name)
+        {
+            return m.Descriptor.Fields.InDeclarationOrder().Where(x => x.Name == name).First();
+        }
     }
 }
+

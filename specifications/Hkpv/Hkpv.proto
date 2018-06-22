@@ -5,12 +5,10 @@ import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "Vodamep.Hkpv.Model";
 
-// Datumswerte werden nach ISO 8601 im Format JJJJ-MM-TT angegeben
-
 message HkpvReport {   
     Institution institution = 1;   
-    google.protobuf.Timestamp from = 2;							// Datum
-    google.protobuf.Timestamp to = 3;    						// Datum	
+    google.protobuf.Timestamp from = 2;
+    google.protobuf.Timestamp to = 3;
     repeated Staff staffs = 4; 
     repeated Person persons = 5;         
     repeated Activity activities = 6;     
@@ -39,7 +37,7 @@ message Person {
     string city = 5;
 	Gender gender = 6;
 	string ssn = 7;
-    google.protobuf.Timestamp birthday = 8;				// Datum	
+    google.protobuf.Timestamp birthday = 8;
     string nationality = 9;             // Staatsbürgerschaft, Zwei-stelliges Länderkürzel nach Iso 3166-2
 	string insurance = 10;              // Ein Wert aus der Liste der Sozialversicherungen
 	CareAllowance care_allowance = 11;  // Pflegegeld, zum Stichtag Bis-Datum der Meldung
@@ -48,7 +46,7 @@ message Person {
 
 // Leistungen
 message Activity {
-    google.protobuf.Timestamp date = 1;					// Datum
+    google.protobuf.Timestamp date = 1;
     string person_id = 2;
     string staff_id = 3;    
     ActivityType type = 4;

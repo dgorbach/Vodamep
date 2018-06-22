@@ -68,3 +68,11 @@ Beispiele:
     | Name        | Bezeichnung   | Wert |
     | family_name | Familienname  | t@st |
     | given_name  | Vorname       | t@st |
+
+Szenariogrundriss: Die Datumsfelder dürfen keine Zeit enthalten
+    Angenommen die Datums-Eigenschaft '<Name>' von 'Person' hat eine Uhrzeit gesetzt
+    Dann enthält das Validierungsergebnis den Fehler ''<Bezeichnung>' darf keine Uhrzeit beinhalten.'
+Beispiele:
+    | Name     | Bezeichnung  |
+    | birthday | Geburtsdatum |
+    

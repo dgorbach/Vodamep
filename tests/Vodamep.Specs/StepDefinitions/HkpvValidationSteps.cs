@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Globalization;
@@ -216,6 +218,29 @@ namespace Vodamep.Specs.StepDefinitions
             {
                 this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = d, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
             }
+        }
+
+
+        [Given(@"die Datums-Eigenschaft '(\w*)' von '(\w*)' hat eine Uhrzeit gesetzt")]
+        public void GivenThePropertyHasATime(string name, string type)
+        {
+            IMessage m;
+            if (type == nameof(HkpvReport))
+                m = this.Report;
+            else if (type == nameof(Person))
+                m = this.Report.Persons[0];
+            else if (type == nameof(Staff))
+                m = this.Report.Staffs[0];
+            else if (type == nameof(Activity))
+                m = this.Report.Activities[0];
+            else
+                throw new NotImplementedException();
+
+            var field = m.GetField(name);
+            var ts = (field.Accessor.GetValue(m) as Timestamp) ?? this.Report.From;
+
+            ts.Seconds = ts.Seconds + 60 * 60;
+            field.Accessor.SetValue(m, ts);
         }
 
 

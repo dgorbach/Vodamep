@@ -16,7 +16,7 @@ namespace Vodamep.Hkpv.Validation
                 .NotEmpty();
 
             RuleFor(x => x.Birthday)
-                .SetValidator(new DateTimeValueValidator());
+                .SetValidator(new TimestampWithOutTimeValidator());
 
             RuleFor(x => x.BirthdayD)
                 .LessThan(DateTime.Today)

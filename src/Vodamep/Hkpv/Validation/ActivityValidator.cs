@@ -10,7 +10,7 @@ namespace Vodamep.Hkpv.Validation
         public ActivityValidator(DateTime from, DateTime to)
         {
             this.RuleFor(x => x.Date).NotEmpty();
-            this.RuleFor(x => x.Date).SetValidator(new DateTimeValueValidator()).Unless(x => x.Date == null);
+            this.RuleFor(x => x.Date).SetValidator(new TimestampWithOutTimeValidator()).Unless(x => x.Date == null);
 
             if (from != DateTime.MinValue)
             {

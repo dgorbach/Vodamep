@@ -32,4 +32,12 @@ Beispiele:
     | from        | Von         |
     | to          | Bis         |
     | institution | Einrichtung |
+
+Szenariogrundriss: Die Datumsfelder dürfen keine Zeit enthalten
+    Angenommen die Datums-Eigenschaft '<Name>' von 'HkpvReport' hat eine Uhrzeit gesetzt
+    Dann enthält das Validierungsergebnis den Fehler ''<Bezeichnung>' darf keine Uhrzeit beinhalten.'
+Beispiele:
+    | Name     | Bezeichnung |
+    | from     | Von         |
+    | to       | Bis         |
     

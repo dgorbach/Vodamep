@@ -125,3 +125,10 @@ Szenariogrundriss: Eine Eigenschaft ist nicht gesetzt
 Beispiele:
     | Name        | Bezeichnung |
     | date        | Datum       |
+
+Szenariogrundriss: Die Datumsfelder dürfen keine Zeit enthalten
+    Angenommen die Datums-Eigenschaft '<Name>' von 'Activity' hat eine Uhrzeit gesetzt
+    Dann enthält das Validierungsergebnis den Fehler ''<Bezeichnung>' darf keine Uhrzeit beinhalten.'
+Beispiele:
+    | Name | Bezeichnung |
+    | date | Datum       |

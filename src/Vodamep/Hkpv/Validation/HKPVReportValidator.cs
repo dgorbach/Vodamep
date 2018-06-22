@@ -25,8 +25,8 @@ namespace Vodamep.Hkpv.Validation
             this.RuleFor(x => x.Institution).SetValidator(new InstitutionValidator());
             this.RuleFor(x => x.From).NotEmpty();
             this.RuleFor(x => x.To).NotEmpty();
-            this.RuleFor(x => x.From).SetValidator(new DateTimeValueValidator());
-            this.RuleFor(x => x.To).SetValidator(new DateTimeValueValidator());
+            this.RuleFor(x => x.From).SetValidator(new TimestampWithOutTimeValidator());
+            this.RuleFor(x => x.To).SetValidator(new TimestampWithOutTimeValidator());
             this.RuleFor(x => x.ToD).LessThanOrEqualTo(x => DateTime.Today);
             this.RuleFor(x => x.ToD).GreaterThan(x => x.FromD).Unless(x => x.From == null || x.To == null);
 
