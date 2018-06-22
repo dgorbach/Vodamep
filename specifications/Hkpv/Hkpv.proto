@@ -44,13 +44,12 @@ message Person {
 	string religion = 12;				// Ein Wert aus der Liste der Religionen
 }
 
-// Leistungen
+// Leistungen, geblockt pro Einsatz (zwei Hausbesuche an diesem Tag -> zwei Einträge)
 message Activity {
     google.protobuf.Timestamp date = 1;
     string person_id = 2;
     string staff_id = 3;    
-    ActivityType type = 4;
-    int32 amount = 5;
+    repeated ActivityType entries = 4;       
 }
 
 // Leistungen mit Klientenbezug
