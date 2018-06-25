@@ -8,6 +8,7 @@
       <Type Name="Vodamep.Data.InsuranceCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.ReligionCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.Postcode_CityProvider" Dynamic="Required All" />
+      <Type Name="Vodamep.Data.QualificationCodeProvider" Dynamic="Required All" />
 
       <Type Name="Vodamep.Hkpv.Model.HkpvReflection" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.HkpvReport" Dynamic="Required All" />
@@ -15,6 +16,7 @@
       <Type Name="Vodamep.Hkpv.Model.Activity" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Person" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Staff" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.Employment" Dynamic="Required All" />
     </Assembly>
 
     <Assembly Name="dmc">

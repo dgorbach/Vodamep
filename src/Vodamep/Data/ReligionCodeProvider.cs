@@ -5,7 +5,7 @@ namespace Vodamep.Data
     public sealed class ReligionCodeProvider : CodeProviderBase
     {
         private static volatile ReligionCodeProvider instance;
-        private static object syncRoot = new Object();
+        private static readonly object syncRoot = new Object();
 
         
 

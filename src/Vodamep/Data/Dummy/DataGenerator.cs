@@ -88,7 +88,7 @@ namespace Vodamep.Data.Dummy
 
             var person = new Person()
             {
-                Id = id,                
+                Id = id,
                 FamilyName = _familynames[_rand.Next(_familynames.Length)],
                 GivenName = _names[_rand.Next(_names.Length)],
                 Insurance = "19",
@@ -103,7 +103,7 @@ namespace Vodamep.Data.Dummy
                 var address = _addresses[_rand.Next(_addresses.Length)].Split(';');
 
                 person.Postcode = address[6];
-                person.City = address[3];                
+                person.City = address[3];
             }
 
             person.BirthdayD = new DateTime(1920, 01, 01).AddDays(_rand.Next(20000));
@@ -146,8 +146,11 @@ namespace Vodamep.Data.Dummy
             {
                 Id = id,
                 FamilyName = _familynames[_rand.Next(_familynames.Length)],
-                GivenName = _names[_rand.Next(_names.Length)]
+                GivenName = _names[_rand.Next(_names.Length)],
+                Qualification = "DGKP"
             };
+
+            staff.Employments.Add(new Employment() { HoursPerWeek = 38.5F });
 
             return staff;
         }

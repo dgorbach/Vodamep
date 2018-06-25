@@ -136,6 +136,9 @@ namespace Vodamep.Client
                 case ListSources.Postcode_City:
                     provider = Postcode_CityProvider.Instance;
                     break;
+                case ListSources.Qualifications:
+                    provider = QualificationCodeProvider.Instance;
+                    break;
                 default:
                     HandleFailure($"Source '{args.Source}' not implemented.");
                     return;

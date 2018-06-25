@@ -58,7 +58,7 @@ namespace Vodamep.Hkpv.Validation
 
             this.Include(new ActivityIsUniqueValidator());
 
-            this.Include(new ActivityMedicalByStaffRoleTraineeValidator());
+            this.Include(new ActivityMedicalByQualificationTraineeValidator());
 
             this.Include(new ActivityWarningIfMoreThan5Validator());
 

@@ -9,16 +9,17 @@
       <Type Name="Vodamep.Data.InsuranceCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.ReligionCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.Postcode_CityProvider" Dynamic="Required All" />
+      <Type Name="Vodamep.Data.QualificationCodeProvider" Dynamic="Required All" />
 
       <Type Name="Vodamep.Hkpv.Model.HkpvReflection" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.HkpvReport" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Institution" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Activity" Dynamic="Required All" />
-      <Type Name="Vodamep.Hkpv.Model.Person" Dynamic="Required All" />      
-      <Type Name="Vodamep.Hkpv.Model.Staff" Dynamic="Required All" />      
+      <Type Name="Vodamep.Hkpv.Model.Person" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.Staff" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.Employment" Dynamic="Required All" />
     </Assembly>
 
-  
 
     <Assembly Name="System.Private.CoreLib">
       <Type Name="System.Tuple`3[[System.Collections.Generic.IList`1[[Vodamep.Hkpv.Model.Staff, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib]]" Dynamic="Required All" />
@@ -44,7 +45,7 @@
       <Type Name="Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor" Dynamic="Required All" />
       <Type Name="Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor" Dynamic="Required All" />
       <Type Name="Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiNGXmlEncryptor" Dynamic="Required All" />
-      <Type Name="Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiNGXmlDecryptor" Dynamic="Required All" />      
+      <Type Name="Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiNGXmlDecryptor" Dynamic="Required All" />
       <Type Name="Microsoft.AspNetCore.DataProtection.XmlEncryption.CertificateXmlEncryptor" Dynamic="Required All" />
       <Type Name="Microsoft.AspNetCore.DataProtection.XmlEncryption.EncryptedXmlDecryptor" Dynamic="Required All" />
       <Type Name="Microsoft.AspNetCore.DataProtection.XmlEncryption.NullXmlEncryptor" Dynamic="Required All" />

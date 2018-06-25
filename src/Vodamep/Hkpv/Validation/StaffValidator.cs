@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using System.Text.RegularExpressions;
+using Vodamep.Data;
 using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
@@ -16,6 +17,8 @@ namespace Vodamep.Hkpv.Validation
             var r = new Regex("^[a-zA-ZäöüÄÖÜß][-,.a-zA-ZäöüÄÖÜß ]*[,.a-zA-ZäöüÄÖÜß]$");
             this.RuleFor(x => x.FamilyName).Matches(r).Unless(x => string.IsNullOrEmpty(x.FamilyName));
             this.RuleFor(x => x.GivenName).Matches(r).Unless(x => string.IsNullOrEmpty(x.GivenName));
+            
+            this.RuleFor(x => x.Qualification).SetValidator(new CodeValidator<QualificationCodeProvider>()).Unless(x => string.IsNullOrEmpty(x.Qualification));
         }
     }
 }
