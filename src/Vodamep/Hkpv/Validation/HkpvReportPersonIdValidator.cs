@@ -23,13 +23,13 @@ namespace Vodamep.Hkpv.Validation
                     }
                 });
 
-           
+
             //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später: new { x.Persons, x.Activities }
             this.RuleFor(x => new Tuple<IList<Person>, IList<Activity>>(x.Persons, x.Activities))
                .Custom((a, ctx) =>
                {
                    var persons = a.Item1;
-                   var activities = a.Item2.Where(x => !Activity.ActivityTypesWithoutPerson.Contains(x.Type)).ToList();
+                   var activities = a.Item2.Where(x => x.RequiresPersonId()).ToList();
 
                    var idPersons = persons.Select(x => x.Id).Distinct().ToArray();
                    var idActivities = activities.Select(x => x.PersonId).Distinct().ToArray();

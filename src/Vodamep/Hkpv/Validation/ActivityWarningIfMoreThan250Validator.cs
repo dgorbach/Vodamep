@@ -17,15 +17,17 @@ namespace Vodamep.Hkpv.Validation
                 {
                     var moreThan250 = a.Item1.Where(x => x.PersonId != string.Empty)
                         .GroupBy(x => x.PersonId)
-                        .Select(x => new { PersonId = x.Key, Sum = x.Sum(y => y.GetLP() * y.Amount) })
+                        .Select(x => new { PersonId = x.Key, Sum = x.Sum(y => y.GetLP()) })
                         .Where(x => x.Sum > 250);
 
                     foreach (var entry in moreThan250)
                     {
                         var p = a.Item2.Where(x => x.Id == entry.PersonId).First();
 
-                        var f = new ValidationFailure($"{nameof(HkpvReport)}", Validationmessages.ActivityMoreThen250(p, entry.Sum));
-                        f.Severity = Severity.Warning;
+                        var f = new ValidationFailure($"{nameof(HkpvReport)}", Validationmessages.ActivityMoreThen250(p, entry.Sum))
+                        {
+                            Severity = Severity.Warning
+                        };
 
                         ctx.AddFailure(f);
                     }

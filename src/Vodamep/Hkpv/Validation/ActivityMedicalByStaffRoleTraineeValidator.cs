@@ -24,7 +24,7 @@ namespace Vodamep.Hkpv.Validation
                    var trainees = staffs.Where(x => x.Role == StaffRole.Trainee).Select(x => x.Id).ToArray();
 
                    var medical = activities
-                       .Where(IsMedical)
+                       .Where(x => x.Entries.Where(y => y.IsMedical()).Any())
                        .Where(x => trainees.Contains(x.StaffId))
                        .ToArray();
 
@@ -40,7 +40,7 @@ namespace Vodamep.Hkpv.Validation
                });
         }
 
-        internal bool IsMedical(Activity activity) => activity.Type == ActivityType.Lv06 || activity.Type == ActivityType.Lv07 || activity.Type == ActivityType.Lv08 || activity.Type == ActivityType.Lv09 || activity.Type == ActivityType.Lv10;
+        
 
     }
 }

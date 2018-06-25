@@ -5,9 +5,9 @@ namespace Vodamep.Hkpv.Model
 {
     public partial class HkpvReport
     {
-        public DateTime FromD { get => this.From.AsDate(); set => this.From = value.AsValue(); }
+        public DateTime FromD { get => this.From.AsDate(); set => this.From = value.AsTimestamp(); }
 
-        public DateTime ToD { get => this.To.AsDate(); set => this.To = value.AsValue(); }
+        public DateTime ToD { get => this.To.AsDate(); set => this.To = value.AsTimestamp(); }
 
 
         public static HkpvReport CreateDummyData()

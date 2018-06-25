@@ -20,10 +20,10 @@ namespace Vodamep.Hkpv.Validation
 
             _strategies = new[]
             {
-                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Persons)), GetNameOfPerson),                
+                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Persons)), GetNameOfPerson),
                 new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Staffs)), GetNameOfStaff),
-                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Activities)), GetNameOfActivity),                
-                
+                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Activities)), GetNameOfActivity),
+
                 new GetNameByPatternStrategy($"^{nameof(HkpvReport.To)}$",(a,b) => string.Empty),
                 new GetNameByPatternStrategy($"^{nameof(HkpvReport.ToD)}$",(a,b) => string.Empty),
                 new GetNameByPatternStrategy($"^{nameof(HkpvReport.From)}$",(a,b) => string.Empty),
@@ -87,7 +87,7 @@ namespace Vodamep.Hkpv.Validation
                     return "Information";
                 default:
                     return severity.ToString();
-            }            
+            }
         }
 
         private readonly GetNameByPatternStrategy[] _strategies;
@@ -118,7 +118,7 @@ namespace Vodamep.Hkpv.Validation
             if (report.Activities.Count > index && index >= 0)
             {
                 var e = report.Activities[index];
-                return $"Aktivität {e.DateD.ToString("dd.MM.yyyy")}{_template.Linefeed}  {e.Type}{_template.Linefeed}  {GetNameOfPersonById(report, e.PersonId)}{_template.Linefeed}  {GetNameOfStaffById(report, e.StaffId)}";
+                return $"Aktivität {e.DateD.ToString("dd.MM.yyyy")}{_template.Linefeed}  {String.Join(",", e.Entries)}{_template.Linefeed}  {GetNameOfPersonById(report, e.PersonId)}{_template.Linefeed}  {GetNameOfStaffById(report, e.StaffId)}";
             }
 
             return string.Empty;
@@ -148,9 +148,9 @@ namespace Vodamep.Hkpv.Validation
         {
             foreach (var strategy in _strategies)
             {
-                var r = strategy.GetInfo(report, propertyName);
+                var (Success, Info) = strategy.GetInfo(report, propertyName);
 
-                if (r.Success) return r.Info;
+                if (Success) return Info;
             }
 
             return propertyName;

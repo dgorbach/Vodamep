@@ -23,11 +23,16 @@ namespace Vodamep.Hkpv.Validation
 
             this.RuleFor(x => x.StaffId).NotEmpty();
 
-            this.RuleFor(x => x.PersonId).NotEmpty().Unless(x => Activity.ActivityTypesWithoutPerson.Contains(x.Type));
-            this.RuleFor(x => x.PersonId).Empty().Unless(x => !Activity.ActivityTypesWithoutPerson.Contains(x.Type));
+            this.RuleFor(x => x.PersonId).NotEmpty().Unless(x => x.WithoutPersonId());
+            this.RuleFor(x => x.PersonId).Empty().Unless(x => x.RequiresPersonId());
 
-            this.RuleFor(x => x.Amount).GreaterThan(0);
-            this.RuleFor(x => x.Type).NotEqual(ActivityType.UndefinedActivity);
+
+            this.RuleFor(x => x.Entries).NotEmpty();
+            this.RuleForEach(x => x.Entries).NotEqual(ActivityType.UndefinedActivity);
+
+            this.Include(new ActivityValidator23Without417());
+
+            this.Include(new ActivityValidator4141617Without123());
         }
     }
 

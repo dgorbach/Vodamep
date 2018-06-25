@@ -10,7 +10,7 @@ namespace Vodamep
 
         public static DateTime FirstDateInMonth(this DateTime date) => new DateTime(date.Year, date.Month, 1);
 
-        public static Timestamp AsValue(this DateTime date) => Timestamp.FromDateTime(date.IgnoreTime());
+        public static Timestamp AsTimestamp(this DateTime date) => Timestamp.FromDateTime(date.IgnoreTime());
 
         public static DateTime AsDate(this Timestamp value) => value?.ToDateTime().IgnoreTime() ?? DateTime.MinValue;
 

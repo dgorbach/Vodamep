@@ -53,15 +53,8 @@ Alle Validierungen sind im Gherkin-Format beschrieben.
         "date": "2018-03-01T00:00:00Z",
         "personId": "1",
         "staffId": "2",
-        "type": "LV02",
-        "amount": 1
-    }, {
-        "date": "2018-03-01T00:00:00Z",
-        "personId": "1",
-        "staffId": "2",
-        "type": "LV15",
-        "amount": 1
-    }]
+        "entries": ["LV02", "LV05", "LV06", "LV15"]
+    }]	
 }
 ```
 ## Web-Api 

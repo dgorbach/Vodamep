@@ -167,21 +167,19 @@ namespace Vodamep.Data.Dummy
             return a.Split(',').Select(x => (ActivityType)int.Parse(x)).ToArray();
         }
 
-        private IEnumerable<Activity> CreateRandomActivity(string personId, string staffId, DateTime date)
+        private Activity CreateRandomActivity(string personId, string staffId, DateTime date)
         {
-            var activities = CreateRandomActivities();
-
-            foreach (var entry in activities.GroupBy(x => x))
+            var result = new Activity()
             {
-                yield return new Activity()
-                {
-                    StaffId = staffId,
-                    PersonId = personId,
-                    DateD = date,
-                    Amount = entry.Count(),
-                    Type = entry.Key
-                };
-            }
+                StaffId = staffId,
+                PersonId = personId,
+                DateD = date                
+            };
+
+            var activities = CreateRandomActivities();
+            result.Entries.AddRange(activities.OrderBy(x =>x));
+
+            return result;
         }
 
         public Activity[] CreateActivities(HkpvReport report)
@@ -206,11 +204,11 @@ namespace Vodamep.Data.Dummy
                     // Pro Tag, Person und Mitarbeiter nur ein Eintrag erlaubt:
                     if (!result.Where(x => x.PersonId == personId && x.StaffId == staff.Id && x.DateD.Equals(date)).Any())
                     {
-                        var a = CreateRandomActivity(personId, staff.Id, date).ToArray();
+                        var a = CreateRandomActivity(personId, staff.Id, date);
 
-                        minuten -= a.Select(x => x.GetMinutes()).Sum();
+                        minuten -= a.GetMinutes();
 
-                        result.AddRange(a);
+                        result.Add(a);
                     }
                 }
             }
@@ -220,7 +218,7 @@ namespace Vodamep.Data.Dummy
             {
                 var date = report.FromD.AddDays(_rand.Next(report.ToD.Day - report.FromD.Day + 1));
 
-                result.AddRange(CreateRandomActivity(p.Id, report.Staffs[_rand.Next(report.Staffs.Count)].Id, date));
+                result.Add(CreateRandomActivity(p.Id, report.Staffs[_rand.Next(report.Staffs.Count)].Id, date));
             }
 
 
