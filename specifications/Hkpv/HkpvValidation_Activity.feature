@@ -58,12 +58,6 @@ Beispiele:
     | Art    | Fehler                         |
     | 2      | Kein Eintrag '4-17' vorhanden. |
 
-@diskussion
-Szenario: Aktivitäten sind nicht kummuliert.
-    Angenommen die Meldung enthält die Aktivitäten '2,15'
-        Und die Meldung enthält die Aktivitäten '15'
-    Dann enthält das Validierungsergebnis den Fehler 'Die Einträge sind nicht kumuliert.'
-
 @weich
 Szenario: Eine Mitarbeiter hat eine Aktivität 1-17 öfter als 5 Mal an einem Tag bei einem Klienten.
     Angenommen die Meldung enthält die Aktivitäten '2,15,15,15,15,15,15'		

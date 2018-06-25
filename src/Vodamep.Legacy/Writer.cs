@@ -22,7 +22,7 @@ namespace Vodamep.Legacy
                 var name = (Familyname: a.Name_1, Givenname: a.Name_2);
                 if (string.IsNullOrEmpty(name.Givenname)) name = GetName(a.Name_1);
 
-                var postcodeCity = GetPostCodeCity(a);
+                var (Postcode, City) = GetPostCodeCity(a);
 
                 report.AddPerson(new Person()
                 {
@@ -35,44 +35,38 @@ namespace Vodamep.Legacy
                     Nationality = (a.Staatsbuergerschaft ?? string.Empty).Trim(),
                     CareAllowance = (CareAllowance)a.Pflegestufe,
                     Religion = ReligionCodeProvider.Instance.Unknown,
-                    Postcode = postcodeCity.Postcode,
-                    City = postcodeCity.City,
+                    Postcode = Postcode,
+                    City = City,
                     Gender = GetGender(a.Geschlecht)
                 });
             }
 
             foreach (var p in data.P)
             {
-                var name = GetName(p.Pflegername);
+                var (Familyname, Givenname) = GetName(p.Pflegername);
 
-                report.Staffs.Add(new Staff() { Id = GetId(p.Pflegernummer), FamilyName = name.Familyname, GivenName = name.Givenname });
+                report.Staffs.Add(new Staff() { Id = GetId(p.Pflegernummer), FamilyName = Familyname, GivenName = Givenname });
             }
 
-            foreach (var l in data.L)
+            foreach (var l in data.L.GroupBy(x => new { x.Datum, x.Adressnummer, x.Pfleger }))
             {
-                if (Activity.ActivityTypesWithoutPerson.Contains((ActivityType)l.Leistung))
+                var a = new Activity()
                 {
-                    report.Activities.Add(new Activity()
-                    {
-                        Amount = l.Anzahl,
-                        DateD = l.Datum,
-                        PersonId = string.Empty,
-                        StaffId = GetId(l.Pfleger),
-                        Type = (ActivityType)l.Leistung
-                    });
+                    StaffId = GetId(l.Key.Pfleger),
+                    DateD = l.Key.Datum
+                };
+                foreach (var entry in l.OrderBy(x => x.Leistung))
+                {
+                    var t = (ActivityType)entry.Leistung;
+                    for (var i = 0; i < entry.Anzahl; i++)
+                        a.Entries.Add(t);
                 }
-                else
-                {
-                    report.Activities.Add(new Activity()
-                    {
-                        Amount = l.Anzahl,
-                        DateD = l.Datum,
-                        PersonId = GetId(l.Adressnummer),
-                        StaffId = GetId(l.Pfleger),
-                        Type = (ActivityType)l.Leistung
-                    });
 
+                if (a.RequiresPersonId())
+                {
+                    a.PersonId = GetId(l.Key.Adressnummer);
                 }
+                report.Activities.Add(a);
             }
 
             var filename = report.AsSorted().WriteToPath("", asJson: asJson, compressed: true);
