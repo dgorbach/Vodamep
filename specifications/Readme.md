@@ -32,7 +32,11 @@ Alle Validierungen sind im Gherkin-Format beschrieben.
     "staffs": [{
         "id": "2",
         "familyName": "Ilgenfritz",
-        "givenName": "Lucie"
+        "givenName": "Lucie",
+        "qualification": "DGKP",
+        "employments": [{
+            "hoursPerWeek": 38.5
+        }]
     }],
     "persons": [{
         "id": "1",

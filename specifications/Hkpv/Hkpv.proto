@@ -33,9 +33,8 @@ message Employment {
     google.protobuf.Timestamp from = 1;
     google.protobuf.Timestamp to = 2;
 	oneof kind {
-	    int32 hours_per_week = 3; 
-		string other_institution_id = 4;			// Thema Wochenenddienst
-		bool trainee = 5;					// Wie soll eine Auszubildende gemeldet werden?
+	    float hours_per_week = 3; 
+		string other_institution_id = 4;	// Thema Wochenenddienst		
 	}
 }
 
@@ -87,11 +86,6 @@ enum ActivityType {
   LV17 = 17;            // Pflegebehelfe,Transporte                                     (3 LP)
   LV31 = 31;            // Persönliche Beratung                                         (1 LP)  - ohne KlientenBezug
   LV33 = 33;            // Telefonische Beratung                                        (1 LP)  - ohne KlientenBezug
-}
-
-enum StaffRole {
-  undefined_role = 0;
-  trainee = 1;          // Auszubildende
 }
 
 // Pflegegeld

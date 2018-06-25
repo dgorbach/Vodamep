@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using TechTalk.SpecFlow;
+using Vodamep.Data;
 using Vodamep.Data.Dummy;
 using Vodamep.Hkpv.Model;
 using Vodamep.Hkpv.Validation;
@@ -169,7 +170,7 @@ namespace Vodamep.Specs.StepDefinitions
         public void GivenTraineeWithActivity(string values)
         {
             var s = this.Report.AddDummyStaff();
-            s.Role = StaffRole.Trainee;
+            s.Qualification = QualificationCodeProvider.Instance.Trainee;
             var staffId = s.Id;
 
             this.GivenTheActivitiesAt(this.Report.Persons[0].Id, this.Report.To, values, staffId);
