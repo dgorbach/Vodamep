@@ -104,7 +104,7 @@ namespace Vodamep.Legacy
             var names = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
             while (names.Count < 2)
-                names.Add("??");
+                names.Add("- - -");
 
             return (names[0], string.Join(" ", names.Skip(1)));
 
