@@ -27,14 +27,17 @@ namespace Vodamep.Legacy.Reader
 
                 var sqlLeistungen = @"SELECT l.Adressnummer, l.Pfleger, l.Datum, l.Leistung, l.Anzahl
 FROM Leistungen AS l
-WHERE(l.Datum Between @from And @to);";
+WHERE(l.Datum Between @from And @to) and not (l.Leistung in (32,34));";
 
                 var leistungen = connection.Query<LeistungDTO>(sqlLeistungen, new { from = from, to = to }).ToArray();
 
+                if (!leistungen.Any())
+                    return ReadResult.Empty;
+
                 var adressnummern = leistungen.Where(x => x.Leistung < 20).Select(x => x.Adressnummer).Distinct().ToArray();
 
-                var sqlAdressen = @"SELECT a.Adressnummer, a.Name_1, a.Name_2, a.Adresse, a.Land, a.Postleitzahl, a.Geburtsdatum, a.Staatsbuergerschaft, a.Versicherung, a.Versicherungsnummer, o.Ort, a.Geschlecht
-FROM  Adressen AS a LEFT JOIN tb_orte AS o  ON o.Postleitzahl = a.Postleitzahl 
+                var sqlAdressen = @"SELECT a.Adressnummer, a.Name_1, a.Name_2, a.Land, a.Postleitzahl, a.Geburtsdatum, a.Staatsbuergerschaft, a.Versicherung, a.Versicherungsnummer, o.Ort, a.Geschlecht
+FROM Adressen AS a LEFT JOIN tb_orte AS o  ON o.Postleitzahl = a.Postleitzahl 
 where a.Adressnummer in @ids;";
 
                 var adressen = connection.Query<AdresseDTO>(sqlAdressen, new { ids = adressnummern }).ToArray();
@@ -48,11 +51,11 @@ ORDER BY d0.Datum DESC
 ) as d
 GROUP BY d.Adressnummer;
                 ";
-                
+
 
                 var pflegestufen = connection.Query<(int Adressnummer, string Wert)>(pflegestufenSql, new { to = to, ids = adressnummern }).ToArray();
 
-                foreach ( var a in adressen)
+                foreach (var a in adressen)
                 {
                     var ps = pflegestufen.Where(x => x.Adressnummer == a.Adressnummer).Select(x => x.Wert).FirstOrDefault();
 

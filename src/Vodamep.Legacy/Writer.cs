@@ -19,58 +19,57 @@ namespace Vodamep.Legacy
             };
             foreach (var a in data.A)
             {
-                var name = GetName(a.Name_1);
+                var name = (Familyname: a.Name_1, Givenname: a.Name_2);
+                if (string.IsNullOrEmpty(name.Givenname)) name = GetName(a.Name_1);
+
+                var (Postcode, City) = GetPostCodeCity(a);
+
                 report.AddPerson(new Person()
                 {
                     Id = GetId(a.Adressnummer),
                     BirthdayD = a.Geburtsdatum,
-                    FamilyName = name.Familyname,
-                    GivenName = name.Givenname,
-                    Ssn = a.Versicherungsnummer ?? string.Empty,
-                    Street = a.Adresse ?? string.Empty,
-                    Insurance = a.Versicherung ?? string.Empty,
-                    Nationality = a.Staatsbuergerschaft ?? string.Empty,
+                    FamilyName = (name.Familyname ?? string.Empty).Trim(),
+                    GivenName = (name.Givenname ?? string.Empty).Trim(),
+                    Ssn = (a.Versicherungsnummer ?? string.Empty).Trim(),
+                    Insurance = (a.Versicherung ?? string.Empty).Trim(),
+                    Nationality = (a.Staatsbuergerschaft ?? string.Empty).Trim(),
                     CareAllowance = (CareAllowance)a.Pflegestufe,
                     Religion = ReligionCodeProvider.Instance.Unknown,
-                    Postcode = a.Postleitzahl ?? string.Empty,
-                    City = a.Ort ?? string.Empty,
+                    Postcode = Postcode,
+                    City = City,
                     Gender = GetGender(a.Geschlecht)
                 });
             }
 
             foreach (var p in data.P)
             {
-                var name = GetName(p.Pflegername);
+                var (Familyname, Givenname) = GetName(p.Pflegername);
 
-                report.Staffs.Add(new Staff() { Id = GetId(p.Pflegernummer), FamilyName = name.Familyname, GivenName = name.Givenname });
+                report.Staffs.Add(new Staff() { Id = GetId(p.Pflegernummer), FamilyName = Familyname, GivenName = Givenname });
             }
 
-            foreach (var l in data.L)
+            foreach (var l in data.L.GroupBy(x => new { x.Datum, x.Adressnummer, x.Pfleger }))
             {
-                if (l.Leistung < 20)
+                var a = new Activity()
                 {
-                    report.Activities.Add(new Activity()
-                    {
-                        Amount = l.Anzahl,
-                        DateD = l.Datum,
-                        PersonId = GetId(l.Adressnummer),
-                        StaffId = GetId(l.Pfleger),
-                        Type = (ActivityType)l.Leistung
-                    });
-                }
-                else
+                    StaffId = GetId(l.Key.Pfleger),
+                    DateD = l.Key.Datum
+                };
+                foreach (var entry in l.OrderBy(x => x.Leistung))
                 {
-                    report.Consultations.Add(new Consultation()
-                    {
-                        Amount = l.Anzahl,
-                        DateD = l.Datum,
-                        StaffId = GetId(l.Pfleger),
-                        Type = (ConsultationType)l.Leistung
-                    });
+                    var t = (ActivityType)entry.Leistung;
+                    for (var i = 0; i < entry.Anzahl; i++)
+                        a.Entries.Add(t);
                 }
+
+                if (a.RequiresPersonId())
+                {
+                    a.PersonId = GetId(l.Key.Adressnummer);
+                }
+                report.Activities.Add(a);
             }
 
-            var filename = report.WriteToPath("", asJson: asJson, compressed: true);
+            var filename = report.AsSorted().WriteToPath("", asJson: asJson, compressed: true);
 
             return filename;
         }
@@ -99,12 +98,39 @@ namespace Vodamep.Legacy
             var names = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
             while (names.Count < 2)
-                names.Add("??");
+                names.Add("- - -");
 
             return (names[0], string.Join(" ", names.Skip(1)));
 
         }
 
         private string GetId(int id) => $"{id}";
+
+        private (string Postcode, string City) GetPostCodeCity(Model.AdresseDTO a)
+        {
+
+            var plz = (a.Postleitzahl ?? string.Empty).Trim();
+            var ort = (a.Ort ?? string.Empty).Trim();
+                        
+            if (plz.Length > 4)
+            {
+                // im Datenbestand gibt es "gebastelte" Postleitzahlen mit 6 Zeichen
+                // z.b. 690060 Möggers
+                // entweder nur die ersten vier Zeichen verwenden, oder die PLZ anhand des Ortsnames ermitteln
+
+                if (Postcode_CityProvider.Instance.IsValid($"{plz.Substring(0, 4)} {ort}"))
+                {
+                    plz = plz.Substring(0, 4);
+                }
+                else
+                {
+                    var plz2 = Postcode_CityProvider.Instance.GetCSV().Where(x => x.EndsWith($" {ort};")).FirstOrDefault();
+                    if (!string.IsNullOrEmpty(plz2))
+                        plz = plz2;
+                }
+            }
+
+            return (plz, ort);
+        }
     }
 }

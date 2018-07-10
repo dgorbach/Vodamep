@@ -32,11 +32,12 @@
     <EmbeddedResource Include="..\..\specifications\Datasets\german-iso-3166.csv" Link="Data\german-iso-3166.csv" />
     <EmbeddedResource Include="..\..\specifications\Datasets\insurances.csv" Link="Data\insurances.csv" />
     <EmbeddedResource Include="..\..\specifications\Datasets\religions.csv" Link="Data\religions.csv" />
+    <EmbeddedResource Include="..\..\specifications\Datasets\qualifications.csv" Link="Data\qualifications.csv" />
     <None Include="..\..\specifications\Hkpv\Hkpv.proto" Link="Hkpv\Model\Hkpv.proto" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="7.5.2" />
+    <PackageReference Include="FluentValidation" Version="7.6.0" />
     <PackageReference Include="Google.Protobuf" Version="3.5.1" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
   </ItemGroup>

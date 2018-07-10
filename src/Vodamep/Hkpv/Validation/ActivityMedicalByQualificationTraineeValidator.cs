@@ -3,14 +3,15 @@ using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Vodamep.Data;
 using Vodamep.Hkpv.Model;
 
 namespace Vodamep.Hkpv.Validation
 {
-    internal class ActivityMedicalByStaffRoleTraineeValidator : AbstractValidator<HkpvReport>
+    internal class ActivityMedicalByQualificationTraineeValidator : AbstractValidator<HkpvReport>
     {
 
-        public ActivityMedicalByStaffRoleTraineeValidator()
+        public ActivityMedicalByQualificationTraineeValidator()
             : base()
         {
             //corert kann derzeit nicht mit AnonymousType umgehen. Vielleicht später:  new  { x.Activities, x.Staffs }
@@ -19,12 +20,11 @@ namespace Vodamep.Hkpv.Validation
                {
                    var activities = a.Item1;
                    var staffs = a.Item2;
-                   
 
-                   var trainees = staffs.Where(x => x.Role == StaffRole.Trainee).Select(x => x.Id).ToArray();
+                   var trainees = staffs.Where(x => x.Qualification == QualificationCodeProvider.Instance.Trainee).Select(x => x.Id).ToArray();
 
                    var medical = activities
-                       .Where(IsMedical)
+                       .Where(x => x.Entries.Where(y => y.IsMedical()).Any())
                        .Where(x => trainees.Contains(x.StaffId))
                        .ToArray();
 
@@ -40,7 +40,7 @@ namespace Vodamep.Hkpv.Validation
                });
         }
 
-        internal bool IsMedical(Activity activity) => activity.Type == ActivityType.Lv06 || activity.Type == ActivityType.Lv07 || activity.Type == ActivityType.Lv08 || activity.Type == ActivityType.Lv09 || activity.Type == ActivityType.Lv10;
+        
 
     }
 }

@@ -16,20 +16,20 @@ namespace Vodamep.Hkpv.Validation
                 .NotEmpty();
 
             RuleFor(x => x.Birthday)
-                .SetValidator(new DateTimeValueValidator());
+                .SetValidator(new TimestampWithOutTimeValidator());
 
             RuleFor(x => x.BirthdayD)
                 .LessThan(DateTime.Today)
-                .Unless(x => string.IsNullOrEmpty(x.Birthday))
+                .Unless(x => x.Birthday == null)
                 .WithMessage(Validationmessages.BirthdayNotInFuture);
 
             RuleFor(x => x.BirthdayD)
                .GreaterThanOrEqualTo(new DateTime(1900, 01, 01))
-               .Unless(x => string.IsNullOrEmpty(x.Birthday));
+               .Unless(x => x.Birthday == null);
 
             RuleFor(x => x.BirthdayD)
                 .Must(CheckDates)
-                .Unless(x => string.IsNullOrEmpty(x.Birthday) || !SSNHelper.IsValid(x.Ssn))
+                .Unless(x => x.Birthday == null || !SSNHelper.IsValid(x.Ssn))
                 .WithSeverity(Severity.Warning)                
                 .WithMessage(x => Validationmessages.BirthdayNotInSsn(x));  
         }

@@ -30,6 +30,7 @@ namespace Vodamep.Api.Engines.SqlServer
                     done.Add(key);
                     var upgrader = DeployChanges.To
                         .SqlDatabase(connectionString)
+                        .JournalToSqlTable("dbo", "SchemaVersion")
                         .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), x => x.StartsWith($"{typeof(DbUpdater).Namespace}.Scripts"))
                         .LogTo(new DbUpLogWrapper(_logger))
                         .Build();

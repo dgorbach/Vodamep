@@ -1,8 +1,9 @@
 ﻿using PowerArgs;
 using System;
+using System.IO;
+using System.Text;
 using Vodamep.Data;
 using Vodamep.Data.Dummy;
-using Vodamep.Hkpv;
 using Vodamep.Hkpv.Model;
 using Vodamep.Hkpv.Validation;
 
@@ -52,24 +53,40 @@ namespace Vodamep.Client
         [ArgActionMethod, ArgDescription("Prüfung der Meldung.")]
         public void Validate(ValidateArgs args)
         {
-            var report = ReadReport(args.File);
+            var wildcard = args.File.IndexOf("*");
 
-            var result = report.Validate();
+            string[] files;
 
-            var formatter = new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text);
-            var message = formatter.Format(report, result);
-
-            if (!result.IsValid)
+            if (wildcard >= 0)
             {
-                HandleFailure(message);
-            }
-            else if (!string.IsNullOrEmpty(message))
-            {
-                Console.WriteLine(message);
+                if (wildcard == 0)
+                {
+                    files = Directory.GetFiles(Directory.GetCurrentDirectory(), args.File);
+                }
+                else
+                {
+                    var dirIndex = args.File.Substring(0, wildcard).LastIndexOf(@"\");
+                    var dir = args.File.Substring(0, dirIndex);
+                    var pattern = args.File.Substring(wildcard);
+                    files = Directory.GetFiles(dir, pattern);
+                }
             }
             else
             {
-                Console.WriteLine("ok");
+                files = new[] { args.File };
+            }
+            
+
+            foreach (var file in files)
+            {
+                var report = ReadReport(file);
+
+                var result = report.Validate();
+
+                var formatter = new HkpvReportValidationResultFormatter(ResultFormatterTemplate.Text, args.IgnoreWarnings);
+                var message = formatter.Format(report, result);
+
+                Console.WriteLine(message);
             }
         }
 
@@ -118,6 +135,9 @@ namespace Vodamep.Client
                     break;
                 case ListSources.Postcode_City:
                     provider = Postcode_CityProvider.Instance;
+                    break;
+                case ListSources.Qualifications:
+                    provider = QualificationCodeProvider.Instance;
                     break;
                 default:
                     HandleFailure($"Source '{args.Source}' not implemented.");

@@ -2,7 +2,7 @@
 {
     public class VereinDTO
     {
-        public int Vereinsnummer { get; set; }
+        public string Vereinsnummer { get; set; }
         public string Bezeichnung { get; set; }
 
 

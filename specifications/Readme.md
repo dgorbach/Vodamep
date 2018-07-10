@@ -2,9 +2,17 @@
 
 ## Datenmodel 
 
-### Hauskrankenpflege
+### Datenaustausch
+
 - [Datenaustausch](./Hkpv/Hkpv.proto) (im protobuf-Format)
-- [Validierungen](./Hkpv/HkpvValidation.feature) (im Gherkin-Format)
+
+### Validierungen 
+- [Aktivitäten](./Hkpv/HkpvValidation_Activity.feature) 
+- [Personen](./Hkpv/HkpvValidation_Person.feature) 
+- [Mitarbeiter](./Hkpv/HkpvValidation_Staff.feature) 
+- [Meldung](./Hkpv/HkpvValidation_Report.feature) 
+
+Alle Validierungen sind im Gherkin-Format beschrieben.
 
 #### Werte
 - [Religionen](./Datasets/religions.csv)
@@ -19,20 +27,24 @@
         "id": "kpv_test",
         "name": "Testverein"
     },
-    "from": "2018-03-01",
-    "to": "2018-03-31",
+    "from": "2018-03-01T00:00:00Z",
+    "to": "2018-03-31T00:00:00Z",
     "staffs": [{
         "id": "2",
         "familyName": "Ilgenfritz",
-        "givenName": "Lucie"
+        "givenName": "Lucie",
+        "qualification": "DGKP",
+        "employments": [{
+            "hoursPerWeek": 38.5
+        }]
     }],
     "persons": [{
         "id": "1",
         "familyName": "Radl",
         "givenName": "Elena",
         "street": "Fußenegg 21",
-        "ssn": "4221-30.07.50",
-        "birthday": "1950-07-30",
+        "ssn": "4221300750",
+        "birthday": "1950-07-30T00:00:00Z",
         "religion": "VAR",
         "insurance": "19",
         "nationality": "AT",
@@ -42,18 +54,11 @@
         "gender": "female"
     }],    
     "activities": [{
-        "date": "2018-03-01",
+        "date": "2018-03-01T00:00:00Z",
         "personId": "1",
         "staffId": "2",
-        "type": "LV02",
-        "amount": 1
-    }, {
-        "date": "2018-03-01",
-        "personId": "1",
-        "staffId": "2",
-        "type": "LV15",
-        "amount": 1
-    }]
+        "entries": ["LV02", "LV05", "LV06", "LV15"]
+    }]	
 }
 ```
 ## Web-Api 

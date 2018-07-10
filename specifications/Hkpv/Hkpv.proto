@@ -1,18 +1,17 @@
 syntax = "proto3";
 package Vodamep.Hkpv;
 
-option csharp_namespace = "Vodamep.Hkpv.Model";
+import "google/protobuf/timestamp.proto";
 
-// Datumswerte werden nach ISO 8601 im Format JJJJ-MM-TT angegeben
+option csharp_namespace = "Vodamep.Hkpv.Model";
 
 message HkpvReport {   
     Institution institution = 1;   
-    string from = 2;							// Datum
-    string to = 3;    							// Datum	
+    google.protobuf.Timestamp from = 2;
+    google.protobuf.Timestamp to = 3;
     repeated Staff staffs = 4; 
     repeated Person persons = 5;         
-    repeated Activity activities = 6; 
-    repeated Consultation consultations = 7;    
+    repeated Activity activities = 6;     
 }
 
 // Einrichtung
@@ -25,42 +24,42 @@ message Institution {
 message Staff {
     string id = 1;    
     string family_name = 3;
-    string given_name = 4;
-    StaffRole role = 5;
+    string given_name = 4;    
+	string qualification = 5;
+    repeated Employment employments = 6;
+}
+
+message Employment {
+    google.protobuf.Timestamp from = 1;
+    google.protobuf.Timestamp to = 2;
+	oneof kind {
+	    float hours_per_week = 3; 
+		string other_institution_id = 4;	// Thema Wochenenddienst		
+	}
 }
 
 // Personen und Stammdaten, die im Zeitraum eine Leistung bezogen haben
 message Person {
     string id = 1;        
     string family_name = 2;
-    string given_name = 3;
-    string street = 4;        
-    string postcode = 5;				// postcode und city müssen zusammen einem Wert aus der Liste der Orte entsprechen
-    string city = 6;
-	Gender gender = 7;
-	string ssn = 8;
-    string birthday = 9;				// Datum	
-    string nationality = 10;            // Staatsbürgerschaft, Zwei-stelliges Länderkürzel nach Iso 3166-2
-	string insurance = 11;              // Ein Wert aus der Liste der Sozialversicherungen
-	CareAllowance care_allowance = 12;  // Pflegegeld, zum Stichtag Bis-Datum der Meldung
-	string religion = 13;				// Ein Wert aus der Liste der Religionen
+    string given_name = 3;    
+    string postcode = 4;				// postcode und city müssen zusammen einem Wert aus der Liste der Orte entsprechen
+    string city = 5;
+	Gender gender = 6;
+	string ssn = 7;
+    google.protobuf.Timestamp birthday = 8;
+    string nationality = 9;             // Staatsbürgerschaft, Zwei-stelliges Länderkürzel nach Iso 3166-2
+	string insurance = 10;              // Ein Wert aus der Liste der Sozialversicherungen
+	CareAllowance care_allowance = 11;  // Pflegegeld, zum Stichtag Bis-Datum der Meldung
+	string religion = 12;				// Ein Wert aus der Liste der Religionen
 }
 
-// Leistungen
+// Leistungen, geblockt pro Einsatz (zwei Hausbesuche an diesem Tag -> zwei Einträge)
 message Activity {
-    string date = 1;					// Datum
+    google.protobuf.Timestamp date = 1;
     string person_id = 2;
     string staff_id = 3;    
-    ActivityType type = 4;
-    int32 amount = 5;
-}
-
-// Beratungen
-message Consultation {
-    string date = 1;					// Datum
-    string staff_id = 3;    
-    ConsultationType type = 4;
-    int32 amount = 5;
+    repeated ActivityType entries = 4;       
 }
 
 // Leistungen mit Klientenbezug
@@ -85,20 +84,8 @@ enum ActivityType {
   LV15 = 15;            // Abklären,Information und Vermittlung,Dokumentation           (1 LP)
   LV16 = 16;            // Beraten,Anlernen und Begleiten                               (2 LP)
   LV17 = 17;            // Pflegebehelfe,Transporte                                     (3 LP)
-}
-
-// Beratungen ohne Klientenbezug
-enum ConsultationType {  
-  undefined_consultation = 0;
-  LV31 = 31;            // Persönliche Beratung                                         (1 LP)
-  LV32 = 32;            // Anzahl der Personen zu 31
-  LV33 = 33;            // Telefonische Beratung                                        (1 LP)
-  LV34 = 34;            // Anzahl der Personen zu 33
-}
-
-enum StaffRole {
-  undefined_role = 0;
-  trainee = 1;          // Auszubildende
+  LV31 = 31;            // Persönliche Beratung                                         (1 LP)  - ohne KlientenBezug
+  LV33 = 33;            // Telefonische Beratung                                        (1 LP)  - ohne KlientenBezug
 }
 
 // Pflegegeld

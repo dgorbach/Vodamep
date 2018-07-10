@@ -21,7 +21,6 @@ namespace Vodamep.Data.Dummy
             return p;
         }
 
-
         public static Staff AddDummyStaff(this HkpvReport report)
         {
             var s = DataGenerator.Instance.CreateStaff();
@@ -37,7 +36,7 @@ namespace Vodamep.Data.Dummy
             return s;
         }
 
-        public static Activity[] AddDummyActivity(this HkpvReport report, string code, DateTime? date = null)
+        public static Activity AddDummyActivity(this HkpvReport report, string code, DateTime? date = null)
         {
             if (!report.Persons.Any())
                 report.AddDummyPerson();
@@ -45,36 +44,35 @@ namespace Vodamep.Data.Dummy
             if (!report.Staffs.Any())
                 report.AddDummyStaff();
 
-            var result = code.Split(',').GroupBy(x => x).Select(x => new Activity()
+            var a = new Activity()
             {
                 PersonId = report.Persons[0].Id,
                 StaffId = report.Staffs[0].Id,
-                DateD = date ?? report.FromD,
-                Amount = x.Count(),
-                Type = (ActivityType)int.Parse(x.Key)
-            }).ToArray();
+                DateD = date ?? report.FromD
+            };
 
-            report.Activities.AddRange(result);
+            a.Entries.AddRange(code.Split(',').Select(x => (ActivityType)int.Parse(x)).OrderBy(x => x));
 
-            return result;
+            report.Activities.Add(a);
+
+            return a;
         }
 
-        public static Consultation[] AddDummyConsultation(this HkpvReport report, string code, DateTime? date = null)
+        public static Activity AddDummyConsultation(this HkpvReport report, string code, DateTime? date = null)
         {
             if (!report.Staffs.Any())
                 report.AddDummyStaff();
 
-            var result = code.Split(',').GroupBy(x => x).Select(x => new Consultation()
+            var a = new Activity()
             {
                 StaffId = report.Staffs[0].Id,
-                DateD = date ?? DateTime.Today,
-                Amount = x.Count(),
-                Type = (ConsultationType)int.Parse(x.Key)
-            }).ToArray();
+                DateD = date ?? report.FromD
+            };
 
-            report.Consultations.AddRange(result);
+            a.Entries.AddRange(code.Split(',').Select(x => (ActivityType)int.Parse(x)).OrderBy(x => x));
 
-            return result;
+
+            return a;
         }
 
         public static Activity[] AddDummyActivities(this HkpvReport report)

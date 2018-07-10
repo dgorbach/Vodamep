@@ -8,8 +8,6 @@ namespace Vodamep.Legacy.Model
         public string Name_1 { get; set; }
         public string Name_2 { get; set; }
 
-        public string Adresse { get; set; }
-
         public string Postleitzahl { get; set; }
 
         public string Ort { get; set; }

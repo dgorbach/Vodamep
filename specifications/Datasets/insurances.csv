@@ -2,8 +2,9 @@
 //https://www.sozialversicherung.at/cdscontent/load?contentid=10008.637649&version=1494499223 (Seite 65)
 
 // Frage: Ist Trennung nach Landesstelle notwendig? (Seite 51)
-
+01;Pensionsversicherungsanstalt der Angestellten
 02;Pensionsversicherung 
+03;Sozialversicherungsanstalt der Bauern (UV)
 05;Versicherungsanstalt für Eisenbahnen und Bergbau 
 07;Versicherungsanstalt öffentlich Bediensteter 
 11;GKK Wien 

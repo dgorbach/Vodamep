@@ -11,7 +11,7 @@ namespace Vodamep.Api.Authentication
 
         private readonly HttpClient _client;
         private IDictionary<string, bool> _verified = new SortedDictionary<string, bool>();
-        private object _lock = new object();
+        private readonly object _lock = new object();
 
         public ProxyCredentialVerifier(Uri address)
         {

@@ -88,7 +88,7 @@ namespace Vodamep.Data.Dummy
 
             var person = new Person()
             {
-                Id = id,                
+                Id = id,
                 FamilyName = _familynames[_rand.Next(_familynames.Length)],
                 GivenName = _names[_rand.Next(_names.Length)],
                 Insurance = "19",
@@ -104,7 +104,6 @@ namespace Vodamep.Data.Dummy
 
                 person.Postcode = address[6];
                 person.City = address[3];
-                person.Street = string.Format("{0} {1}", address[5], 1 + _rand.Next(30));
             }
 
             person.BirthdayD = new DateTime(1920, 01, 01).AddDays(_rand.Next(20000));
@@ -136,7 +135,7 @@ namespace Vodamep.Data.Dummy
                     break;
             }
 
-            return SSNHelper.Format(string.Format("{0}{1}-{2:dd.MM.yy}", nr, cd, date));
+            return SSNHelper.Format(string.Format("{0}{1}{2:ddMMyy}", nr, cd, date));
         }
 
         public Staff CreateStaff()
@@ -147,8 +146,11 @@ namespace Vodamep.Data.Dummy
             {
                 Id = id,
                 FamilyName = _familynames[_rand.Next(_familynames.Length)],
-                GivenName = _names[_rand.Next(_names.Length)]
+                GivenName = _names[_rand.Next(_names.Length)],
+                Qualification = "DGKP"
             };
+
+            staff.Employments.Add(new Employment() { HoursPerWeek = 38.5F });
 
             return staff;
         }
@@ -168,21 +170,19 @@ namespace Vodamep.Data.Dummy
             return a.Split(',').Select(x => (ActivityType)int.Parse(x)).ToArray();
         }
 
-        private IEnumerable<Activity> CreateRandomActivity(string personId, string staffId, DateTime date)
+        private Activity CreateRandomActivity(string personId, string staffId, DateTime date)
         {
-            var activities = CreateRandomActivities();
-
-            foreach (var entry in activities.GroupBy(x => x))
+            var result = new Activity()
             {
-                yield return new Activity()
-                {
-                    StaffId = staffId,
-                    PersonId = personId,
-                    DateD = date,
-                    Amount = entry.Count(),
-                    Type = entry.Key
-                };
-            }
+                StaffId = staffId,
+                PersonId = personId,
+                DateD = date                
+            };
+
+            var activities = CreateRandomActivities();
+            result.Entries.AddRange(activities.OrderBy(x =>x));
+
+            return result;
         }
 
         public Activity[] CreateActivities(HkpvReport report)
@@ -207,11 +207,11 @@ namespace Vodamep.Data.Dummy
                     // Pro Tag, Person und Mitarbeiter nur ein Eintrag erlaubt:
                     if (!result.Where(x => x.PersonId == personId && x.StaffId == staff.Id && x.DateD.Equals(date)).Any())
                     {
-                        var a = CreateRandomActivity(personId, staff.Id, date).ToArray();
+                        var a = CreateRandomActivity(personId, staff.Id, date);
 
-                        minuten -= a.Select(x => x.GetMinutes()).Sum();
+                        minuten -= a.GetMinutes();
 
-                        result.AddRange(a);
+                        result.Add(a);
                     }
                 }
             }
@@ -221,7 +221,7 @@ namespace Vodamep.Data.Dummy
             {
                 var date = report.FromD.AddDays(_rand.Next(report.ToD.Day - report.FromD.Day + 1));
 
-                result.AddRange(CreateRandomActivity(p.Id, report.Staffs[_rand.Next(report.Staffs.Count)].Id, date));
+                result.Add(CreateRandomActivity(p.Id, report.Staffs[_rand.Next(report.Staffs.Count)].Id, date));
             }
 
 

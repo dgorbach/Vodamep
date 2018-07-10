@@ -1,10 +1,13 @@
 ﻿using FluentValidation;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using TechTalk.SpecFlow;
+using Vodamep.Data;
 using Vodamep.Data.Dummy;
 using Vodamep.Hkpv.Model;
 using Vodamep.Hkpv.Validation;
@@ -18,6 +21,7 @@ namespace Vodamep.Specs.StepDefinitions
     {
 
         private HkpvReportValidationResult _result;
+        private Activity _dummyActivities;
 
         public HkpvValidationSteps()
         {
@@ -29,21 +33,12 @@ namespace Vodamep.Specs.StepDefinitions
 
             var date = DateTime.Today.AddMonths(-1);
             this.Report = DataGenerator.Instance.CreateHkpvReport(date.Year, date.Month, 1, 1, false);
-            this.AddActivities(Report, Report.Persons[0].Id, Report.Staffs[0].Id);
-            this.AddConsultation(Report, Report.Staffs[0].Id);
-        }
 
-        private void AddActivities(HkpvReport report, string personId, string staffId)
-        {
-            report.Activities.Add(new Activity() { Date = report.From, Amount = 1, PersonId = personId, StaffId = staffId, Type = ActivityType.Lv02 });
-            report.Activities.Add(new Activity() { Date = report.From, Amount = 1, PersonId = personId, StaffId = staffId, Type = ActivityType.Lv04 });
-            report.Activities.Add(new Activity() { Date = report.From, Amount = 1, PersonId = personId, StaffId = staffId, Type = ActivityType.Lv15 });
-        }
+            this.AddDummyActivities(Report.Persons[0].Id, Report.Staffs[0].Id);
 
-        private void AddConsultation(HkpvReport report, string staffId)
-        {
-            report.Consultations.Add(new Consultation() { Date = report.From, Amount = 1, StaffId = staffId, Type = ConsultationType.Lv31 });
-            report.Consultations.Add(new Consultation() { Date = report.From, Amount = 1, StaffId = staffId, Type = ConsultationType.Lv32 });
+            var consultation = new Activity() { Date = this.Report.From, StaffId = Report.Staffs[0].Id };
+            consultation.Entries.Add(ActivityType.Lv31);
+            this.Report.Activities.Add(consultation);
         }
 
         public HkpvReport Report { get; private set; }
@@ -71,7 +66,7 @@ namespace Vodamep.Specs.StepDefinitions
         public void GivenThePropertyIsDefault(string name, string type)
         {
             if (type == nameof(HkpvReport))
-                this.Report.SetDefault(name);            
+                this.Report.SetDefault(name);
             else if (type == nameof(Person))
                 this.Report.Persons[0].SetDefault(name);
             else if (type == nameof(Staff))
@@ -79,9 +74,6 @@ namespace Vodamep.Specs.StepDefinitions
             else if (type == nameof(Activity))
                 foreach (var a in this.Report.Activities)
                     a.SetDefault(name);
-            else if (type == nameof(Consultation))
-                foreach (var c in this.Report.Consultations)
-                    c.SetDefault(name);
             else
                 throw new NotImplementedException();
         }
@@ -90,7 +82,7 @@ namespace Vodamep.Specs.StepDefinitions
         public void GivenThePropertyIsSetTo(string name, string type, string value)
         {
             if (type == nameof(HkpvReport))
-                this.Report.SetValue(name, value);            
+                this.Report.SetValue(name, value);
             else if (type == nameof(Person))
                 this.Report.Persons[0].SetValue(name, value);
             else if (type == nameof(Staff))
@@ -98,9 +90,7 @@ namespace Vodamep.Specs.StepDefinitions
             else if (type == nameof(Activity))
                 foreach (var a in this.Report.Activities)
                     a.SetValue(name, value);
-            else if (type == nameof(Consultation))
-                foreach (var c in this.Report.Consultations)
-                    c.SetValue(name, value);
+
             else
                 throw new NotImplementedException();
         }
@@ -108,39 +98,40 @@ namespace Vodamep.Specs.StepDefinitions
         [Given(@"die Meldung enthält am '(.*)' die Aktivitäten '(.*)'")]
         public void GivenTheActivitiesAt(string date, string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
-            {
-                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = date, PersonId = this.Report.Persons[0].Id, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
-            }
+            var d = Timestamp.FromDateTime(date.AsDate());
+
+            this.GivenTheActivitiesAt(this.Report.Persons[0].Id, d, values, this.Report.Staffs[0].Id);
         }
 
 
         [Given(@"die Meldung enthält die Aktivitäten '(.*?)'")]
         public void GivenTheActivities(string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
+            this.GivenTheActivitiesAt(this.Report.Persons[0].Id, this.Report.To, values, this.Report.Staffs[0].Id);
+        }
+
+        [Given(@"die Meldung enthält jeden Tag die Aktivitäten '(.*?)'")]
+        public void GivenTheDailyActivities(string values)
+        {
+            this.RemoveDummyActivities();
+
+            foreach (var day in Enumerable.Range(1, this.Report.ToD.Day))
             {
-                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
+                this.GivenTheActivitiesAt(this.Report.Persons[0].Id, new DateTime(this.Report.ToD.Year, this.Report.ToD.Month, day).AsTimestamp(), values, this.Report.Staffs[0].Id);
             }
         }
 
         [Given(@"die Meldung enthält bei der Person '(.*)' die Aktivitäten '(.*)'")]
         public void GivenTheActivitiesAtPerson(string personId, string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
-            {
-                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = this.Report.To, PersonId = personId, StaffId = this.Report.Staffs[0].Id, Type = (ActivityType)lv.Key });
-            }
+            this.GivenTheActivitiesAt(personId, this.Report.To, values, this.Report.Staffs[0].Id);
         }
 
 
         [Given(@"die Meldung enthält von der Mitarbeiterin '(.*)' die Aktivitäten '(.*)'")]
         public void GivenTheActivitiesFromStaff(string staffId, string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
-            {
-                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = staffId, Type = (ActivityType)lv.Key });
-            }
+            this.GivenTheActivitiesAt(this.Report.Persons[0].Id, this.Report.To, values, staffId);
         }
 
         [Given(@"eine Versicherungsnummer ist nicht eindeutig")]
@@ -179,13 +170,10 @@ namespace Vodamep.Specs.StepDefinitions
         public void GivenTraineeWithActivity(string values)
         {
             var s = this.Report.AddDummyStaff();
-            s.Role = StaffRole.Trainee;
+            s.Qualification = QualificationCodeProvider.Instance.Trainee;
             var staffId = s.Id;
 
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
-            {
-                this.Report.Activities.Add(new Activity() { Amount = lv.Count(), Date = this.Report.To, PersonId = this.Report.Persons[0].Id, StaffId = staffId, Type = (ActivityType)lv.Key });
-            }
+            this.GivenTheActivitiesAt(this.Report.Persons[0].Id, this.Report.To, values, staffId);
         }
 
         [Given(@"zu einer Person sind keine Aktivitäten dokumentiert")]
@@ -200,25 +188,35 @@ namespace Vodamep.Specs.StepDefinitions
         {
             this.Report.AddDummyPerson();
         }
-
-
-        [Given(@"die Meldung enthält die Beratungen '(.*?)'")]
-        public void GivenTheConsultations(string values)
-        {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
-            {
-                this.Report.Consultations.Add(new Consultation() { Amount = lv.Count(), Date = this.Report.To, StaffId = this.Report.Staffs[0].Id, Type = (ConsultationType)lv.Key });
-            }
-        }
-
-
         [Given(@"die Meldung enthält am '(.*)' die Beratungen '(.*)'")]
         public void GivenTheConsultationsAt(string date, string values)
         {
-            foreach (var lv in values.Split(',').Select(x => int.Parse(x)).GroupBy(x => x))
-            {
-                this.Report.Consultations.Add(new Consultation() { Amount = lv.Count(), Date = date, StaffId = this.Report.Staffs[0].Id, Type = (ConsultationType)lv.Key });
-            }
+            var d = Timestamp.FromDateTime(date.AsDate());
+
+            this.GivenTheActivitiesAt(string.Empty, d, values, this.Report.Staffs[0].Id);
+        }
+
+
+        [Given(@"die Datums-Eigenschaft '(\w*)' von '(\w*)' hat eine Uhrzeit gesetzt")]
+        public void GivenThePropertyHasATime(string name, string type)
+        {
+            IMessage m;
+            if (type == nameof(HkpvReport))
+                m = this.Report;
+            else if (type == nameof(Person))
+                m = this.Report.Persons[0];
+            else if (type == nameof(Staff))
+                m = this.Report.Staffs[0];
+            else if (type == nameof(Activity))
+                m = this.Report.Activities[0];
+            else
+                throw new NotImplementedException();
+
+            var field = m.GetField(name);
+            var ts = (field.Accessor.GetValue(m) as Timestamp) ?? this.Report.From;
+
+            ts.Seconds = ts.Seconds + 60 * 60;
+            field.Accessor.SetValue(m, ts);
         }
 
 
@@ -262,6 +260,35 @@ namespace Vodamep.Specs.StepDefinitions
             var pattern = new Regex(message, RegexOptions.IgnoreCase);
 
             Assert.NotEmpty(this.Result.Errors.Where(x => x.Severity == Severity.Warning && pattern.IsMatch(x.ErrorMessage)));
+        }
+
+
+        private void GivenTheActivitiesAt(string personId, Timestamp d, string values, string staffId)
+        {
+            this.RemoveDummyActivities();
+
+            var a = new Activity() { Date = d, PersonId = personId, StaffId = staffId };
+            a.Entries.AddRange(values.Split(',').Select(x => (ActivityType)int.Parse(x)));
+
+            this.Report.Activities.Add(a);
+        }
+
+        private void AddDummyActivities(string personId, string staffId)
+        {
+
+            _dummyActivities = new Activity() { Date = this.Report.From, PersonId = personId, StaffId = staffId };
+            _dummyActivities.Entries.Add(new[] { ActivityType.Lv02, ActivityType.Lv04, ActivityType.Lv15 });
+
+            this.Report.Activities.Add(_dummyActivities);
+        }
+
+        private void RemoveDummyActivities()
+        {
+            if (_dummyActivities != null)
+            {
+                this.Report.Activities.Remove(_dummyActivities);
+                _dummyActivities = null;
+            }
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Linq;
 
 namespace Vodamep.Hkpv.Model
 {
     public partial class Activity : IComparable<Activity>
     {
-
-        public DateTime DateD { get => this.Date.AsDate(); set => this.Date = value.AsValue(); }
+        public DateTime DateD { get => this.Date.AsDate(); set => this.Date = value.AsTimestamp(); }
 
         public int CompareTo(Activity other)
         {
@@ -20,41 +20,23 @@ namespace Vodamep.Hkpv.Model
             if ((result = this.StaffId.CompareTo(other.StaffId)) != 0)
                 return result;
 
-            if ((result = this.Type.CompareTo(other.Type)) != 0)
-                return result;
-
-            return result;
-        }
-
-        public int GetMinutes()
-        {
-            switch (this.Type)
+            for (var i = 0; i < this.Entries.Count; i++)
             {
-                case ActivityType.Lv01:
-                case ActivityType.Lv06:
-                case ActivityType.Lv08:
-                case ActivityType.Lv15:
-                    return 5;
-                case ActivityType.Lv02:
-                case ActivityType.Lv05:
-                case ActivityType.Lv07:
-                case ActivityType.Lv09:
-                case ActivityType.Lv10:
-                case ActivityType.Lv11:
-                case ActivityType.Lv12:
-                case ActivityType.Lv13:
-                case ActivityType.Lv16:
-                    return 10;
-                case ActivityType.Lv14:
-                case ActivityType.Lv17:
-                    return 15;
-                case ActivityType.Lv03:
-                case ActivityType.Lv04:
-                    return 20;
+                if (other.Entries.Count <= i)
+                    return 1;
 
-                default:
-                    throw new NotImplementedException();
+                if ((result = this.Entries[i].CompareTo(other.Entries[i])) != 0)
+                    return result;
             }
+
+            if (this.Entries.Count < other.Entries.Count)
+                return -1;
+
+            return 0;
         }
+
+        public int GetMinutes() => GetLP() * 5;
+
+        public int GetLP() => this.Entries.Sum(x => x.GetLP());
     }
 }

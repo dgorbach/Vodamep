@@ -11,17 +11,18 @@ namespace Vodamep.Hkpv.Validation
     {
 
         private readonly ResultFormatterTemplate _template;
+        private readonly bool _ignoreWarnings;
 
-        public HkpvReportValidationResultFormatter(ResultFormatterTemplate template)
+        public HkpvReportValidationResultFormatter(ResultFormatterTemplate template, bool ignoreWarnings = false)
         {
             _template = template;
+            _ignoreWarnings = ignoreWarnings;
 
             _strategies = new[]
             {
-                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Persons)), GetNameOfPerson),                
+                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Persons)), GetNameOfPerson),
                 new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Staffs)), GetNameOfStaff),
-                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Activities)), GetNameOfActivity),                
-                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Consultations)), GetNameOfConsultation),
+                new GetNameByPatternStrategy(GetIdPattern(nameof(HkpvReport.Activities)), GetNameOfActivity),
 
                 new GetNameByPatternStrategy($"^{nameof(HkpvReport.To)}$",(a,b) => string.Empty),
                 new GetNameByPatternStrategy($"^{nameof(HkpvReport.ToD)}$",(a,b) => string.Empty),
@@ -40,7 +41,11 @@ namespace Vodamep.Hkpv.Validation
 
             result.Append(_template.Header(report, validationResult));
 
-            var severities = validationResult.Errors.OrderBy(x => x.Severity).GroupBy(x => x.Severity);
+            var severities = validationResult.Errors
+                .Where(x => !_ignoreWarnings || x.Severity == FluentValidation.Severity.Error)
+                .OrderBy(x => x.Severity)
+                .GroupBy(x => x.Severity);
+
             foreach (var severity in severities)
             {
                 result.Append(_template.HeaderSeverity(GetSeverityName(severity.Key)));
@@ -82,7 +87,7 @@ namespace Vodamep.Hkpv.Validation
                     return "Information";
                 default:
                     return severity.ToString();
-            }            
+            }
         }
 
         private readonly GetNameByPatternStrategy[] _strategies;
@@ -113,7 +118,7 @@ namespace Vodamep.Hkpv.Validation
             if (report.Activities.Count > index && index >= 0)
             {
                 var e = report.Activities[index];
-                return $"Aktivität {e.DateD.ToString("dd.MM.yyyy")}{_template.Linefeed}  {e.Type}{_template.Linefeed}  {GetNameOfPersonById(report, e.PersonId)}{_template.Linefeed}  {GetNameOfStaffById(report, e.StaffId)}";
+                return $"Aktivität {e.DateD.ToString("dd.MM.yyyy")}{_template.Linefeed}  {String.Join(",", e.Entries)}{_template.Linefeed}  {GetNameOfPersonById(report, e.PersonId)}{_template.Linefeed}  {GetNameOfStaffById(report, e.StaffId)}";
             }
 
             return string.Empty;
@@ -139,25 +144,13 @@ namespace Vodamep.Hkpv.Validation
             return $"{e.FamilyName} {e.GivenName}";
         }
 
-
-        private string GetNameOfConsultation(HkpvReport report, int id)
-        {
-            if (report.Consultations.Count > id && id >= 0)
-            {
-                var e = report.Consultations[id];
-                return $"Beratung {e.DateD.ToString("dd.MM.yyyy")}, {e.Type}: {GetNameOfStaffById(report, e.StaffId)}";
-            }
-
-            return string.Empty;
-        }
-
         private string GetInfo(HkpvReport report, string propertyName)
         {
             foreach (var strategy in _strategies)
             {
-                var r = strategy.GetInfo(report, propertyName);
+                var (Success, Info) = strategy.GetInfo(report, propertyName);
 
-                if (r.Success) return r.Info;
+                if (Success) return Info;
             }
 
             return propertyName;

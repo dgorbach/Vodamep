@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Vodamep.Hkpv.Model.Tests
 {
+
     public class HkpvReportTests
     {
 
@@ -18,14 +19,14 @@ namespace Vodamep.Hkpv.Model.Tests
         [Fact]
         public void AsSorted_ActivitiesArSortedByType()
         {
-            this.Report.AddDummyActivity("15");
-            this.Report.AddDummyActivity("02");
-            this.Report.AddDummyActivity("05");
-
+            this.Report.AddDummyActivity("15,02,05");
+            
             var sorted = this.Report.AsSorted();
 
-            Assert.Equal(new[] { 2, 5, 15 }, sorted.Activities.Select(x => (int)x.Type));
+            var expected = new[] { ActivityType.Lv02, ActivityType.Lv05, ActivityType.Lv15 };
+            var result = sorted.Activities[0].Entries.ToArray();
 
+            Assert.Equal(expected, result);
         }
 
         [Fact]
@@ -57,9 +58,12 @@ namespace Vodamep.Hkpv.Model.Tests
             var p2 = this.Report.Persons[1].Id;
             var p3 = this.Report.Persons[2].Id;
 
-            var a1 = new Activity() { PersonId = p1, DateD = DateTime.Today, Amount = 1, StaffId = this.Report.Staffs[0].Id, Type = ActivityType.Lv01 };
-            var a2 = new Activity() { PersonId = p2, DateD = DateTime.Today, Amount = 1, StaffId = this.Report.Staffs[0].Id, Type = ActivityType.Lv01 };
-            var a3 = new Activity() { PersonId = p3, DateD = DateTime.Today, Amount = 1, StaffId = this.Report.Staffs[0].Id, Type = ActivityType.Lv01 };
+            var a1 = new Activity() { PersonId = p1, DateD = DateTime.Today, StaffId = this.Report.Staffs[0].Id };
+            a1.Entries.Add(ActivityType.Lv01);
+            var a2 = new Activity() { PersonId = p2, DateD = DateTime.Today, StaffId = this.Report.Staffs[0].Id };
+            a2.Entries.Add(ActivityType.Lv01);
+            var a3 = new Activity() { PersonId = p3, DateD = DateTime.Today, StaffId = this.Report.Staffs[0].Id };
+            a3.Entries.Add(ActivityType.Lv01);
 
             this.Report.Activities.AddRange(new[] { a2, a3, a1 });
 
@@ -78,9 +82,12 @@ namespace Vodamep.Hkpv.Model.Tests
             var s2 = this.Report.Staffs[1].Id;
             var s3 = this.Report.Staffs[2].Id;
 
-            var a1 = new Activity() { StaffId = s1, DateD = DateTime.Today, Amount = 1, PersonId = this.Report.Persons[0].Id, Type = ActivityType.Lv01 };
-            var a2 = new Activity() { StaffId = s2, DateD = DateTime.Today, Amount = 1, PersonId = this.Report.Persons[0].Id, Type = ActivityType.Lv01 };
-            var a3 = new Activity() { StaffId = s3, DateD = DateTime.Today, Amount = 1, PersonId = this.Report.Persons[0].Id, Type = ActivityType.Lv01 };
+            var a1 = new Activity() { StaffId = s1, DateD = DateTime.Today, PersonId = this.Report.Persons[0].Id };
+            a1.Entries.Add(ActivityType.Lv01);
+            var a2 = new Activity() { StaffId = s2, DateD = DateTime.Today, PersonId = this.Report.Persons[0].Id };
+            a2.Entries.Add(ActivityType.Lv01);
+            var a3 = new Activity() { StaffId = s3, DateD = DateTime.Today, PersonId = this.Report.Persons[0].Id };
+            a3.Entries.Add(ActivityType.Lv01);
 
             this.Report.Activities.AddRange(new[] { a2, a3, a1 });
 
@@ -94,12 +101,12 @@ namespace Vodamep.Hkpv.Model.Tests
         public void WriteThenRead_ReportsAreEqual()
         {
             var report = HkpvReport.CreateDummyData();
-            
+
             using (var s = report.WriteToStream())
             {
                 var report2 = HkpvReport.Read(s);
 
-                Assert.Equal(report, report2);                
+                Assert.Equal(report, report2);
             }
         }
     }

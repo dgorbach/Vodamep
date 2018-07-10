@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using Vodamep.Api.CmdQry;
 
 namespace Vodamep.Api
 {
@@ -10,6 +12,10 @@ namespace Vodamep.Api
         public static IApplicationBuilder UseVodamep(this IApplicationBuilder app)
         {
             var handler = app.ApplicationServices.GetService<VodamepHandler>();
+
+            // engine korrekt konfiguriert? 
+            var engineFactory = app.ApplicationServices.GetService<Func<IEngine>>();
+            engineFactory().Execute(new TestCommand());
 
             var defaultHandler = new RequestDelegate(handler.HandleDefault);
             var vodamepHandler = new RequestDelegate(handler.HandlePut);

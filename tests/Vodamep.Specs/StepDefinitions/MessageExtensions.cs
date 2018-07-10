@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Reflection;
+using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Linq;
 
@@ -41,7 +42,7 @@ namespace Vodamep.Specs.StepDefinitions
 
         public static void SetValue(this IMessage m, string name, string value)
         {
-            var field = m.Descriptor.Fields.InDeclarationOrder().Where(x => x.Name == name).First();
+            var field = m.GetField(name);
 
             switch (field.FieldType)
             {
@@ -55,7 +56,7 @@ namespace Vodamep.Specs.StepDefinitions
                 case FieldType.UInt32:
                 case FieldType.UInt64:
                 case FieldType.SFixed32:
-                case FieldType.SFixed64:                
+                case FieldType.SFixed64:
                 case FieldType.Enum:
                     field.Accessor.SetValue(m, long.Parse(value));
                     break;
@@ -63,9 +64,23 @@ namespace Vodamep.Specs.StepDefinitions
                 case FieldType.Float:
                     field.Accessor.SetValue(m, double.Parse(value));
                     break;
+                case FieldType.Message:
+                    if (field.MessageType == Timestamp.Descriptor)
+                    {
+                        field.Accessor.SetValue(m, Timestamp.FromDateTime(value.AsDate()));
+                        break;
+                    }
+
+                    throw new NotImplementedException();
                 default:
                     throw new NotImplementedException();
             }
         }
+
+        public static FieldDescriptor GetField(this IMessage m, string name)
+        {
+            return m.Descriptor.Fields.InDeclarationOrder().Where(x => x.Name == name).First();
+        }
     }
 }
+

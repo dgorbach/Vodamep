@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.Validators;
+using System.Text.RegularExpressions;
 using Vodamep.Data;
 using Vodamep.Hkpv.Model;
 
@@ -11,8 +12,12 @@ namespace Vodamep.Hkpv.Validation
         {
             this.RuleFor(x => x.FamilyName).NotEmpty();
             this.RuleFor(x => x.GivenName).NotEmpty();
-            this.RuleFor(x => x.Street).NotEmpty();
 
+            // Wunsch von Gerhard
+            // aus unterlagen_connexia: Daten.xsl
+            var r = new Regex("^[a-zA-ZäöüÄÖÜß][-,.a-zA-ZäöüÄÖÜß ]*[,.a-zA-ZäöüÄÖÜß]$");
+            this.RuleFor(x => x.FamilyName).Matches(r).Unless(x => string.IsNullOrEmpty(x.FamilyName));
+            this.RuleFor(x => x.GivenName).Matches(r).Unless(x => string.IsNullOrEmpty(x.GivenName));
 
             this.Include(new PersonBirthdayValidator());
             this.Include(new PersonSsnValidator());

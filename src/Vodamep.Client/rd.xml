@@ -3,19 +3,20 @@
 
     <Assembly Name="Vodamep">
       <Type Name="Vodamep.SendResult" Dynamic="Required All" />
-      
+
       <Type Name="Vodamep.Data.CountryCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.InsuranceCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.ReligionCodeProvider" Dynamic="Required All" />
       <Type Name="Vodamep.Data.Postcode_CityProvider" Dynamic="Required All" />
+      <Type Name="Vodamep.Data.QualificationCodeProvider" Dynamic="Required All" />
 
       <Type Name="Vodamep.Hkpv.Model.HkpvReflection" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.HkpvReport" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Institution" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Activity" Dynamic="Required All" />
-      <Type Name="Vodamep.Hkpv.Model.Person" Dynamic="Required All" />      
+      <Type Name="Vodamep.Hkpv.Model.Person" Dynamic="Required All" />
       <Type Name="Vodamep.Hkpv.Model.Staff" Dynamic="Required All" />
-      <Type Name="Vodamep.Hkpv.Model.Consultation" Dynamic="Required All" />
+      <Type Name="Vodamep.Hkpv.Model.Employment" Dynamic="Required All" />
     </Assembly>
 
     <Assembly Name="dmc">
@@ -24,7 +25,7 @@
       <Type Name="Vodamep.Client.PackRandomArgs" Dynamic="Required All" />
       <Type Name="Vodamep.Client.VodamepProgram" Dynamic="Required All" />
       <Type Name="Vodamep.Client.ValidateArgs" Dynamic="Required All" />
-      <Type Name="Vodamep.Client.SendArgs" Dynamic="Required All" />      
+      <Type Name="Vodamep.Client.SendArgs" Dynamic="Required All" />
     </Assembly>
 
     <Assembly Name="PowerArgs">
@@ -56,7 +57,7 @@
     </Assembly>
 
     <Assembly Name="System.Private.CoreLib">
-      <Type Name="System.Tuple`4[[System.Collections.Generic.IList`1[[Vodamep.Hkpv.Model.Staff, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Consultation, Vodamep]], System.Private.CoreLib]]" Dynamic="Required All" />
+      <Type Name="System.Tuple`3[[System.Collections.Generic.IList`1[[Vodamep.Hkpv.Model.Staff, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib],[System.Collections.Generic.IEnumerable`1[[Vodamep.Hkpv.Model.Activity, Vodamep]], System.Private.CoreLib]]" Dynamic="Required All" />
       <Type Name="System.Tuple`2[[System.DateTime, System.Private.CoreLib],[System.DateTime, System.Private.CoreLib]]" Dynamic="Required All" />
       <Type Name="System.Boolean" />
       <Type Name="System.Double" />

@@ -36,6 +36,9 @@ namespace Vodamep.Api.Engines.SqlServer
                 case HkpvReportSaveCommand save:
                     this.Save(save.Report);
                     return;
+                case TestCommand test:
+                    this.Test();
+                    return;
             }
 
             throw new System.NotImplementedException();
@@ -44,6 +47,19 @@ namespace Vodamep.Api.Engines.SqlServer
         public void Login(IPrincipal principal)
         {
             this._authContext = principal != null ? new AuthContext(principal) : null;
+        }
+
+
+        private void Test()
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                var cmd = new SqlCommand("select count(*) from Message", connection);
+
+                var c = cmd.ExecuteScalar();
+            }
         }
 
         private void Save(HkpvReport report)
@@ -58,7 +74,7 @@ namespace Vodamep.Api.Engines.SqlServer
             {
                 connection.Open();
 
-                var institutionId = this.GetRowId("Institutions", report.Institution.Id, connection);
+                var institutionId = this.GetRowId("Institution", report.Institution.Id, connection);
                 var lastInfo = GetLast(report.Institution.Id, institutionId, connection);
 
                 var info = HkpvReportInfo.Create(report, lastInfo?.Id ?? -1, lastInfo?.Created ?? DateTime.Now);
@@ -77,9 +93,9 @@ namespace Vodamep.Api.Engines.SqlServer
         {
             using (var ms = report.WriteToStream(asJson: false, compressed: true))
             {
-                var userId = this.GetRowId("Users", _authContext.Principal.Identity.Name, connection);
+                var userId = this.GetRowId("User", _authContext.Principal.Identity.Name, connection);
 
-                SqlCommand insert = new SqlCommand("insert into Messages([UserId], [InstitutionId], [Hash_SHA256], [Month], [Year], [Date], [Data]) values(@userId, @institutionId, @hash, @month, @year, @date, @data)", connection);
+                SqlCommand insert = new SqlCommand("insert into [Message]([UserId], [InstitutionId], [Hash_SHA256], [Month], [Year], [Date], [Data]) values(@userId, @institutionId, @hash, @month, @year, @date, @data)", connection);
                 insert.Parameters.AddWithValue("@userId", userId);
                 insert.Parameters.AddWithValue("@institutionId", institutionId);
                 insert.Parameters.AddWithValue("@hash", info.HashSHA256);
@@ -137,7 +153,7 @@ namespace Vodamep.Api.Engines.SqlServer
         {
 
 
-            var command = new SqlCommand($"SELECT top 1 [Id],[Month],[Year],[Hash_SHA256],[Date] from [Messages] where [InstitutionId] =  @institudionId ORDER BY [Date] desc", connection);
+            var command = new SqlCommand($"SELECT top 1 [Id],[Month],[Year],[Hash_SHA256],[Date] from [Message] where [InstitutionId] =  @institudionId ORDER BY [Date] desc", connection);
             command.Parameters.AddWithValue("@institudionId", institudionId);
 
             using (var reader = command.ExecuteReader())

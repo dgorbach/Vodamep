@@ -46,6 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LegacyProgram.cs" />
+    <Compile Include="ReadBaseArgs.cs" />
+    <Compile Include="ReadConnectionStringBaseArgs.cs" />
+    <Compile Include="ReadConnexiaArgs.cs" />
+    <Compile Include="Reader\ConnexiaReader.cs" />
     <Compile Include="Reader\MdbReader.cs" />
     <Compile Include="Reader\IReader.cs" />
     <Compile Include="Model\AdresseDTO.cs" />
@@ -55,7 +59,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reader\ReadResult.cs" />
+    <Compile Include="Reader\Td45Reader.cs" />
     <Compile Include="ReadMdbArgs.cs" />
+    <Compile Include="ReadTd45Args.cs" />
     <Compile Include="Writer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -70,10 +76,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Costura.Fody">
-      <Version>2.0.0</Version>
+      <Version>2.0.1</Version>
     </PackageReference>
     <PackageReference Include="Dapper">
-      <Version>1.50.4</Version>
+      <Version>1.50.5</Version>
     </PackageReference>
     <PackageReference Include="PowerArgs">
       <Version>3.0.0</Version>
