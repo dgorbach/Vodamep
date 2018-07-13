@@ -90,6 +90,16 @@ namespace Vodamep.Api
                 return;
             }
 
+            if (string.Equals(_authConfig.Mode, BasicAuthenticationConfiguration.Mode_UsernamePasswordUserGroup, StringComparison.CurrentCultureIgnoreCase))
+            {
+                _loggerFactory.CreateLogger<Startup>().LogInformation("Using UsernamePasswordUserGroup");
+
+                services.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
+                    .AddBasicAuthentication(new ConnexiaVerifier(_authConfig.Url).Verify);
+
+                return;
+            }
+
             if (!string.IsNullOrEmpty(_authConfig.Proxy))
             {
                 _loggerFactory.CreateLogger<Startup>().LogInformation("Using ProxyAuthentication: {proxy}", _authConfig.Proxy);
@@ -111,5 +121,5 @@ namespace Vodamep.Api
     }
 
 
-   
+
 }
