@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using NLog.Extensions.Logging;
+using NLog.Web;
 using Vodamep.Api.Authentication;
 using Vodamep.Api.CmdQry;
 using Vodamep.Api.Engines.FileSystem;
@@ -20,6 +22,7 @@ namespace Vodamep.Api
 
         public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddNLog();
             this._configuration = configuration;
             this._loggerFactory = loggerFactory;
         }
@@ -37,6 +40,15 @@ namespace Vodamep.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
+            env.ConfigureNLog("nlog.config");
+            //add NLog to ASP.NET Core
+           
+
+            //add NLog.Web
+            app.AddNLogWeb();
+
+
             var useAuthentication = !IsAuthDisabled(_authConfig);
             if (useAuthentication)
             {
