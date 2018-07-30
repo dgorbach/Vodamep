@@ -22,7 +22,7 @@ namespace Vodamep.Api.Authentication
 
         public Task<bool> Verify((string username, string password) credentials)
         {
-            Task<bool> result =  client.AuthenticateAsync(credentials.username, credentials.password, "HP");
+            Task<bool> result =  client.AuthenticateAsync(credentials.username, credentials.password, "HK");
             return result;
         }
     }
