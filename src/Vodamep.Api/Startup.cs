@@ -52,7 +52,6 @@ namespace Vodamep.Api
             var useAuthentication = !IsAuthDisabled(_authConfig);
             if (useAuthentication)
             {
-                _loggerFactory.CreateLogger<Startup>().LogInformation("Authentication is disabled");
                 app.UseAuthentication();
             }
 
