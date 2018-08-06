@@ -10,13 +10,13 @@ using Newtonsoft.Json.Linq;
 
 namespace Vodamep.Api.Authentication
 {
-    public class ConnexiaVerifier
+    public class RestVerifier
     {
-        private readonly AuthenticationClient client;
+        private readonly RestVerifierClient client;
 
-        public ConnexiaVerifier(string url)
+        public RestVerifier(string url)
         {
-            client = new AuthenticationClient();
+            client = new RestVerifierClient();
             client.BaseUrl = url;
         }
 

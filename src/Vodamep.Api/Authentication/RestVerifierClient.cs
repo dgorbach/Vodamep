@@ -9,12 +9,12 @@ namespace Vodamep.Api.Authentication
 #pragma warning disable // Disable all warnings
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "11.17.3.0 (NJsonSchema v9.10.46.0 (Newtonsoft.Json v9.0.0.0))")]
-    public partial class AuthenticationClient
+    public partial class RestVerifierClient
     {
         private string _baseUrl = "http://localhost:6000";
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
-        public AuthenticationClient()
+        public RestVerifierClient()
         {
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(() =>
             {

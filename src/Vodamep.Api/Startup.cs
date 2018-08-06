@@ -106,7 +106,7 @@ namespace Vodamep.Api
                 _loggerFactory.CreateLogger<Startup>().LogInformation("Using UsernamePasswordUserGroup");
 
                 services.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
-                    .AddBasicAuthentication(new ConnexiaVerifier(_authConfig.Url).Verify);
+                    .AddBasicAuthentication(new RestVerifier(_authConfig.Url).Verify);
 
                 return;
             }
