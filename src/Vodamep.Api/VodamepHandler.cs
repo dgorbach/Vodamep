@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
+using NLog;
 using System;
 using System.IO;
 using System.Security.Claims;
@@ -47,8 +48,12 @@ namespace Vodamep.Api
             await context.Response.WriteJson(result);
         }
 
+
         public async Task HandleDefault(HttpContext context)
         {
+            _logger.LogInformation("Handle Default");
+            LogManager.GetLogger(this.GetType().FullName).Info("Handle Default");
+
             if (_useAuthentication)
             {
                 await EnsureIsAuthenticated(context);
@@ -71,6 +76,8 @@ namespace Vodamep.Api
 
         public async Task HandlePut(HttpContext context)
         {
+            LogManager.GetLogger(this.GetType().FullName).Info("Handle Put");
+
             if (context.Request.Method != HttpMethods.Put && context.Request.Method != HttpMethods.Post)
             {
                 await HandleDefault(context);
@@ -156,6 +163,9 @@ namespace Vodamep.Api
             engine.Execute(saveCmd);
 
             await RespondSuccess(context, msg);
+
+            _logger?.LogInformation("Hkpv report empfangen.");
+
         }
 
         private bool IsAuthenticated(HttpContext context) => context.User != null && !string.IsNullOrEmpty(context.User.Identity?.Name);
