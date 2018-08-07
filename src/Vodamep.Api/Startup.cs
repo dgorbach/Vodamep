@@ -19,12 +19,14 @@ namespace Vodamep.Api
         private readonly IConfiguration _configuration;
         private readonly ILoggerFactory _loggerFactory;
         private BasicAuthenticationConfiguration _authConfig;
+        private readonly ILogger<Startup> _logger;
 
         public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddNLog();
             this._configuration = configuration;
             this._loggerFactory = loggerFactory;
+            this._logger = loggerFactory.CreateLogger<Startup>();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -34,18 +36,13 @@ namespace Vodamep.Api
             this.ConfigureAuth(services);
             this.ConfigureEngine(services);
 
-            services.AddTransient<VodamepHandler>(sp => new VodamepHandler(sp.GetService<Func<IEngine>>(), !IsAuthDisabled(_authConfig), sp.GetService<ILogger<VodamepHandler>>()));
+            services.AddTransient<VodamepHandler>(sp => new VodamepHandler(sp.GetService<Func<IEngine>>(), !IsAuthDisabled(_authConfig), _loggerFactory.CreateLogger<VodamepHandler>()));
             services.AddSingleton<DbUpdater>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
             env.ConfigureNLog("nlog.config");
-            //add NLog to ASP.NET Core
-           
-
-            //add NLog.Web
             app.AddNLogWeb();
 
 
@@ -64,9 +61,9 @@ namespace Vodamep.Api
 
             if (!string.IsNullOrEmpty(sqlEngineConfig.ConnectionString))
             {
-                _loggerFactory.CreateLogger<Startup>().LogInformation("Using SqlServerEngine");
+                this._logger?.LogInformation("Using SqlServerEngine");
 
-                services.AddTransient<Func<IEngine>>(sp => () => new SqlServerEngine(sqlEngineConfig, sp.GetService<DbUpdater>(), sp.GetService<ILogger<SqlServerEngine>>()));
+                services.AddTransient<Func<IEngine>>(sp => () => new SqlServerEngine(sqlEngineConfig, sp.GetService<DbUpdater>(), _loggerFactory.CreateLogger<SqlServerEngine>()));
                 return;
             }
 
@@ -77,8 +74,8 @@ namespace Vodamep.Api
                 fileEngineConfig.Path = ".";
             }
 
-            _loggerFactory.CreateLogger<Startup>().LogInformation("Using FileEngine: '{path}'", fileEngineConfig.Path);
-            services.AddTransient<Func<IEngine>>(sp => () => new FileEngine(fileEngineConfig, sp.GetService<ILogger<FileEngine>>()));
+            this._logger?.LogInformation("Using FileEngine: '{path}'", fileEngineConfig.Path);
+            services.AddTransient<Func<IEngine>>(sp => () => new FileEngine(fileEngineConfig, _loggerFactory.CreateLogger<FileEngine>()));
         }
 
         private void ConfigureAuth(IServiceCollection services)
@@ -87,13 +84,13 @@ namespace Vodamep.Api
 
             if (IsAuthDisabled(_authConfig))
             {
-                _loggerFactory.CreateLogger<Startup>().LogInformation("Authentication is disabled");
+                this._logger?.LogInformation("Authentication is disabled");
                 return;
             }
 
             if (string.Equals(_authConfig.Mode, BasicAuthenticationConfiguration.Mode_UsernameEqualsPassword, StringComparison.CurrentCultureIgnoreCase))
             {
-                _loggerFactory.CreateLogger<Startup>().LogInformation("Using UsernameEqualsPasswordCredentialVerifier");
+                this._logger?.LogInformation("Using UsernameEqualsPasswordCredentialVerifier");
 
                 services.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
                     .AddBasicAuthentication(new UsernameEqualsPasswordCredentialVerifier().Verify);
@@ -103,7 +100,7 @@ namespace Vodamep.Api
 
             if (string.Equals(_authConfig.Mode, BasicAuthenticationConfiguration.Mode_UsernamePasswordUserGroup, StringComparison.CurrentCultureIgnoreCase))
             {
-                _loggerFactory.CreateLogger<Startup>().LogInformation("Using UsernamePasswordUserGroup");
+                this._logger?.LogInformation("Using UsernamePasswordUserGroup");
 
                 services.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
                     .AddBasicAuthentication(new RestVerifier(_authConfig.Url).Verify);
@@ -113,7 +110,7 @@ namespace Vodamep.Api
 
             if (!string.IsNullOrEmpty(_authConfig.Proxy))
             {
-                _loggerFactory.CreateLogger<Startup>().LogInformation("Using ProxyAuthentication: {proxy}", _authConfig.Proxy);
+                this._logger?.LogInformation("Using ProxyAuthentication: {proxy}", _authConfig.Proxy);
 
                 services.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
                     .AddBasicAuthentication(new ProxyCredentialVerifier(new Uri(_authConfig.Proxy)).Verify);
@@ -123,7 +120,7 @@ namespace Vodamep.Api
 
             var msg = "Authentication is not configured";
 
-            _loggerFactory.CreateLogger<Startup>().LogError(msg);
+            this._logger?.LogError(msg);
             throw new Exception(msg);
         }
 

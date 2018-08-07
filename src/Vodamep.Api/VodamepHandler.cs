@@ -30,8 +30,7 @@ namespace Vodamep.Api
         }
         private async Task RespondError(HttpContext context, string message)
         {
-            _logger.LogWarning(message);
-            LogManager.GetLogger(this.GetType().FullName).Warn(message);
+            _logger?.LogWarning(message);
 
             var result = new SendResult() { IsValid = false, ErrorMessage = message };
 
@@ -52,8 +51,7 @@ namespace Vodamep.Api
 
         public async Task HandleDefault(HttpContext context)
         {
-            _logger.LogInformation("Handle Default");
-            LogManager.GetLogger(this.GetType().FullName).Info("Handle Default");
+            _logger?.LogInformation("Handle Default");
 
             if (_useAuthentication)
             {
@@ -77,7 +75,7 @@ namespace Vodamep.Api
 
         public async Task HandlePut(HttpContext context)
         {
-            LogManager.GetLogger(this.GetType().FullName).Info("Handle Put");
+            _logger?.LogInformation("Handle Default");
 
             if (context.Request.Method != HttpMethods.Put && context.Request.Method != HttpMethods.Post)
             {
@@ -92,8 +90,13 @@ namespace Vodamep.Api
                 if (!IsAuthenticated(context))
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+                    _logger?.LogInformation(String.Format("User {0} unauthorized.", context.User.Identity?.Name));
+
                     return;
                 }
+
+                _logger?.LogInformation(String.Format("Authentication for user {0} successfull.", context.User.Identity?.Name));
             }
 
             int.TryParse((string)context.GetRouteValue("year"), out int year);
@@ -115,11 +118,12 @@ namespace Vodamep.Api
             HkpvReport report;
             try
             {
+                _logger?.LogInformation("Reading data.");
+
                 report = HkpvReport.Read(context.Request.Body);
             }
             catch (Exception e)
             {
-                LogManager.GetLogger(this.GetType().FullName).Error(e, "Deserialize failed.");
                 _logger?.LogError(e, "Deserialize failed.");
                 report = null;
             }
@@ -167,8 +171,6 @@ namespace Vodamep.Api
             await RespondSuccess(context, msg);
 
             _logger?.LogInformation("Hkpv report received.");
-            LogManager.GetLogger(this.GetType().FullName).Info("Hkpv report received.");
-
         }
 
         private bool IsAuthenticated(HttpContext context) => context.User != null && !string.IsNullOrEmpty(context.User.Identity?.Name);
