@@ -31,6 +31,7 @@ namespace Vodamep.Api
         private async Task RespondError(HttpContext context, string message)
         {
             _logger.LogWarning(message);
+            LogManager.GetLogger(this.GetType().FullName).Warn(message);
 
             var result = new SendResult() { IsValid = false, ErrorMessage = message };
 
@@ -118,6 +119,7 @@ namespace Vodamep.Api
             }
             catch (Exception e)
             {
+                LogManager.GetLogger(this.GetType().FullName).Error(e, "Deserialize failed.");
                 _logger?.LogError(e, "Deserialize failed.");
                 report = null;
             }
@@ -164,7 +166,8 @@ namespace Vodamep.Api
 
             await RespondSuccess(context, msg);
 
-            _logger?.LogInformation("Hkpv report empfangen.");
+            _logger?.LogInformation("Hkpv report received.");
+            LogManager.GetLogger(this.GetType().FullName).Info("Hkpv report received.");
 
         }
 
