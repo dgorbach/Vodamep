@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using NLog.Extensions.Logging;
+using NLog.Web;
 
 namespace Vodamep.Api
 {
@@ -11,7 +13,8 @@ namespace Vodamep.Api
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+             WebHost.CreateDefaultBuilder(args)
+                .UseNLog()
                 .UseStartup<Startup>()
                 .Build();
     }

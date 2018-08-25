@@ -43,9 +43,7 @@ namespace Vodamep.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             env.ConfigureNLog("nlog.config");
-            app.AddNLogWeb();
-
-
+            
             var useAuthentication = !IsAuthDisabled(_authConfig);
             if (useAuthentication)
             {
